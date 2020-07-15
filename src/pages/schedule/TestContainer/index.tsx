@@ -25,11 +25,9 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const productFormRef = useRef<FormInstance>();
   const secondOrderFormRef = useRef<FormInstance>();
-  const stockFormRef = useRef<FormInstance>();
 
   const secondActionRef = useRef<ActionType>();
-  const productActionRef = useRef<ActionType>();
-  const stockActionRef = useRef<ActionType>();
+
 
   const [waferNrList, handlerWaferNrList] = useState<{}>();
   // const [selectedWaferNr, handlerSelectedWaferNr] = useState<{}>();
@@ -39,15 +37,6 @@ const CreateTestItem: React.FC<{}> = () => {
   const [assessmentLabelList, handleAssessmentLabel] = useState<TestParameter[]>();
 
   const [secondOrderList, handleSecondOrderList] = useState<Key[]>();
-  const [productList, handleProductList] = useState<{[key:string]:string|undefined}[]>();
-  const [stockList, handleStockList] = useState<Key[]>();
-
-  const productFormReset = () => {
-    // eslint-disable-next-line no-unused-expressions
-    productFormRef?.current?.resetFields();
-    // eslint-disable-next-line no-unused-expressions
-    productFormRef?.current?.submit();
-  };
 
   const formSpan = 6;
   const inputStyle = {width: "100%"};
@@ -97,81 +86,6 @@ const CreateTestItem: React.FC<{}> = () => {
     }
   ];
 
-  const waferColumn: ProColumns<Wafer>[] = [
-    {
-      title: 'id',
-      dataIndex: 'id',
-      hideInSearch: true,
-      hideInTable: true
-    },
-    {
-      title: '版号',
-      dataIndex: 'waferNr',
-    },
-    {
-      title: '片号',
-      dataIndex: 'sliceNr',
-    },
-
-
-  ];
-  const productColumns: ProColumns<WaferProduct>[] = [
-    {
-      title: '版号',
-      dataIndex: ["wafer", 'nr'],
-      valueEnum: waferNrList,
-      hideInTable: true,
-    },
-    {
-      title: '版号',
-      dataIndex: ["wafer", 'nr'],
-      hideInSearch: true
-    },
-    {
-      title: '电路序号',
-      dataIndex: 'circuitNo',
-      hideInSearch: true
-    },
-    {
-      title: '名称',
-      dataIndex: ["product", "name"],
-      hideInSearch: true
-    },
-    {
-      title: '型号',
-      dataIndex: ['product', 'productBase', 'name'],
-      hideInSearch: true
-    },
-    {
-      title: '电路类型',
-      dataIndex: ['product', 'circuitType', "name"],
-      hideInSearch: true
-    },
-    {
-      title: '预测数量',
-      dataIndex: 'forecastQuantity',
-      hideInSearch: true,
-      render() {
-        return (<InputNumber min={0} defaultValue={10}/>);
-      }
-    },
-    {
-      title: '筛选数量',
-      dataIndex: 'screenQuantity',
-      hideInSearch: true,
-      render() {
-        return (<InputNumber min={0} defaultValue={10}/>);
-      }
-    },
-    {
-      title: '考核数量',
-      dataIndex: 'assessmentQuantity',
-      hideInSearch: true,
-      render(text,record) {
-        return (<InputNumber min={0} defaultValue={10}/>);
-      }
-    }
-  ];
 
   const createButton = (params: any) => {
     return createTestItem(params)
@@ -234,7 +148,6 @@ const CreateTestItem: React.FC<{}> = () => {
       handlerWaferNrList(object);
     } else {
       handlerWaferNrList({});
-      productFormReset();
     }
   };
 
@@ -256,57 +169,6 @@ const CreateTestItem: React.FC<{}> = () => {
         </Col>
       </Row>
 
-      <Row justify="start" style={{marginTop: 20}}>
-        <Col span={12}>
-          <ProTable
-            headerTitle="芯片信息"
-            actionRef={productActionRef}
-            formRef={productFormRef}
-            {...proTableProps}
-            request={(params) => {
-              // handlerSelectedWaferNr(params?.nr);
-              return queryWaferProducts(params);
-            }}
-            columns={productColumns}
-            onSubmit={() => {
-              stockFormRef?.current?.submit();
-            }}
-            rowSelection={{
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              onChange: (selectedRowKeys, selectedRows) => {
-                // eslint-disable-next-line no-unused-expressions
-                const modelNrs = selectedRows?.map((product) => {
-                  return {modelNr:product.product.modelNr,forecastQuantity:product.forecastQuantity,screenQuantity:product.screenQuantity,assessmentQuantity:product.assessmentQuantity};
-                });
-                handleProductList(modelNrs);
-              }
-            }}
-          />
-        </Col>
-        <Col span={12}>
-          <ProTable
-            headerTitle="库存信息"
-            actionRef={stockActionRef}
-            formRef={stockFormRef}
-            {...proTableProps}
-            // @ts-ignore
-            beforeSearchSubmit={(searchInfo) => {
-              return {
-                params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
-              }
-            }}
-            request={(params) => {
-              return queryWaferWarehouse(params);
-            }}
-            columns={waferColumn}
-            rowSelection={{
-              onChange: (selectedRowKeys) => {
-                handleStockList(selectedRowKeys);
-              }
-            }}
-          />
-        </Col>
-      </Row>
       <Card>
         <Row>
           <Col span={24}>
@@ -325,15 +187,6 @@ const CreateTestItem: React.FC<{}> = () => {
                     </Select>
                   </FormItem>
                 </Col>
-                {stockList && stockList.length > 0 ? "" : (<Col span={formSpan}>
-                  <FormItem
-                    label="无片数量"
-                    name="sliceNum"
-                    rules={[{required: true, message: '请填入无片数量'}]}
-                  >
-                    <InputNumber min={0} style={inputStyle}/>
-                  </FormItem>
-                </Col>)}
               </Row>
               <Row gutter={[30, 16]}>
                 <Col span={formSpan}>

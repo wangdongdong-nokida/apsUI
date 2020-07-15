@@ -25,7 +25,8 @@ export default {
   'menu.schedule': '排产页面',
   'menu.schedule.testingSchedule': '测试排产',
   'menu.schedule.equipmentCalendar': '设备日历',
-  'menu.schedule.testItemNormal': '创建有片测试明细',
+  'menu.schedule.testItemNormal': '创建测试明细',
+  'menu.schedule.testContainer': '创建载体测试明细',
   'menu.list.list-table-list':"标准列表",
 
 

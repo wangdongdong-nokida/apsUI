@@ -15,7 +15,7 @@ import {EditDurationTimeForm} from "@/pages/schedule/TestScheduling/components/E
 import {EditEquipment} from "@/pages/schedule/TestScheduling/components/EditEquipment";
 import {TestScheduleItem} from './data.d';
 import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete} from './service';
-import {DownOutlined, PlusOutlined, PlusSquareOutlined, QuestionCircleOutlined} from "@ant-design/icons/lib";
+import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -47,7 +47,7 @@ const CreateTestItem: React.FC<{}> = () => {
     beforeSearchSubmit: (searchInfo: any) => {
       return {
         params: searchInfo,
-        orderBy:"indexOrder"
+        orderBy: "indexOrder"
       }
     }
   };
@@ -63,6 +63,11 @@ const CreateTestItem: React.FC<{}> = () => {
       title: 'id',
       dataIndex: 'id',
       hideInTable: true,
+      hideInSearch: true
+    },
+    {
+      title: '序号',
+      dataIndex: 'indexOrder',
       hideInSearch: true
     },
     {
@@ -188,8 +193,8 @@ const CreateTestItem: React.FC<{}> = () => {
     }
   };
 
-  const handleRemove = async (searchInfo?: ReactText[]) => {
-    await testItemDelete(searchInfo);
+  const handleRemove = async (equipmentId: [any], searchInfo?: ReactText[]) => {
+    await testItemDelete(equipmentId, searchInfo);
     if (scheduleTestFormRef.current) {
       scheduleTestFormRef.current.submit();
     }
@@ -213,7 +218,7 @@ const CreateTestItem: React.FC<{}> = () => {
                       <Menu
                         onClick={async (e) => {
                           if (e.key === 'remove') {
-                            await handleRemove(selectedRowKeys);
+                            await handleRemove([scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")], selectedRowKeys);
                             // action.reload();
                           }
                         }}
@@ -268,7 +273,7 @@ const CreateTestItem: React.FC<{}> = () => {
               title={moveRowKeys.length > 0 ? "点击确认后开始调整任务位置。" : "点击确认后，请选择需要插入的位置。"}
               icon={<PlusOutlined/>}
               cancelText="重选任务"
-              onCancel={()=>{
+              onCancel={() => {
                 handleMoveRowKeys([]);
               }}
               onConfirm={
@@ -285,10 +290,14 @@ const CreateTestItem: React.FC<{}> = () => {
                   } else {
                     const hide = message.loading("正在调整排产明细。");
                     try {
-                      await moveTask({moveKeys: moveRowKeys, toPlace: [selectRowKeys[0]]});
+                      await moveTask({
+                        moveKeys: moveRowKeys,
+                        toPlace: [selectRowKeys[0]],
+                        equipmentId: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
+                      });
                       hide();
                       message.success("位置调整成功。");
-                    }catch (e) {
+                    } catch (e) {
                       hide();
                       message.error("调整失败");
                     }
@@ -335,7 +344,10 @@ const CreateTestItem: React.FC<{}> = () => {
           handleEquipmentVisible(false)
         }}
         equipment={equipmentSelectItem}
-        params={{ids: selectRowKeys}}/>
+        params={{
+          ids: selectRowKeys,
+          belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
+        }}/>
 
     </PageHeaderWrapper>
   )

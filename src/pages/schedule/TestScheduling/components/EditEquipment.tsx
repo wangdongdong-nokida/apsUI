@@ -9,7 +9,8 @@ interface EditBriefFormProps {
   onCancel: () => void;
   equipment:any
   params:{
-    ids:[]
+    ids:[],
+    belongEquipmentId:string
   }
 }
 

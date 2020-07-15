@@ -41,7 +41,7 @@ export async function queryTestItem(searchInfo?: TableListParams) {
   });
 }
 
-export async function moveTask(search:{moveKeys:Key[],toPlace:Key[]}) {
+export async function moveTask(search:{moveKeys:Key[],toPlace:Key[],equipmentId:Key[]}) {
   return request("/server/testItem/moveTask",{
     method:"post",
     data:{
@@ -50,10 +50,11 @@ export async function moveTask(search:{moveKeys:Key[],toPlace:Key[]}) {
   })
 }
 
-export async function testItemDelete(searchInfo?: ReactText[]) {
+export async function testItemDelete(equipmentId:[any],searchInfo?: ReactText[]) {
   return request('/server/testItem/testItemDelete', {
     method: "POST",
     data: {
+      equipmentId,
       ids:searchInfo,
     }
   });
