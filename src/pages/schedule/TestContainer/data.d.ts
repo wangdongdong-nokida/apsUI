@@ -1,5 +1,3 @@
-import {InputNumber} from "antd";
-import React from "react";
 
 export interface TableListItem {
   key: number;
@@ -75,5 +73,6 @@ export interface SecondOrder extends PaginationParams{
   waferNr?: string;
   type?:string;
   status?: string;
-  productType?:string
+  productType?:string,
+  waferModelNr?:string
 }

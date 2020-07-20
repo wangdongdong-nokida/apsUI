@@ -30,6 +30,11 @@ export async function removeRule(params: { ids: (number | undefined)[] }) {
   })
 }
 
+
+export async function updateServiceCalendar() {
+  return request('/server/testItem/updateCalendar',{})
+}
+
 export async function addCalendar(params: {equipmentId?:string,data:TableListParams}) {
   return request('/server/equipmentCalendar/create', {
     method: 'POST',

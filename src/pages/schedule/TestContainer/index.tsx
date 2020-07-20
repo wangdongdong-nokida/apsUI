@@ -1,4 +1,4 @@
-import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message} from 'antd';
+import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input} from 'antd';
 import React, {useState, useRef} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -10,15 +10,9 @@ import {EquipmentItem} from "@/pages/schedule/equipmentCalendar/data";
 import moment from "moment";
 import {FormInstance} from "antd/lib/form/Form";
 import {Key} from "antd/es/table/interface";
-import {WaferProduct, SecondOrder, TestParameter, Wafer} from './data.d';
-import {
-  createTestItem,
-  queryEquipments,
-  querySecondOrder,
-  queryTextLabel,
-  queryWaferProducts,
-  queryWaferWarehouse
-} from './service';
+import {SecondOrder, TestParameter} from './data.d';
+import {createTestItem, queryEquipments, querySecondOrder, queryTextLabel,} from './service';
+import {getEquipmentEndDate} from "@/pages/schedule/TestItemNormal/service";
 
 const CreateTestItem: React.FC<{}> = () => {
   const [form] = Form.useForm();
@@ -30,6 +24,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
 
   const [waferNrList, handlerWaferNrList] = useState<{}>();
+  const [waferModelNr, handlerWaferModelNr] = useState<{}>();
   // const [selectedWaferNr, handlerSelectedWaferNr] = useState<{}>();
   const [equipmentList, handleEquipment] = useState<EquipmentItem[]>();
   const [testLabelList, handleTestLabel] = useState<TestParameter[]>();
@@ -73,6 +68,10 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'waferNr',
     },
     {
+      title: '型号',
+      dataIndex: 'waferModelNr',
+    },
+    {
       title: '订单类型',
       dataIndex: 'type',
     },
@@ -82,7 +81,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '产品类型',
-      dataIndex: 'productType',
+      dataIndex: ['productType',"name"],
     }
   ];
 
@@ -139,6 +138,8 @@ const CreateTestItem: React.FC<{}> = () => {
     handleSecondOrderList(selectedRowKeys);
     if (selectedRows.length > 0) {
       const waferNrs: string[] | undefined = selectedRows[0].waferNr?.split(";");
+      const modelNr: string|undefined= selectedRows[0].waferModelNr;
+      handlerWaferModelNr(modelNr);
       const object = {};
       if (waferNrs) {
         for (let i = 0; i < waferNrs?.length; i += 1) {
@@ -182,11 +183,26 @@ const CreateTestItem: React.FC<{}> = () => {
                   >
                     <Select style={inputStyle}
                             onFocus={equipmentHandler}
+                            onChange={async (selectValue) =>{
+                              const date=moment(await getEquipmentEndDate(selectValue));
+                              form.setFieldsValue({"planningStartTime": date.clone()});
+                              form.setFieldsValue({"planningFinishTime": date.clone()});
+                              form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
+                            }}
                     >
                       {optionEquipment()}
                     </Select>
                   </FormItem>
                 </Col>
+                <Col span={formSpan}>
+                  <FormItem
+                    name="testSymbol"
+                    label="测试标识"
+                    rules={[{required: true, message: '请填写测试标识'}]}>
+                    <Input style={inputStyle}/>
+                  </FormItem>
+                </Col>
+
               </Row>
               <Row gutter={[30, 16]}>
                 <Col span={formSpan}>
@@ -229,7 +245,6 @@ const CreateTestItem: React.FC<{}> = () => {
                   </FormItem>
                 </Col>
               </Row>
-
 
               <Row gutter={[30, 16]}>
 
@@ -300,9 +315,9 @@ const CreateTestItem: React.FC<{}> = () => {
                   await createButton({
                     ...submitForm,
                     secondOrder: secondOrderList,
-                    product: productList,
-                    stock: stockList,
-                    waferNr: productFormRef?.current?.getFieldValue("wafer-nr")
+                    waferNr: productFormRef?.current?.getFieldValue("wafer-nr"),
+                    testContainer: true,
+                    modelNr:waferModelNr,
                   });
                   hide();
                   message.success('创建成功');
@@ -317,7 +332,6 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
         </Row>
       </Card>
-
 
     </PageHeaderWrapper>
   )

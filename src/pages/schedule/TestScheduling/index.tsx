@@ -13,9 +13,9 @@ import {EditBriefForm} from "@/pages/schedule/TestScheduling/components/EditBrie
 import {Key} from "antd/es/table/interface";
 import {EditDurationTimeForm} from "@/pages/schedule/TestScheduling/components/EditDurationTimeForm";
 import {EditEquipment} from "@/pages/schedule/TestScheduling/components/EditEquipment";
+import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 import {TestScheduleItem} from './data.d';
 import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete} from './service';
-import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -259,9 +259,6 @@ const CreateTestItem: React.FC<{}> = () => {
             <Button disabled={buttonAbleSingle()} onClick={() => {
               handleDurationTimeVisible(true);
             }}>修改测试时长</Button>
-          </Col>
-          <Col>
-            <Button disabled={buttonAbleSingle()}>取消间隔（单选）</Button>
           </Col>
           <Col>
             <Button disabled={buttonAbleMultiple()} onClick={() => {

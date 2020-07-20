@@ -7,7 +7,7 @@ import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
 import {SelectionSelectFn} from "antd/es/table/interface";
 import EditForm from './components/EditForm';
 import {CalendarTableItem, EquipmentItem, TableListParams} from './data.d';
-import {getCalendars, updateCalendar, addCalendar, removeRule, getEquipment} from './service';
+import {getCalendars, updateCalendar, addCalendar, removeRule, getEquipment, updateServiceCalendar} from './service';
 
 
 /**
@@ -252,6 +252,7 @@ const TableList: React.FC<{}> = () => {
           rowKey="id"
           pagination={{pageSizeOptions: ['5', '10', '20', '30'], defaultPageSize: 5}}
           toolBarRender={(action, {selectedRows}) => [
+            <Button onClick={updateServiceCalendar}>更新日历</Button>,
             selectEquipment &&
             <Button icon={<PlusOutlined/>} type="primary" onClick={() => {
               handleModalVisible(true);

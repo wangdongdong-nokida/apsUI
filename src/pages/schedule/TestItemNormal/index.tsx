@@ -1,4 +1,4 @@
-import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message} from 'antd';
+import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input} from 'antd';
 import React, {useState, useRef} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -12,7 +12,7 @@ import {FormInstance} from "antd/lib/form/Form";
 import {Key} from "antd/es/table/interface";
 import {WaferProduct, SecondOrder, TestParameter, Wafer} from './data.d';
 import {
-  createTestItem,
+  createTestItem, getEquipmentEndDate,
   queryEquipments,
   querySecondOrder,
   queryTextLabel,
@@ -39,7 +39,10 @@ const CreateTestItem: React.FC<{}> = () => {
   const [assessmentLabelList, handleAssessmentLabel] = useState<TestParameter[]>();
 
   const [secondOrderList, handleSecondOrderList] = useState<Key[]>();
-  const [productList, handleProductList] = useState<{[key:string]:string|undefined}[]>();
+  const [forecastList, handleForecastList] = useState<{}>({});
+  const [assessmentList, handleAssessmentList] = useState<{}>({});
+  const [screenList, handleScreenList] = useState<{}>({});
+  const [productList, handleProductList] = useState<{ [key: string]: string | undefined }[]>();
   const [stockList, handleStockList] = useState<Key[]>();
 
   const productFormReset = () => {
@@ -93,7 +96,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '产品类型',
-      dataIndex: 'productType',
+      dataIndex: ['productType', "name"],
     }
   ];
 
@@ -115,6 +118,8 @@ const CreateTestItem: React.FC<{}> = () => {
 
 
   ];
+
+
   const productColumns: ProColumns<WaferProduct>[] = [
     {
       title: '版号',
@@ -133,13 +138,8 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true
     },
     {
-      title: '名称',
-      dataIndex: ["product", "name"],
-      hideInSearch: true
-    },
-    {
       title: '型号',
-      dataIndex: ['product', 'productBase', 'name'],
+      dataIndex: ['product'],
       hideInSearch: true
     },
     {
@@ -151,27 +151,43 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '预测数量',
       dataIndex: 'forecastQuantity',
       hideInSearch: true,
-      render() {
-        return (<InputNumber min={0} defaultValue={10}/>);
+      render(text, record) {
+        return (<Input onChange={(e) => {
+          const forecastQuantity = forecastList;
+          forecastQuantity[record.id] = e.target.value;
+          handleForecastList(forecastQuantity);
+        }
+        } min={0} defaultValue={10}/>);
       }
     },
     {
       title: '筛选数量',
       dataIndex: 'screenQuantity',
       hideInSearch: true,
-      render() {
-        return (<InputNumber min={0} defaultValue={10}/>);
+      render(text, record) {
+        return (<Input onChange={(e) => {
+          const screenQuantity = screenList;
+          screenQuantity[record.id] = e.target.value;
+          handleScreenList(screenQuantity);
+        }
+        } min={0} defaultValue={10}/>);
       }
     },
     {
       title: '考核数量',
       dataIndex: 'assessmentQuantity',
       hideInSearch: true,
-      render(text,record) {
-        return (<InputNumber min={0} defaultValue={10}/>);
+      render(text, record) {
+        return (<Input onChange={(e) => {
+          const assessmentQuantity = assessmentList;
+          assessmentQuantity[record.id] = e.target.value;
+          handleAssessmentList(assessmentQuantity);
+        }
+        } min={0} defaultValue={10}/>);
       }
     }
   ];
+
 
   const createButton = (params: any) => {
     return createTestItem(params)
@@ -195,7 +211,10 @@ const CreateTestItem: React.FC<{}> = () => {
   const optionTextLabel = (list?: TestParameter[]) => {
     return list?.map((op: TestParameter) => (
       // @ts-ignore
-      <Select.Option key={op.id} value={op.name}>
+      <
+        Select.Option
+        key={op.id}
+        value={op.name}>
         {op.name}
       </Select.Option>
     ));
@@ -204,23 +223,18 @@ const CreateTestItem: React.FC<{}> = () => {
   const equipmentHandler = async () => {
     const equipments = await queryEquipments();
     handleEquipment(equipments);
-
-    const date = moment();
-    form.setFieldsValue({"planningStartTime": date.clone()});
-    form.setFieldsValue({"planningFinishTime": date.clone()});
-    form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
   };
 
   const optionEquipment = () => {
     return equipmentList?.map((op: EquipmentItem) => (
-      // @ts-ignore
+// @ts-ignore
       <Select.Option key={op.id} value={op.id}>
         {op.name}
       </Select.Option>
     ));
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSecondOrderSelect = (selectedRowKeys: Key[], selectedRows: any) => {
     handleSecondOrderList(selectedRowKeys);
     if (selectedRows.length > 0) {
@@ -264,7 +278,7 @@ const CreateTestItem: React.FC<{}> = () => {
             formRef={productFormRef}
             {...proTableProps}
             request={(params) => {
-              // handlerSelectedWaferNr(params?.nr);
+// handlerSelectedWaferNr(params?.nr);
               return queryWaferProducts(params);
             }}
             columns={productColumns}
@@ -272,11 +286,17 @@ const CreateTestItem: React.FC<{}> = () => {
               stockFormRef?.current?.submit();
             }}
             rowSelection={{
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
               onChange: (selectedRowKeys, selectedRows) => {
-                // eslint-disable-next-line no-unused-expressions
+// eslint-disable-next-line no-unused-expressions
                 const modelNrs = selectedRows?.map((product) => {
-                  return {modelNr:product.product.modelNr,forecastQuantity:product.forecastQuantity,screenQuantity:product.screenQuantity,assessmentQuantity:product.assessmentQuantity};
+                  return {
+                    id: product.id,
+                    modelNr: product.product.modelNr,
+                    forecastQuantity: product.forecastQuantity,
+                    screenQuantity: product.screenQuantity,
+                    assessmentQuantity: product.assessmentQuantity
+                  };
                 });
                 handleProductList(modelNrs);
               }
@@ -320,6 +340,12 @@ const CreateTestItem: React.FC<{}> = () => {
                   >
                     <Select style={inputStyle}
                             onFocus={equipmentHandler}
+                            onChange={async (selectValue) =>{
+                              const date=moment(await getEquipmentEndDate(selectValue));
+                              form.setFieldsValue({"planningStartTime": date.clone()});
+                              form.setFieldsValue({"planningFinishTime": date.clone()});
+                              form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
+                            }}
                     >
                       {optionEquipment()}
                     </Select>
@@ -376,7 +402,6 @@ const CreateTestItem: React.FC<{}> = () => {
                   </FormItem>
                 </Col>
               </Row>
-
 
               <Row gutter={[30, 16]}>
 
@@ -447,7 +472,14 @@ const CreateTestItem: React.FC<{}> = () => {
                   await createButton({
                     ...submitForm,
                     secondOrder: secondOrderList,
-                    product: productList,
+                    product: productList?.map((target) => {
+                      if (target && target.id) {
+                        target.forecast = forecastList[target.id] ? forecastList[target.id] : 10;
+                        target.screen = screenList[target.id] ? screenList[target.id] : 10;
+                        target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 10
+                      }
+                      return target;
+                    }),
                     stock: stockList,
                     waferNr: productFormRef?.current?.getFieldValue("wafer-nr")
                   });

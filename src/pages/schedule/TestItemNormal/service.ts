@@ -18,7 +18,7 @@ export async function querySecondOrder(searchInfo?: SecondOrder) {
   });
 }
 
-export  async function createTestItem(params:any) {
+export async function createTestItem(params: any) {
   return request('/server/testItem/create', {
     method: "post",
     data: {
@@ -48,6 +48,12 @@ export async function queryWaferProducts(searchInfo?: any) {
 
 export async function queryEquipments(searchInfo?: TableListParams) {
   return request('/server/equipment/getByUser', {
+    params: searchInfo,
+  });
+}
+
+export async function getEquipmentEndDate(searchInfo?:any) {
+  return request('/server/equipment/getEndDate', {
     params: searchInfo,
   });
 }
