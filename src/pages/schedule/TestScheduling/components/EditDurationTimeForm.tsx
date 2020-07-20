@@ -19,7 +19,7 @@ export const EditDurationTimeForm:React.FC<EditBriefFormProps>=(props)=>{
   const onOk=async ()=>{
     const fields=await form.validateFields();
     form.resetFields();
-    onUpdate({...fields,...params});
+    await onUpdate({...fields,...params});
   };
 
   return(
