@@ -335,31 +335,31 @@ export default defineConfig({
                 }
               ],
             },
-            {
-              name: 'scribingSchedule',
-              icon: 'table',
-              path: '/scribingSchedule',
-              routes: [
-                {
-                  name: 'ScribingNormal',
-                  icon: 'smile',
-                  path: '/scribingSchedule/ScribingNormal',
-                  component: './schedule/ScribingNormal',
-                },
-                {
-                  name: 'ScribingNoTest',
-                  icon: 'smile',
-                  path: '/scribingSchedule/ScribingNoTest',
-                  component: './schedule/ScribingNoTest',
-                },
-                {
-                  name: 'ScribingSchedule',
-                  icon: 'smile',
-                  path: '/scribingSchedule/ScribingSchedule',
-                  component: './schedule/ScribingSchedule',
-                }
-              ],
-            },
+            // {
+            //   name: 'scribingSchedule',
+            //   icon: 'table',
+            //   path: '/scribingSchedule',
+            //   routes: [
+            //     {
+            //       name: 'ScribingNormal',
+            //       icon: 'smile',
+            //       path: '/scribingSchedule/ScribingNormal',
+            //       component: './schedule/ScribingNormal',
+            //     },
+            //     {
+            //       name: 'ScribingNoTest',
+            //       icon: 'smile',
+            //       path: '/scribingSchedule/ScribingNoTest',
+            //       component: './schedule/ScribingNoTest',
+            //     },
+            //     {
+            //       name: 'ScribingSchedule',
+            //       icon: 'smile',
+            //       path: '/scribingSchedule/ScribingSchedule',
+            //       component: './schedule/ScribingSchedule',
+            //     }
+            //   ],
+            // },
             {
               component: '404',
             },
