@@ -8,7 +8,6 @@ export async function queryRule(searchInfo?: TableListParams) {
   });
 }
 
-
 export async function querySecondOrder(searchInfo?: SecondOrder) {
   return request('/server/secondOrder/findSecondOrders', {
     method: "post",
@@ -19,17 +18,16 @@ export async function querySecondOrder(searchInfo?: SecondOrder) {
 }
 
 export async function createTestItem(params: any) {
-  return request('/server/testItem/create', {
+  return request('/server/scribingItem/create', {
     method: "post",
     data: {
       ...params,
     }
   });
-
 }
 
 export async function queryWaferWarehouse(searchInfo?: SecondOrder) {
-  return request('/server/waferWarehouse/findAllByPage', {
+  return request('/server/scribingItem/getScribingItem', {
     method: "post",
     data: {
       ...searchInfo,

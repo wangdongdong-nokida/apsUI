@@ -22,8 +22,6 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const secondActionRef = useRef<ActionType>();
 
-
-  const [waferNrList, handlerWaferNrList] = useState<{}>();
   const [waferModelNr, handlerWaferModelNr] = useState<{}>();
   // const [selectedWaferNr, handlerSelectedWaferNr] = useState<{}>();
   const [equipmentList, handleEquipment] = useState<EquipmentItem[]>();
@@ -31,7 +29,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const [screenLabelList, handleScreenLabel] = useState<TestParameter[]>();
   const [assessmentLabelList, handleAssessmentLabel] = useState<TestParameter[]>();
 
-  const [secondOrderList, handleSecondOrderList] = useState<Key[]>();
+  const [secondOrderList, handleSecondOrderList] = useState<Key>();
 
   const formSpan = 6;
   const inputStyle = {width: "100%"};
@@ -135,20 +133,10 @@ const CreateTestItem: React.FC<{}> = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSecondOrderSelect = (selectedRowKeys: Key[], selectedRows: any) => {
-    handleSecondOrderList(selectedRowKeys);
+    handleSecondOrderList(selectedRowKeys[0]);
     if (selectedRows.length > 0) {
-      const waferNrs: string[] | undefined = selectedRows[0].waferNr?.split(";");
       const modelNr: string|undefined= selectedRows[0].waferModelNr;
       handlerWaferModelNr(modelNr);
-      const object = {};
-      if (waferNrs) {
-        for (let i = 0; i < waferNrs?.length; i += 1) {
-          object[waferNrs[i]] = waferNrs[i];
-        }
-      }
-      handlerWaferNrList(object);
-    } else {
-      handlerWaferNrList({});
     }
   };
 

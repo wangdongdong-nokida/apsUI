@@ -38,7 +38,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const [screenLabelList, handleScreenLabel] = useState<TestParameter[]>();
   const [assessmentLabelList, handleAssessmentLabel] = useState<TestParameter[]>();
 
-  const [secondOrderList, handleSecondOrderList] = useState<Key[]>();
+  const [secondOrderList, handleSecondOrderList] = useState<Key>();
   const [forecastList, handleForecastList] = useState<{}>({});
   const [assessmentList, handleAssessmentList] = useState<{}>({});
   const [screenList, handleScreenList] = useState<{}>({});
@@ -115,8 +115,6 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '片号',
       dataIndex: 'sliceNr',
     },
-
-
   ];
 
 
@@ -236,7 +234,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSecondOrderSelect = (selectedRowKeys: Key[], selectedRows: any) => {
-    handleSecondOrderList(selectedRowKeys);
+    handleSecondOrderList(selectedRowKeys[0]);
     if (selectedRows.length > 0) {
       const waferNrs: string[] | undefined = selectedRows[0].waferNr?.split(";");
       const object = {};
@@ -292,10 +290,11 @@ const CreateTestItem: React.FC<{}> = () => {
                 const modelNrs = selectedRows?.map((product) => {
                   return {
                     id: product.id,
-                    modelNr: product.product.modelNr,
+                    modelNr: product.product,
                     forecastQuantity: product.forecastQuantity,
                     screenQuantity: product.screenQuantity,
-                    assessmentQuantity: product.assessmentQuantity
+                    assessmentQuantity: product.assessmentQuantity,
+                    circuitNr:product.circuitNo,
                   };
                 });
                 handleProductList(modelNrs);

@@ -5,7 +5,7 @@ import {Key} from "antd/es/table/interface";
 
 
 export async function editBrief(searchInfo?: { [key: string]: string }) {
-  return request('/server/testItem/editBrief', {
+  return request('/server/scribingItem/editBrief', {
     method: "POST",
     data: {
       ...searchInfo,

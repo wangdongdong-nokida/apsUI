@@ -19,13 +19,12 @@ export async function querySecondOrder(searchInfo?: SecondOrder) {
 }
 
 export async function createTestItem(params: any) {
-  return request('/server/testItem/create', {
+  return request('/server/scribingItem/bindSecondOrder', {
     method: "post",
     data: {
       ...params,
     }
   });
-
 }
 
 export async function queryWaferWarehouse(searchInfo?: SecondOrder) {

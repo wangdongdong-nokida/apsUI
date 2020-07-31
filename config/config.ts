@@ -298,6 +298,19 @@ export default defineConfig({
               authority: ['admin', 'user'],
             },
             {
+              name: 'calendar',
+              icon: 'table',
+              path: '/calendar',
+              routes: [
+                {
+                  name: 'equipmentCalendar',
+                  icon: 'smile',
+                  path: '/calendar/equipmentcalendar',
+                  component: './schedule/equipmentCalendar',
+                }
+              ],
+            },
+            {
               name: 'schedule',
               icon: 'table',
               path: '/schedule',
@@ -307,12 +320,6 @@ export default defineConfig({
                   icon: 'smile',
                   path: '/schedule/testScheduling',
                   component: './schedule/TestScheduling',
-                },
-                {
-                  name: 'equipmentCalendar',
-                  icon: 'smile',
-                  path: '/schedule/equipmentcalendar',
-                  component: './schedule/equipmentCalendar',
                 },
                 {
                   name: 'testItemNormal',
@@ -325,6 +332,31 @@ export default defineConfig({
                   icon: 'smile',
                   path: '/schedule/testContainer',
                   component: './schedule/TestContainer',
+                }
+              ],
+            },
+            {
+              name: 'scribingSchedule',
+              icon: 'table',
+              path: '/scribingSchedule',
+              routes: [
+                {
+                  name: 'ScribingNormal',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingNormal',
+                  component: './schedule/ScribingNormal',
+                },
+                {
+                  name: 'ScribingNoTest',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingNoTest',
+                  component: './schedule/ScribingNoTest',
+                },
+                {
+                  name: 'ScribingSchedule',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingSchedule',
+                  component: './schedule/ScribingSchedule',
                 }
               ],
             },

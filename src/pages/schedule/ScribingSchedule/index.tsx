@@ -72,55 +72,24 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '版号',
-      dataIndex: ["scheduleTestItem", 'waferNr'],
+      dataIndex: ["scheduleScribingItem", 'waferNr'],
     },
     {
       title: '片号',
-      dataIndex: ["scheduleTestItem", 'sliceNr'],
+      dataIndex: ["scheduleScribingItem", 'sliceNr'],
     },
     {
-      title: '型号',
-      dataIndex: ["scheduleTestItem", 'productNr'],
+      title: '划片方式',
+      dataIndex: ["scheduleScribingItem", 'ScribingType'],
     },
     {
-      title: '电路序号',
-      dataIndex: ["scheduleTestItem", 'circuitNr'],
+      title: '负责人',
+      dataIndex: ["scheduleScribingItem", 'responsiblePerson'],
     },
-    {
-      title: '测试类型',
-      dataIndex: ["scheduleTestItem", 'testType'],
-    },
-    {
-      title: '测试参数',
-      dataIndex: ["scheduleTestItem", 'testParameter'],
-    },
-    {
-      title: '数量',
-      dataIndex: ["scheduleTestItem", 'quantity'],
-    },
+
     {
       title: '明细备注',
-      dataIndex: ["scheduleTestItem", 'itemBrief'],
-    },
-    {
-      title: '测试备注',
-      dataIndex: ["scheduleTestItem", 'testBrief'],
-    },
-    {
-      title: '流片进度',
-      dataIndex: ["scheduleTestItem", 'arrivalProgress'],
-    },
-    {
-      title: '流片更新时间',
-      dataIndex: ["scheduleTestItem", 'arrivalUpdateTime'],
-    },
-    {
-      title: '入库时间',
-      dataIndex: ["scheduleTestItem", 'warehousingTime'],
-    },
-    {
-      title: '到货延误',
-      dataIndex: ["scheduleTestItem", 'ArrivalDelay'],
+      dataIndex: ["scheduleScribingItem", 'itemBrief'],
     },
     {
       title: '生产时长',
@@ -136,14 +105,6 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: "endDate",
       valueType: "dateTime"
     },
-    // {
-    //   title: '计划延误',
-    //   dataIndex: "delayPlan",
-    // },
-    // {
-    //   title: '实际延误',
-    //   dataIndex: "delayActually",
-    // },
   ];
 
   const equipmentHandler = async () => {
@@ -169,7 +130,7 @@ const CreateTestItem: React.FC<{}> = () => {
     return selectRowKeys.length < 1;
   };
 
-  const editBriefOnOk =async (searchInfo: { [key: string]: string }) => {
+  const editBriefOnOk = async (searchInfo: { [key: string]: string }) => {
     await editBrief(searchInfo);
     handleBriefVisible(false);
     if (scheduleTestFormRef.current) {
@@ -177,8 +138,8 @@ const CreateTestItem: React.FC<{}> = () => {
     }
   };
 
-  const durationTimeOnOk =async (searchInfo: { [key: string]: ReactText[] }) => {
-   await editDurationTime(searchInfo);
+  const durationTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
+    await editDurationTime(searchInfo);
     handleDurationTimeVisible(false);
     if (scheduleTestFormRef.current) {
       scheduleTestFormRef.current.submit();
@@ -205,7 +166,7 @@ const CreateTestItem: React.FC<{}> = () => {
       <Row>
         <Col span={24}>
           <ProTable<TestScheduleItem>
-            headerTitle="测试排产"
+            headerTitle="划片排产"
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
             {...proTableProps}
@@ -241,6 +202,7 @@ const CreateTestItem: React.FC<{}> = () => {
             }}
             rowSelection={{
               type: 'checkbox',
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               onChange: (selectedRowKeys: Key[], selectedRows: TestScheduleItem[]) => {
                 handleSelectRowKeys(selectedRowKeys);
               }
@@ -311,44 +273,55 @@ const CreateTestItem: React.FC<{}> = () => {
             <Button disabled={buttonAbleSingle()}>修改库存关联</Button>
           </Col>
           <Col>
-            <Button>导出</Button>
-          </Col>
-        </Row>
-      </Card>
+            <Button
+              // onClick={
+              //   async () => {
+              //     await request('http://172.16.0.12/CamstarPortal/startContainer.do', {
+              //       method: "POST",
+              //       mode: "no-cors",
+              //       data: {
+              //         data: {list: [{id: 1, type: 1}]}
+              //       }
+              //     });
+              //   }
+              // }
+                >导出</Button>
+                </Col>
+                </Row>
+                </Card>
 
 
-      <EditBriefForm
-        modalVisible={briefVisible}
-        onCancel={() => {
-          handleBriefVisible(false)
-        }}
-        onUpdate={editBriefOnOk}
-        params={{ids: selectRowKeys,}}
-      />
-      ]
+                <EditBriefForm
+                modalVisible={briefVisible}
+                onCancel={() => {
+                handleBriefVisible(false)
+              }}
+                onUpdate={editBriefOnOk}
+                params={{ids: selectRowKeys,}}
+                />
 
-      <EditDurationTimeForm
-        modalVisible={durationTimeVisible}
-        onCancel={() => {
-          handleDurationTimeVisible(false)
-        }}
-        onUpdate={durationTimeOnOk}
-        params={{ids: selectRowKeys}}
-      />
-      <EditEquipment
-        modalVisible={equipmentVisible}
-        onUpdate={equipmentOnOk}
-        onCancel={() => {
-          handleEquipmentVisible(false)
-        }}
-        equipment={equipmentSelectItem}
-        params={{
-          ids: selectRowKeys,
-          belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
-        }}/>
-    </PageHeaderWrapper>
-  )
+                <EditDurationTimeForm
+                modalVisible={durationTimeVisible}
+                onCancel={() => {
+                  handleDurationTimeVisible(false)
+                }}
+                onUpdate={durationTimeOnOk}
+                params={{ids: selectRowKeys}}
+                />
+                <EditEquipment
+                modalVisible={equipmentVisible}
+                onUpdate={equipmentOnOk}
+                onCancel={() => {
+                handleEquipmentVisible(false)
+              }}
+                equipment={equipmentSelectItem}
+                params={{
+                ids: selectRowKeys,
+                belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
+              }}/>
+                </PageHeaderWrapper>
+                )
 
-};
+                };
 
-export default CreateTestItem;
+                export default CreateTestItem;
