@@ -1,26 +1,26 @@
-
+import { Tooltip, Tag } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-import { connect, ConnectProps } from 'umi';
-import { ConnectState } from '@/models/connect';
-
-import img from "../../assets/cetc.jpg"
-
+import { connect } from 'dva';
+import { ConnectProps, ConnectState } from '@/models/connect';
+import Avatar from './AvatarDropdown';
+import HeaderSearch from '../HeaderSearch';
+import SelectLang from '../SelectLang';
 import styles from './index.less';
 
-
 export type SiderTheme = 'light' | 'dark';
-
-export interface GlobalHeaderRightProps extends Partial<ConnectProps> {
+export interface GlobalHeaderRightProps extends ConnectProps {
   theme?: SiderTheme;
   layout: 'sidemenu' | 'topmenu';
 }
+
 const ENVTagColor = {
   dev: 'orange',
   test: 'green',
   pre: '#87d068',
 };
 
-const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
+const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
   const { theme, layout } = props;
   let className = styles.right;
 
@@ -30,7 +30,13 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
 
   return (
     <div className={className}>
-      {/*<img src={img} alt=""/>*/}
+      <Avatar />
+      {REACT_APP_ENV && (
+        <span>
+              <Tag color={ENVTagColor[REACT_APP_ENV]}>{REACT_APP_ENV}</Tag>
+            </span>
+      )}
+      <SelectLang className={styles.action} />
     </div>
   );
 };

@@ -86,7 +86,7 @@ const EditForm: React.FC<CreateFormProps> = (props) => {
           wrapperCol={{span: 15}}
           label="时间范围"
           name="rangeTime"
-          // rules={[{ required: true }]}
+           // rules={[{ required: true }]}
         >
           <RangePicker
             style={{width: "100%"}}

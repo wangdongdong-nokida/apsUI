@@ -10,9 +10,8 @@ import ProLayout, {
   DefaultFooter,
   SettingDrawer,
 } from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useIntl, connect, Dispatch } from 'umi';
-// import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
@@ -20,6 +19,8 @@ import { ConnectState } from '@/models/connect';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
 
+import * as allIcons from '@ant-design/icons/es';
+import { queryMenu } from '@/services/menu';
 const noMatch = (
   <Result
     status={403}
@@ -27,7 +28,7 @@ const noMatch = (
     subTitle="Sorry, you are not authorized to access this page."
     extra={
       <Button type="primary">
-        <Link to="/user/lofgin">Go Login</Link>
+        <Link to="/user/login">Go Login</Link>
       </Button>
     }
   />
@@ -59,7 +60,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright="排产系统"
+    copyright="中国电科13所排产系统"
     links={[
       // {
       //   key: 'Ant Design Pro',
@@ -120,6 +121,51 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     authority: undefined,
   };
   const { formatMessage } = useIntl();
+
+  /* 解决菜单icon图标不显示问题 */
+  const toHump = (name: string) =>
+    name.replace(/-(\w)/g, (all: string, letter: any) => letter.toUpperCase());
+  const formatter = (data: any[]) => {
+    console.info("data",data);
+    data.forEach(item => {
+      if (item.icon) {
+        const { icon } = item;
+        const v4IconName = toHump(icon.replace(icon[0], icon[0].toUpperCase()));
+        const NewIcon = allIcons[icon] || allIcons[''.concat(v4IconName, 'Outlined')];
+        if (NewIcon) {
+          try {
+            // eslint-disable-next-line no-param-reassign
+            item.icon = React.createElement(NewIcon);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+
+      if (item.routes || item.children) {
+        // eslint-disable-next-line no-param-reassign
+        item.children = formatter(item.routes || item.children); // Reduce memory usage
+      }
+    });
+    return data;
+  };
+
+  const patchRoutes = (routes: any[]): any => formatter(routes);
+
+  /* 从服务端获取菜单 */
+  const [menuData, setMenuData] = useState([]);
+  useEffect(() => {
+    if (dispatch) {
+      dispatch({
+        type: 'user/fetchCurrent',
+      });
+    }
+
+    queryMenu().then(data => {
+      setMenuData(patchRoutes(data || []));
+    });
+  }, []);
+
   return (
     <>
       <ProLayout
@@ -157,7 +203,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           );
         }}
         footerRender={() => defaultFooterDom}
-        menuDataRender={menuDataRender}
+        menuDataRender={() => menuData}
         rightContentRender={() => <RightContent />}
         {...props}
         {...settings}

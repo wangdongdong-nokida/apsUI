@@ -44,37 +44,24 @@ const CreateTestItem: React.FC<{}> = () => {
   const waferColumn: ProColumns<Wafer>[] = [
     {
       title: 'id',
-      dataIndex: ["center", 'id'],
+      dataIndex: 'id',
       hideInSearch: true,
       hideInTable: true
     },
     {
-      title: "显示方式",
-      dataIndex: "showType",
-      hideInTable: true,
-      valueEnum: {
-        total: "所有",
-        created: "已建明细",
-        uncreated: "未建明细"
-      }
-    },
-    {
       title: '版号',
-      dataIndex: ["center", 'waferNr'],
+      dataIndex: 'waferNr',
     },
     {
       title: '片号',
-      dataIndex: ["center", 'sliceNr'],
+      dataIndex: 'sliceNr',
     },
-    {
-      title:"二级订单号",
-      dataIndex: "secondOrder"
-    }
   ];
 
   const createButton = (params: any) => {
     return createTestItem(params)
   };
+
 
 
   const equipmentHandler = async () => {
@@ -92,6 +79,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
 
+
   return (
     <PageHeaderWrapper>
       <ProTable
@@ -105,21 +93,6 @@ const CreateTestItem: React.FC<{}> = () => {
         //     params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
         //   }
         // }}
-        postData={(data) => {
-          for (let i = 0; i < data.length; i += 1) {
-            const center:any = data[i];
-            const secondOrders: [any] = center?.secondOrders;
-            let secondOrderLine:any;
-            secondOrders.map((value) => {
-              if(value.name){
-                secondOrderLine=secondOrderLine?`${secondOrderLine};${value.name}`:value.name;
-              }
-              return null;
-            });
-            center.secondOrder=secondOrderLine;
-          }
-          return data;
-        }}
         request={(params) => {
           return queryWaferWarehouse(params);
         }}
@@ -147,6 +120,8 @@ const CreateTestItem: React.FC<{}> = () => {
                             onChange={async (selectValue) => {
                               const date = moment(await getEquipmentEndDate(selectValue));
                               form.setFieldsValue({"planningStartTime": date.clone()});
+                              form.setFieldsValue({"planningFinishTime": date.clone()});
+                              form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
                             }}
                     >
                       {optionEquipment()}
@@ -171,6 +146,20 @@ const CreateTestItem: React.FC<{}> = () => {
                     name="planningStartTime"
                   >
                     <DatePicker style={inputStyle} showTime disabled/>
+                  </FormItem>
+                </Col>
+                <Col span={formSpan}>
+                  <FormItem
+                    label="预估完成时间"
+                    name="planningFinishTime">
+                    <DatePicker mode="date" style={inputStyle} disabled/>
+                  </FormItem>
+                </Col>
+                <Col span={formSpan}>
+                  <FormItem
+                    label="预估交片日期"
+                    name="planningAvailableTime">
+                    <DatePicker mode="date" style={inputStyle} disabled/>
                   </FormItem>
                 </Col>
               </Row>
@@ -211,10 +200,6 @@ const CreateTestItem: React.FC<{}> = () => {
                   hide();
                   message.error('添加失败请重试！');
                   return false;
-                } finally {
-                  if (stockFormRef.current) {
-                    stockFormRef.current.submit();
-                  }
                 }
               }}
             >创建划片明细</Button>

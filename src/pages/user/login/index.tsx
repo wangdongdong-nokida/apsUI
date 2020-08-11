@@ -1,21 +1,24 @@
-import {AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined} from '@ant-design/icons';
-import {Alert, Checkbox} from 'antd';
+import {Alert} from 'antd';
 import React, {useState} from 'react';
-import {Dispatch, AnyAction, Link, connect} from 'umi';
-import {StateType} from './model';
-import styles from './style.less';
-import {LoginParamsType} from './service';
-import LoginFrom from './components/Login';
+import {connect, Dispatch} from 'umi';
+import {StateType} from '@/models/login';
+import {LoginParamsType} from '@/services/login';
+import {ConnectState} from '@/models/connect';
+import LoginForm from './components/Login';
 
-const {Tab, UserName, Password, Submit} = LoginFrom;
+import styles from './style.less';
+
+const {Tab, UserName, Password, Submit} = LoginForm;
 
 interface LoginProps {
-  dispatch: Dispatch<AnyAction>;
-  userAndlogin: StateType;
+  dispatch: Dispatch;
+  userLogin: StateType;
   submitting?: boolean;
 }
 
-const LoginMessage: React.FC<{ content: string; }> = ({content}) => (
+const LoginMessage: React.FC<{
+  content: string;
+}> = ({content}) => (
   <Alert
     style={{
       marginBottom: 24,
@@ -27,28 +30,23 @@ const LoginMessage: React.FC<{ content: string; }> = ({content}) => (
 );
 
 const Login: React.FC<LoginProps> = (props) => {
-  const {userAndlogin = {}, submitting} = props;
-  const {status, type: loginType} = userAndlogin;
+  const {userLogin = {}, submitting} = props;
+  const {code, message} = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
-
   const handleSubmit = (values: LoginParamsType) => {
     const {dispatch} = props;
     dispatch({
-      type: 'userAndlogin/login',
-      payload: {
-        ...values,
-        type,
-      },
+      type: 'login/login',
+      payload: {...values, type},
     });
   };
-
   return (
     <div className={styles.main}>
-      <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
+      <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         <Tab key="account" tab="账户密码登录">
-          {status === 'error' && loginType === 'account' && !submitting && (
-            <LoginMessage content="账户或密码错误（admin/ant.design）"/>
+          {code !== 200 && message !== undefined && !submitting && (
+            <LoginMessage content={`${message}`}/>
           )}
 
           <UserName
@@ -72,44 +70,13 @@ const Login: React.FC<LoginProps> = (props) => {
             ]}
           />
         </Tab>
-        <div>
-          <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
-            自动登录
-          </Checkbox>
-          <a style={{
-            float: 'right',
-          }}>忘记密码</a>
-        </div>
         <Submit loading={submitting}>登录</Submit>
-        <div className={styles.other}>
-          其他登录方式
-          <AlipayCircleOutlined className={styles.icon}/>
-          <TaobaoCircleOutlined className={styles.icon}/>
-          <WeiboCircleOutlined className={styles.icon}/>
-          <Link className={styles.register} to="/user/register">
-            注册账户
-          </Link>
-        </div>
-      </LoginFrom>
+      </LoginForm>
     </div>
   );
 };
 
-export default connect(
-  ({
-     userAndlogin,
-     loading,
-   }: {
-    userAndlogin: StateType;
-    loading: {
-      effects: {
-        [key: string]: boolean;
-      };
-    };
-  }) => {
-    return {
-      userAndlogin,
-      submitting : loading.effects['userAndlogin/login'],
-    }
-  },
-)(Login);
+export default connect(({login, loading}: ConnectState) => ({
+  userLogin: login,
+  submitting: loading.effects['login/login'],
+}))(Login);

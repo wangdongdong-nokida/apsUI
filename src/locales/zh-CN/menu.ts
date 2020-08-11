@@ -32,7 +32,6 @@ export default {
   'menu.scribingSchedule.ScribingNormal': '创建划片明细',
   'menu.scribingSchedule.ScribingSchedule': '划片排产',
   'menu.scribingSchedule.ScribingNoTest': '无测试计划划片明细',
-  'menu.scribingSchedule.ScribingNoStock': '无库存划片明细',
   'menu.list.list-table-list':"标准列表",
 
 

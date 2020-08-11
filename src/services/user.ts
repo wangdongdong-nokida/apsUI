@@ -5,7 +5,10 @@ export async function query(): Promise<any> {
 }
 
 export async function queryCurrent(): Promise<any> {
-  return request('/api/currentUser');
+  console.info("queryCurrent");
+  return request(`/server/user/userInfo`, {
+    method: 'GET',
+  });
 }
 
 export async function queryNotices(): Promise<any> {

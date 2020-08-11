@@ -54,4 +54,32 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
 });
 
+
+// request拦截器, 改变url 或 options.
+request.interceptors.request.use((url, options) => {
+
+  const token = sessionStorage.getItem("Authorization");
+  console.info("url:",url);
+  console.info("token:",token);
+  if (token) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': token,
+    };
+    return (
+      {
+        url: `${url}`,
+        options: {...options, interceptors: true, headers},
+      }
+    );
+  }
+  return (
+    {
+      url: `${url}`,
+      options: {...options, interceptors: true},
+    }
+  );
+});
+
 export default request;
