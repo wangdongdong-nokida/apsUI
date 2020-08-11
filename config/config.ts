@@ -53,18 +53,6 @@ export default defineConfig({
               component: './user/login',
             },
             {
-              name: 'register-result',
-              icon: 'smile',
-              path: '/user/register-result',
-              component: './user/register-result',
-            },
-            {
-              name: 'register',
-              icon: 'smile',
-              path: '/user/register',
-              component: './user/register',
-            },
-            {
               component: '404',
             },
           ],
@@ -335,31 +323,37 @@ export default defineConfig({
                 }
               ],
             },
-            // {
-            //   name: 'scribingSchedule',
-            //   icon: 'table',
-            //   path: '/scribingSchedule',
-            //   routes: [
-            //     {
-            //       name: 'ScribingNormal',
-            //       icon: 'smile',
-            //       path: '/scribingSchedule/ScribingNormal',
-            //       component: './schedule/ScribingNormal',
-            //     },
-            //     {
-            //       name: 'ScribingNoTest',
-            //       icon: 'smile',
-            //       path: '/scribingSchedule/ScribingNoTest',
-            //       component: './schedule/ScribingNoTest',
-            //     },
-            //     {
-            //       name: 'ScribingSchedule',
-            //       icon: 'smile',
-            //       path: '/scribingSchedule/ScribingSchedule',
-            //       component: './schedule/ScribingSchedule',
-            //     }
-            //   ],
-            // },
+            {
+              name: 'scribingSchedule',
+              icon: 'table',
+              path: '/scribingSchedule',
+              routes: [
+                {
+                  name: 'ScribingNormal',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingNormal',
+                  component: './schedule/ScribingNormal',
+                },
+                {
+                  name: 'ScribingNoTest',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingNoTest',
+                  component: './schedule/ScribingNoTest',
+                },
+                {
+                  name: 'ScribingSchedule',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingSchedule',
+                  component: './schedule/ScribingSchedule',
+                },
+                {
+                  name: 'ScribingNoStock',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingNoStock',
+                  component: './schedule/ScribingNoStock',
+                }
+              ],
+            },
             {
               component: '404',
             },

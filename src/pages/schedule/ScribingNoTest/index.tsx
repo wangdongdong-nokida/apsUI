@@ -35,7 +35,7 @@ const CreateTestItem: React.FC<{}> = () => {
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: searchInfo
+        params: {searchInfo}
       }
     }
   };
@@ -70,7 +70,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '产品类型',
       dataIndex: ['productType', "name"],
-    }
+    },
+    {
+      title: '划片班组',
+      dataIndex: "scribingGroup",
+    },
   ];
 
   const waferColumn: ProColumns<Wafer>[] = [
@@ -128,6 +132,7 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={secondActionRef}
             formRef={secondOrderFormRef}
             {...proTableProps}
+            params={{noTest:true}}
             request={(params) => querySecondOrder(params)}
             columns={secondOrderColumns}
             rowSelection={{

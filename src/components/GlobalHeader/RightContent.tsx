@@ -3,6 +3,8 @@ import React from 'react';
 import { connect, ConnectProps } from 'umi';
 import { ConnectState } from '@/models/connect';
 
+import img from "../../assets/cetc.jpg"
+
 import styles from './index.less';
 
 
@@ -27,7 +29,9 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
   }
 
   return (
-    <div className={className}/>
+    <div className={className}>
+      {/*<img src={img} alt=""/>*/}
+    </div>
   );
 };
 

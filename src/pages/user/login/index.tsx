@@ -7,7 +7,7 @@ import styles from './style.less';
 import {LoginParamsType} from './service';
 import LoginFrom from './components/Login';
 
-const {Tab, UserName, Password, Mobile, Captcha, Submit} = LoginFrom;
+const {Tab, UserName, Password, Submit} = LoginFrom;
 
 interface LoginProps {
   dispatch: Dispatch<AnyAction>;

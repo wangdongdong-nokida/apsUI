@@ -1,80 +1,30 @@
 import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input} from 'antd';
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
-import ProTable from '@ant-design/pro-table';
-import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
 
 import FormItem from "antd/lib/form/FormItem";
 import {PlusOutlined} from "@ant-design/icons/lib";
 import {EquipmentItem} from "@/pages/schedule/equipmentCalendar/data";
 import moment from "moment";
-import {FormInstance} from "antd/lib/form/Form";
-import {Key} from "antd/es/table/interface";
-import {Wafer} from './data.d';
 import {
   createTestItem,
   getEquipmentEndDate,
-  queryEquipments,
-  queryWaferWarehouse
+  queryEquipments
 } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
   const [form] = Form.useForm();
 
-  const stockFormRef = useRef<FormInstance>();
-  const stockActionRef = useRef<ActionType>();
   const [equipmentList, handleEquipment] = useState<EquipmentItem[]>();
-  const [stockList, handleStockList] = useState<Key[]>();
 
   const formSpan = 6;
   const inputStyle = {width: "100%"};
-  const proTableProps = {
-    pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 10},
-    scroll: {y: 300, scrollToFirstRowOnChange: true},
-    rowKey: "id",
-    search: {span: 8},
-    bordered: true,
-    beforeSearchSubmit: (searchInfo: any) => {
-      return {
-        params: searchInfo
-      }
-    }
-  };
 
-  const waferColumn: ProColumns<Wafer>[] = [
-    {
-      title: 'id',
-      dataIndex: ["center", 'id'],
-      hideInSearch: true,
-      hideInTable: true
-    },
-    {
-      title: "显示方式",
-      dataIndex: "showType",
-      hideInTable: true,
-      valueEnum: {
-        total: "所有",
-        created: "已建明细",
-        uncreated: "未建明细"
-      }
-    },
-    {
-      title: '版号',
-      dataIndex: ["center", 'waferNr'],
-    },
-    {
-      title: '片号',
-      dataIndex: ["center", 'sliceNr'],
-    },
-    {
-      title:"二级订单号",
-      dataIndex: "secondOrder"
-    }
-  ];
 
   const createButton = (params: any) => {
     return createTestItem(params)
   };
+
 
 
   const equipmentHandler = async () => {
@@ -92,45 +42,9 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
 
+
   return (
     <PageHeaderWrapper>
-      <ProTable
-        headerTitle="库存信息"
-        actionRef={stockActionRef}
-        formRef={stockFormRef}
-        {...proTableProps}
-        // @ts-ignore
-        // beforeSearchSubmit={(searchInfo) => {
-        //   return {
-        //     params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
-        //   }
-        // }}
-        postData={(data) => {
-          for (let i = 0; i < data.length; i += 1) {
-            const center:any = data[i];
-            const secondOrders: [any] = center?.secondOrders;
-            let secondOrderLine:any;
-            secondOrders.map((value) => {
-              if(value.name){
-                secondOrderLine=secondOrderLine?`${secondOrderLine};${value.name}`:value.name;
-              }
-              return null;
-            });
-            center.secondOrder=secondOrderLine;
-          }
-          return data;
-        }}
-        request={(params) => {
-          return queryWaferWarehouse(params);
-        }}
-        columns={waferColumn}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            handleStockList(selectedRowKeys);
-          }
-        }}
-      />
-
       <Card>
         <Row>
           <Col span={24}>
@@ -155,6 +69,24 @@ const CreateTestItem: React.FC<{}> = () => {
                 </Col>
                 <Col span={formSpan}>
                   <FormItem
+                    label="片号"
+                    name="sliceNr"
+                    rules={[{required: true, message: '请填入片号'}]}
+                  >
+                    <Input style={inputStyle}/>
+                  </FormItem>
+                </Col>
+                <Col span={formSpan}>
+                  <FormItem
+                    label="版号"
+                    name="waferNr"
+                    rules={[{required: true, message: '请填入版号'}]}
+                  >
+                    <Input style={inputStyle}/>
+                  </FormItem>
+                </Col>
+                <Col span={formSpan}>
+                  <FormItem
                     label="持续时间"
                     name="durationTime"
                     rules={[{required: true, message: '请填入划片时间'}]}
@@ -162,6 +94,47 @@ const CreateTestItem: React.FC<{}> = () => {
                     <InputNumber style={inputStyle} min={0}/>
                   </FormItem>
                 </Col>
+
+                <Col span={formSpan}>
+                  <FormItem
+                    label="任务编码"
+                    name="operationNr"
+                    rules={[{required: true, message: '请填入任务编码'}]}
+                  >
+                    <Input style={inputStyle}/>
+                  </FormItem>
+                </Col>
+
+                <Col span={formSpan}>
+                  <FormItem
+                    label="负责人"
+                    name="responsiblePerson"
+                    rules={[{required: true, message: '请填入负责人'}]}
+                  >
+                    <Input style={inputStyle}/>
+                  </FormItem>
+                </Col>
+
+                <Col span={formSpan}>
+                  <FormItem
+                    label="申请人"
+                    name="supplyPerson"
+                    rules={[{required: true, message: '请填入申请人'}]}
+                  >
+                    <Input style={inputStyle}/>
+                  </FormItem>
+                </Col>
+
+                <Col span={formSpan}>
+                  <FormItem
+                    label="申请时间"
+                    name="supplyDate"
+                    rules={[{required: true, message: '请填入申请时间'}]}
+                  >
+                    <DatePicker style={inputStyle}/>
+                  </FormItem>
+                </Col>
+
               </Row>
 
               <Row gutter={[30, 16]}>
@@ -201,8 +174,7 @@ const CreateTestItem: React.FC<{}> = () => {
                 const hide = message.loading('正在添加');
                 try {
                   await createButton({
-                    ...submitForm,
-                    stocks: stockList
+                    ...submitForm
                   });
                   hide();
                   message.success('创建成功');
@@ -211,10 +183,6 @@ const CreateTestItem: React.FC<{}> = () => {
                   hide();
                   message.error('添加失败请重试！');
                   return false;
-                } finally {
-                  if (stockFormRef.current) {
-                    stockFormRef.current.submit();
-                  }
                 }
               }}
             >创建划片明细</Button>
