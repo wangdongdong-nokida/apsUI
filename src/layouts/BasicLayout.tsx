@@ -60,7 +60,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright="中国电科13所排产系统"
+    copyright="排产系统"
     links={[
       // {
       //   key: 'Ant Design Pro',
