@@ -146,7 +146,14 @@ export default defineConfig({
                   icon: 'smile',
                   path: '/scribingSchedule/ScribingSchedule',
                   component: './schedule/ScribingSchedule',
+                },
+                {
+                  name: 'ScribingNoStock',
+                  icon: 'smile',
+                  path: '/scribingSchedule/ScribingNoStock',
+                  component: './schedule/ScribingNoStock',
                 }
+
               ],
             },
 
