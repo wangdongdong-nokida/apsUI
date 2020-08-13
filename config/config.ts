@@ -153,11 +153,21 @@ export default defineConfig({
                   path: '/scribingSchedule/ScribingNoStock',
                   component: './schedule/ScribingNoStock',
                 }
-
               ],
             },
-
-
+            {
+              name: 'PickingSchedule',
+              icon: 'table',
+              path: '/pickingSchedule',
+              routes: [
+                {
+                  name: 'PickingItemNormal',
+                  icon: 'smile',
+                  path: '/pickingSchedule/PickingItemNormal',
+                  component: './schedule/PickingItemNormal',
+                }
+              ],
+            },
             {
               component: './404',
             },

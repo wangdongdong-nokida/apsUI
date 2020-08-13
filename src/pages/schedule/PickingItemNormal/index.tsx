@@ -31,6 +31,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 10},
     scroll: {y: 300, scrollToFirstRowOnChange: true},
+    rowKey: "id",
     search: {span: 8},
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
@@ -43,33 +44,46 @@ const CreateTestItem: React.FC<{}> = () => {
   const waferColumn: ProColumns<Wafer>[] = [
     {
       title: 'id',
-      dataIndex: ["center", 'id'],
+      dataIndex: 'id',
       hideInSearch: true,
       hideInTable: true
     },
     {
-      title: "显示方式",
-      dataIndex: "showType",
-      hideInTable: true,
-      valueEnum: {
-        total: "所有",
-        created: "已建明细",
-        uncreated: "未建明细"
-      }
-    },
-    {
       title: '版号',
-      dataIndex: ["center", 'waferNr'],
+      dataIndex:'waferNr',
     },
     {
       title: '片号',
-      dataIndex: ["center", 'sliceNr'],
+      dataIndex: 'sliceNr',
     },
     {
       title: "二级订单号",
       dataIndex: "secondOrder"
     }
   ];
+
+
+  const productColumn: ProColumns<Wafer>[] = [
+    {
+      title: 'id',
+      dataIndex: "center",
+      hideInSearch: true,
+      hideInTable: true
+    },
+    {
+      title: '版号',
+      dataIndex: 'waferNr',
+    },
+    {
+      title: '片号',
+      dataIndex:'sliceNr',
+    },
+    {
+      title: "二级订单号",
+      dataIndex: "secondOrder"
+    }
+  ];
+
 
   const createButton = (params: any) => {
     return createTestItem(params)
@@ -93,45 +107,85 @@ const CreateTestItem: React.FC<{}> = () => {
 
   return (
     <PageHeaderWrapper>
-      <ProTable
-        headerTitle="库存信息"
-        actionRef={stockActionRef}
-        formRef={stockFormRef}
-        {...proTableProps}
-        rowKey={(record)=>{
-          return record.center.id
-        }}
-        // @ts-ignore
-        // beforeSearchSubmit={(searchInfo) => {
-        //   return {
-        //     params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
-        //   }
-        // }}
-        postData={(data) => {
-          for (let i = 0; i < data.length; i += 1) {
-            const center: any = data[i];
-            const secondOrders: [any] = center?.secondOrders;
-            let secondOrderLine: any;
-            secondOrders.map((value) => {
-              if (value.name) {
-                secondOrderLine = secondOrderLine ? `${secondOrderLine};${value.name}` : value.name;
+      <Row gutter={[30,16]}>
+        <Col span={12}>
+          <ProTable
+            headerTitle="库存信息"
+            actionRef={stockActionRef}
+            formRef={stockFormRef}
+            {...proTableProps}
+            // @ts-ignore
+            // beforeSearchSubmit={(searchInfo) => {
+            //   return {
+            //     params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
+            //   }
+            // }}
+            postData={(data) => {
+              for (let i = 0; i < data.length; i += 1) {
+                const center: any = data[i];
+                const secondOrders: [any] = center?.secondOrders;
+                let secondOrderLine: any;
+                secondOrders.map((value) => {
+                  if (value.name) {
+                    secondOrderLine = secondOrderLine ? `${secondOrderLine};${value.name}` : value.name;
+                  }
+                  return null;
+                });
+                center.secondOrder = secondOrderLine;
               }
-              return null;
-            });
-            center.secondOrder = secondOrderLine;
-          }
-          return data;
-        }}
-        request={(params) => {
-          return queryWaferWarehouse(params);
-        }}
-        columns={waferColumn}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            handleStockList(selectedRowKeys);
-          }
-        }}
-      />
+              return data;
+            }}
+            request={(params) => {
+              return queryWaferWarehouse(params);
+            }}
+            columns={waferColumn}
+            rowSelection={{
+              onChange: (selectedRowKeys) => {
+                handleStockList(selectedRowKeys);
+              }
+            }}
+          />
+        </Col>
+        <Col span={12}>
+          <ProTable
+            headerTitle="型号信息"
+            actionRef={stockActionRef}
+            formRef={stockFormRef}
+            {...proTableProps}
+            // @ts-ignore
+            // beforeSearchSubmit={(searchInfo) => {
+            //   return {
+            //     params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
+            //   }
+            // }}
+            postData={(data) => {
+              for (let i = 0; i < data.length; i += 1) {
+                const center: any = data[i];
+                const secondOrders: [any] = center?.secondOrders;
+                let secondOrderLine: any;
+                secondOrders.map((value) => {
+                  if (value.name) {
+                    secondOrderLine = secondOrderLine ? `${secondOrderLine};${value.name}` : value.name;
+                  }
+                  return null;
+                });
+                center.secondOrder = secondOrderLine;
+              }
+              return data;
+            }}
+            request={(params) => {
+              return queryWaferWarehouse(params);
+            }}
+            columns={waferColumn}
+            rowSelection={{
+              onChange: (selectedRowKeys) => {
+                handleStockList(selectedRowKeys);
+              }
+            }}
+          />
+
+        </Col>
+      </Row>
 
       <Card>
         <Row>

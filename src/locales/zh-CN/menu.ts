@@ -22,19 +22,23 @@ export default {
   'menu.form.step-form.result': '分步表单（完成）',
   'menu.form.advanced-form': '高级表单',
   'menu.list': '列表页',
-  'menu.schedule': '排产页面',
-  'menu.schedule.testingSchedule': '测试排产',
+  'menu.schedule': '测试排产',
   'menu.scribingSchedule':"划片排产",
+  'menu.PickingSchedule': '挑粒排产',
+
   'menu.calendar':"日历",
   'menu.calendar.equipmentCalendar': '设备日历',
+  'menu.schedule.testingSchedule': '测试排产',
   'menu.schedule.testItemNormal': '创建测试明细',
   'menu.schedule.testContainer': '创建载体测试明细',
-  'menu.scribingSchedule.ScribingNormal': '创建划片明细',
   'menu.scribingSchedule.ScribingSchedule': '划片排产',
+  'menu.scribingSchedule.ScribingNormal': '创建划片明细',
   'menu.scribingSchedule.ScribingNoTest': '无测试计划划片明细',
   'menu.scribingSchedule.ScribingNoStock': '无库存划片明细',
-  'menu.list.list-table-list':"标准列表",
 
+  'menu.PickingSchedule.PickingItemNormal': '创建挑粒明细明细',
+
+  'menu.list.list-table-list':"标准列表",
 
   'menu.list.table-list': '查询表格',
   'menu.list.basic-list': '标准列表',
