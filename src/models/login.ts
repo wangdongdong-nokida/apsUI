@@ -64,6 +64,7 @@ const Model: LoginModelType = {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
+        sessionStorage.setItem("Authorization","");
         history.replace({
           pathname: '/user/login',
           search: stringify({
