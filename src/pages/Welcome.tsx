@@ -13,7 +13,7 @@ const CodePreview: React.FC<{}> = ({ children }) => (
 
 export default (): React.ReactNode => (
   <PageHeaderWrapper>
-    <Card>
+    {/*<Card>
       <Alert
         message="umi ui 现已发布，点击右下角 umi 图标即可使用"
         type="success"
@@ -57,6 +57,6 @@ export default (): React.ReactNode => (
         use block
       </a>
       。
-    </p>
+    </p>*/}
   </PageHeaderWrapper>
 );
