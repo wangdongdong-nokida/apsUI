@@ -30,12 +30,26 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
       });
     }
   }
-
+   getQueryVariable = (variable:string) => {
+    let query = window.location.search.substring(1);
+     let vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+      let pair = vars[i].split("=");
+      if (pair[0] == variable) { return pair[1]; }
+    }
+    return (false);
+  }
   render() {
     const { isReady } = this.state;
     const { children, loading, currentUser } = this.props;
     // You can replace it to your authentication rule (such as check token exists)
     // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
+    let tokenString = this.getQueryVariable("token");
+    console.info("tokenString",tokenString);
+
+    if(tokenString){
+      sessionStorage.setItem("Authorization",tokenString);
+    }
     const isLogin = currentUser && sessionStorage.getItem("Authorization");
     const queryString = stringify({
       redirect: window.location.href,
