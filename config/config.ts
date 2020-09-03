@@ -165,7 +165,26 @@ export default defineConfig({
                   icon: 'smile',
                   path: '/pickingSchedule/PickingItemNormal',
                   component: './schedule/PickingItemNormal',
+                },
+                {
+                  name: 'PackingItemOrder',
+                  icon: 'smile',
+                  path: '/pickingSchedule/PackingItemOrder',
+                  component: './schedule/PackingItemOrder',
+                },
+                {
+                  name: 'PackingItemEmpty',
+                  icon: 'smile',
+                  path: '/pickingSchedule/PackingItemEmpty',
+                  component: './schedule/PackingItemEmpty',
+                },
+                {
+                  name: 'PackingItem',
+                  icon: 'smile',
+                  path: '/pickingSchedule/PackingItem',
+                  component: './schedule/PackingItem',
                 }
+
               ],
             },
             {

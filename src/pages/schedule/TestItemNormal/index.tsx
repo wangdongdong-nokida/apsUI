@@ -32,7 +32,6 @@ const CreateTestItem: React.FC<{}> = () => {
   const stockActionRef = useRef<ActionType>();
 
   const [waferNrList, handlerWaferNrList] = useState<{}>();
-  // const [selectedWaferNr, handlerSelectedWaferNr] = useState<{}>();
   const [equipmentList, handleEquipment] = useState<EquipmentItem[]>();
   const [testLabelList, handleTestLabel] = useState<TestParameter[]>();
   const [screenLabelList, handleScreenLabel] = useState<TestParameter[]>();
@@ -140,9 +139,24 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['product'],
       hideInSearch: true
     },
+    // {
+    //   title: '电路类型',
+    //   dataIndex: ['product', 'circuitType', "name"],
+    //   hideInSearch: true
+    // },
     {
-      title: '电路类型',
-      dataIndex: ['product', 'circuitType', "name"],
+      title: '单元数',
+      dataIndex: ["wafer",'unitNumber'],
+      hideInSearch: true
+    },
+    {
+      title: '单元芯片数',
+      dataIndex: 'quantity',
+      hideInSearch: true
+    },
+    {
+      title: '总数量',
+      dataIndex: 'total',
       hideInSearch: true
     },
     {
@@ -168,7 +182,7 @@ const CreateTestItem: React.FC<{}> = () => {
           screenQuantity[record.id] = e.target.value;
           handleScreenList(screenQuantity);
         }
-        } min={0} defaultValue={10}/>);
+        } min={0} defaultValue={record.total}/>);
       }
     },
     {
@@ -181,7 +195,7 @@ const CreateTestItem: React.FC<{}> = () => {
           assessmentQuantity[record.id] = e.target.value;
           handleAssessmentList(assessmentQuantity);
         }
-        } min={0} defaultValue={10}/>);
+        } min={0} defaultValue={22}/>);
       }
     }
   ];
@@ -294,7 +308,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     forecastQuantity: product.forecastQuantity,
                     screenQuantity: product.screenQuantity,
                     assessmentQuantity: product.assessmentQuantity,
-                    circuitNr:product.circuitNo,
+                    circuitNr: product.circuitNo,
                   };
                 });
                 handleProductList(modelNrs);
@@ -339,8 +353,8 @@ const CreateTestItem: React.FC<{}> = () => {
                   >
                     <Select style={inputStyle}
                             onFocus={equipmentHandler}
-                            onChange={async (selectValue) =>{
-                              const date=moment(await getEquipmentEndDate(selectValue));
+                            onChange={async (selectValue) => {
+                              const date = moment(await getEquipmentEndDate(selectValue));
                               form.setFieldsValue({"planningStartTime": date.clone()});
                               form.setFieldsValue({"planningFinishTime": date.clone()});
                               form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
@@ -475,7 +489,7 @@ const CreateTestItem: React.FC<{}> = () => {
                       if (target && target.id) {
                         target.forecast = forecastList[target.id] ? forecastList[target.id] : 10;
                         target.screen = screenList[target.id] ? screenList[target.id] : 10;
-                        target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 10
+                        target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 22
                       }
                       return target;
                     }),

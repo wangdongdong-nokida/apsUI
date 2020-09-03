@@ -1,5 +1,5 @@
 import request from 'umi-request';
-import {SecondOrder, TableListParams, TestParameter} from './data.d';
+import {SecondOrder, TableListParams} from './data.d';
 
 
 export async function queryRule(searchInfo?: TableListParams) {
@@ -17,8 +17,8 @@ export async function querySecondOrder(searchInfo?: SecondOrder) {
   });
 }
 
-export async function createTestItem(params: any) {
-  return request('/server/scribingItem/create', {
+export async function createPackingItem(params: any) {
+  return request('/server/packingItem/createPackingOrder', {
     method: "post",
     data: {
       ...params,
@@ -27,7 +27,7 @@ export async function createTestItem(params: any) {
 }
 
 export async function queryWaferWarehouse(searchInfo?: SecondOrder) {
-  return request('/server/scribingItem/getScribingItem', {
+  return request('/server/waferWarehouse/findWaferWarehouse', {
     method: "post",
     data: {
       ...searchInfo,
@@ -35,64 +35,34 @@ export async function queryWaferWarehouse(searchInfo?: SecondOrder) {
   });
 }
 
-export async function queryWaferProducts(searchInfo?: any) {
-  return request('/server/waferProduct/findProductsByWafer', {
-    data: {
-      ...searchInfo,
-    },
-    method: "post"
-  });
-}
-
-export async function queryEquipments(searchInfo?: TableListParams) {
-  return request('/server/equipment/getByUser', {
-    params: searchInfo,
-  });
-}
-
-export async function getEquipmentEndDate(searchInfo?:any) {
-  return request('/server/equipment/getEndDate', {
-    params: {
-      id:searchInfo
-    },
-  });
-}
-
-export async function queryTextLabel(searchInfo?: TestParameter) {
-  return request('/server/testParameter/findAllByParams', {
+export async function queryWaferProductWarehouse(searchInfo?: SecondOrder) {
+  return request('/server/waferWarehouse/findProductByParams', {
     method: "post",
     data: {
-      params: searchInfo,
+      ...searchInfo,
     }
   });
 }
 
-export async function removeRule(searchInfo: { key: number[] }) {
-  return request('/api/rule', {
-    method: 'POST',
+export async function queryPackingOrders(searchInfo?:any) {
+  return request('/server/packingItem/getPackingOrders', {
+    method:"post",
     data: {
       ...searchInfo,
-      method: 'delete',
-    },
+    }
   });
 }
 
-export async function addRule(searchInfo: TableListParams) {
-  return request('/api/rule', {
-    method: 'POST',
+export async function deletePackingOrders(ids?:any) {
+  return request('/server/packingItem/deleteGearPackingOrders', {
+    method:"post",
     data: {
-      ...searchInfo,
-      method: 'post',
-    },
+      ids,
+    }
   });
 }
 
-export async function updateRule(searchInfo: TableListParams) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: {
-      ...searchInfo,
-      method: 'update',
-    },
-  });
-}
+
+
+
+

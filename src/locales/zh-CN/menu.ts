@@ -36,7 +36,13 @@ export default {
   'menu.scribingSchedule.ScribingNoTest': '无测试计划划片明细',
   'menu.scribingSchedule.ScribingNoStock': '无库存划片明细',
 
-  'menu.PickingSchedule.PickingItemNormal': '创建挑粒明细明细',
+
+  'menu.PickingSchedule.PickingItemNormal': '创建片装挑粒订单',
+  'menu.PickingSchedule.PackingItemOrder': '创建盒装挑粒订单',
+  'menu.PickingSchedule.PackingItemEmpty': '创建无片挑粒订单',
+  'menu.PickingSchedule.PackingItem': '创建挑粒工序',
+
+
 
   'menu.list.list-table-list':"标准列表",
 

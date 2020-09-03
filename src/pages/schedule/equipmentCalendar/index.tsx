@@ -252,7 +252,17 @@ const TableList: React.FC<{}> = () => {
           rowKey="id"
           pagination={{pageSizeOptions: ['5', '10', '20', '30'], defaultPageSize: 5}}
           toolBarRender={(action, {selectedRows}) => [
-            <Button onClick={updateServiceCalendar}>更新日历</Button>,
+            <Button onClick={async ()=>{
+              const hide=message.loading("正在更新日历，请稍后");
+              try {
+                hide();
+                await updateServiceCalendar();
+                message.success("日历更新成功");
+              }catch (e) {
+                hide();
+                message.error("日历更新失败，请重试！");
+              }
+            }}>更新日历</Button>,
             selectEquipment &&
             <Button icon={<PlusOutlined/>} type="primary" onClick={() => {
               handleModalVisible(true);

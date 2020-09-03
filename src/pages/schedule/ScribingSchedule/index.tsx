@@ -94,16 +94,19 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '生产时长',
       dataIndex: "durationTime",
+      hideInSearch:true
     },
     {
       title: '开始时间',
       dataIndex: "startDate",
-      valueType: "dateTime"
+      valueType: "dateTime",
+      hideInSearch:true
     },
     {
       title: '结束时间',
       dataIndex: "endDate",
-      valueType: "dateTime"
+      valueType: "dateTime",
+      hideInSearch:true
     },
   ];
 
@@ -285,43 +288,43 @@ const CreateTestItem: React.FC<{}> = () => {
               //     });
               //   }
               // }
-                >导出</Button>
-                </Col>
-                </Row>
-                </Card>
+            >导出</Button>
+          </Col>
+        </Row>
+      </Card>
 
 
-                <EditBriefForm
-                modalVisible={briefVisible}
-                onCancel={() => {
-                handleBriefVisible(false)
-              }}
-                onUpdate={editBriefOnOk}
-                params={{ids: selectRowKeys,}}
-                />
+      <EditBriefForm
+        modalVisible={briefVisible}
+        onCancel={() => {
+          handleBriefVisible(false)
+        }}
+        onUpdate={editBriefOnOk}
+        params={{ids: selectRowKeys,}}
+      />
 
-                <EditDurationTimeForm
-                modalVisible={durationTimeVisible}
-                onCancel={() => {
-                  handleDurationTimeVisible(false)
-                }}
-                onUpdate={durationTimeOnOk}
-                params={{ids: selectRowKeys}}
-                />
-                <EditEquipment
-                modalVisible={equipmentVisible}
-                onUpdate={equipmentOnOk}
-                onCancel={() => {
-                handleEquipmentVisible(false)
-              }}
-                equipment={equipmentSelectItem}
-                params={{
-                ids: selectRowKeys,
-                belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
-              }}/>
-                </PageHeaderWrapper>
-                )
+      <EditDurationTimeForm
+        modalVisible={durationTimeVisible}
+        onCancel={() => {
+          handleDurationTimeVisible(false)
+        }}
+        onUpdate={durationTimeOnOk}
+        params={{ids: selectRowKeys}}
+      />
+      <EditEquipment
+        modalVisible={equipmentVisible}
+        onUpdate={equipmentOnOk}
+        onCancel={() => {
+          handleEquipmentVisible(false)
+        }}
+        equipment={equipmentSelectItem}
+        params={{
+          ids: selectRowKeys,
+          belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
+        }}/>
+    </PageHeaderWrapper>
+  )
 
-                };
+};
 
-                export default CreateTestItem;
+export default CreateTestItem;

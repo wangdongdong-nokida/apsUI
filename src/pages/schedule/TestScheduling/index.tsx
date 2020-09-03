@@ -97,6 +97,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '数量',
       dataIndex: ["scheduleTestItem", 'quantity'],
+      hideInSearch: true
     },
     {
       title: '明细备注',
@@ -109,32 +110,38 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '流片进度',
       dataIndex: ["scheduleTestItem", 'arrivalProgress'],
+      hideInSearch: true
     },
     {
       title: '流片更新时间',
       dataIndex: ["scheduleTestItem", 'arrivalUpdateTime'],
+      hideInSearch: true
     },
     {
       title: '入库时间',
       dataIndex: ["scheduleTestItem", 'warehousingTime'],
+      hideInSearch: true
     },
     {
       title: '到货延误',
       dataIndex: ["scheduleTestItem", 'ArrivalDelay'],
+      hideInSearch: true
     },
     {
       title: '生产时长',
       dataIndex: "durationTime",
     },
     {
-      title: '开始时间',
+      title: '排产开始时间',
       dataIndex: "startDate",
-      valueType: "dateTime"
+      // valueType: "dateTime",
+      hideInSearch: true
     },
     {
-      title: '结束时间',
+      title: '排产结束时间',
       dataIndex: "endDate",
-      valueType: "dateTime"
+      // valueType: "dateTime",
+      hideInSearch: true
     },
     // {
     //   title: '计划延误',
@@ -169,7 +176,7 @@ const CreateTestItem: React.FC<{}> = () => {
     return selectRowKeys.length < 1;
   };
 
-  const editBriefOnOk =async (searchInfo: { [key: string]: string }) => {
+  const editBriefOnOk = async (searchInfo: { [key: string]: string }) => {
     await editBrief(searchInfo);
     handleBriefVisible(false);
     if (scheduleTestFormRef.current) {
@@ -177,8 +184,8 @@ const CreateTestItem: React.FC<{}> = () => {
     }
   };
 
-  const durationTimeOnOk =async (searchInfo: { [key: string]: ReactText[] }) => {
-   await editDurationTime(searchInfo);
+  const durationTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
+    await editDurationTime(searchInfo);
     handleDurationTimeVisible(false);
     if (scheduleTestFormRef.current) {
       scheduleTestFormRef.current.submit();
@@ -204,7 +211,7 @@ const CreateTestItem: React.FC<{}> = () => {
     <PageHeaderWrapper>
       <Row>
         <Col span={24}>
-          <ProTable<TestScheduleItem>
+          <ProTable
             headerTitle="测试排产"
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
@@ -236,8 +243,8 @@ const CreateTestItem: React.FC<{}> = () => {
               ]
             }
             columns={scheduleTestItemColumns}
-            onLoad={() => {
-              equipmentHandler();
+            onLoad={async () => {
+              await equipmentHandler();
             }}
             rowSelection={{
               type: 'checkbox',
@@ -325,7 +332,7 @@ const CreateTestItem: React.FC<{}> = () => {
         onUpdate={editBriefOnOk}
         params={{ids: selectRowKeys,}}
       />
-      ]
+
 
       <EditDurationTimeForm
         modalVisible={durationTimeVisible}
@@ -335,6 +342,7 @@ const CreateTestItem: React.FC<{}> = () => {
         onUpdate={durationTimeOnOk}
         params={{ids: selectRowKeys}}
       />
+
       <EditEquipment
         modalVisible={equipmentVisible}
         onUpdate={equipmentOnOk}
@@ -346,6 +354,7 @@ const CreateTestItem: React.FC<{}> = () => {
           ids: selectRowKeys,
           belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
         }}/>
+
     </PageHeaderWrapper>
   )
 

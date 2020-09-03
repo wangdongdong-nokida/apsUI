@@ -2,12 +2,6 @@ import request from 'umi-request';
 import {SecondOrder, TableListParams, TestParameter} from './data.d';
 
 
-export async function queryRule(searchInfo?: TableListParams) {
-  return request('/api/rule', {
-    params: searchInfo,
-  });
-}
-
 
 export async function querySecondOrder(searchInfo?: SecondOrder) {
   return request('/server/secondOrder/findSecondOrders', {
@@ -79,22 +73,3 @@ export async function removeRule(searchInfo: { key: number[] }) {
   });
 }
 
-export async function addRule(searchInfo: TableListParams) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: {
-      ...searchInfo,
-      method: 'post',
-    },
-  });
-}
-
-export async function updateRule(searchInfo: TableListParams) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: {
-      ...searchInfo,
-      method: 'update',
-    },
-  });
-}
