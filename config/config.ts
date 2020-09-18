@@ -95,7 +95,7 @@ export default defineConfig({
                   name: 'equipmentCalendar',
                   icon: 'smile',
                   path: '/calendar/equipmentcalendar',
-                  component: './schedule/equipmentCalendar',
+                  component: './equipmentCalendar',
                 }
               ],
             },
@@ -108,19 +108,19 @@ export default defineConfig({
                   name: 'testingSchedule',
                   icon: 'smile',
                   path: '/schedule/testScheduling',
-                  component: './schedule/TestScheduling',
+                  component: './TestScheduling',
                 },
                 {
                   name: 'testItemNormal',
                   icon: 'smile',
                   path: '/schedule/testitemnormal',
-                  component: './schedule/TestItemNormal',
+                  component: './TestItemNormal',
                 },
                 {
                   name: 'testContainer',
                   icon: 'smile',
                   path: '/schedule/testContainer',
-                  component: './schedule/TestContainer',
+                  component: './TestContainer',
                 }
               ],
             },
@@ -133,25 +133,25 @@ export default defineConfig({
                   name: 'ScribingNormal',
                   icon: 'smile',
                   path: '/scribingSchedule/ScribingNormal',
-                  component: './schedule/ScribingNormal',
+                  component: './ScribingNormal',
                 },
                 {
                   name: 'ScribingNoTest',
                   icon: 'smile',
                   path: '/scribingSchedule/ScribingNoTest',
-                  component: './schedule/ScribingNoTest',
+                  component: './ScribingNoTest',
                 },
                 {
                   name: 'ScribingSchedule',
                   icon: 'smile',
                   path: '/scribingSchedule/ScribingSchedule',
-                  component: './schedule/ScribingSchedule',
+                  component: './ScribingSchedule',
                 },
                 {
                   name: 'ScribingNoStock',
                   icon: 'smile',
                   path: '/scribingSchedule/ScribingNoStock',
-                  component: './schedule/ScribingNoStock',
+                  component: './ScribingNoStock',
                 }
               ],
             },
@@ -164,27 +164,45 @@ export default defineConfig({
                   name: 'PickingItemNormal',
                   icon: 'smile',
                   path: '/pickingSchedule/PickingItemNormal',
-                  component: './schedule/PickingItemNormal',
+                  component: './PickingItemNormal',
                 },
                 {
-                  name: 'PackingItemOrder',
+                  name: 'PickingItemOrder',
                   icon: 'smile',
-                  path: '/pickingSchedule/PackingItemOrder',
-                  component: './schedule/PackingItemOrder',
+                  path: '/pickingSchedule/PickingItemOrder',
+                  component: './PickingItemOrder',
                 },
                 {
-                  name: 'PackingItemEmpty',
+                  name: 'PickingItemEmpty',
                   icon: 'smile',
-                  path: '/pickingSchedule/PackingItemEmpty',
-                  component: './schedule/PackingItemEmpty',
+                  path: '/pickingSchedule/PickingItemEmpty',
+                  component: './PickingItemEmpty',
                 },
                 {
-                  name: 'PackingItem',
+                  name: 'PickingItem',
                   icon: 'smile',
-                  path: '/pickingSchedule/PackingItem',
-                  component: './schedule/PackingItem',
+                  path: '/pickingSchedule/PickingItem',
+                  component: './PickingItem',
+                },
+                {
+                  name: 'PickingSchedule',
+                  icon: 'smile',
+                  path: '/pickingSchedule/PickingSchedule',
+                  component: './PickingSchedule',
+                },
+              ]
+            },
+            {
+              name: 'Operation',
+              icon: 'table',
+              path: '/operation',
+              routes: [
+                {
+                  name: 'OperationEquipment',
+                  icon: 'smile',
+                  path: '/operation/OperationEquipment',
+                  component: './OperationEquipment',
                 }
-
               ],
             },
             {
@@ -253,74 +271,3 @@ export default defineConfig({
   proxy: proxy['pre'],
   chainWebpack: webpackPlugin,
 });
-
-/*
-{
-              path: '/dashboard',
-              redirect: '/dashboard/analysis',
-              authority: ['admin'],
-            },
-            {
-              name: 'calendar',
-              icon: 'table',
-              path: '/calendar',
-              routes: [
-                {
-                  name: 'equipmentCalendar',
-                  icon: 'smile',
-                  path: '/calendar/equipmentcalendar',
-                  component: './schedule/equipmentCalendar',
-                }
-              ],
-            },
-            {
-              name: 'schedule',
-              icon: 'table',
-              path: '/schedule',
-              routes: [
-                {
-                  name: 'testingSchedule',
-                  icon: 'smile',
-                  path: '/schedule/testScheduling',
-                  component: './schedule/TestScheduling',
-                },
-                {
-                  name: 'testItemNormal',
-                  icon: 'smile',
-                  path: '/schedule/testitemnormal',
-                  component: './schedule/TestItemNormal',
-                },
-                {
-                  name: 'testContainer',
-                  icon: 'smile',
-                  path: '/schedule/testContainer',
-                  component: './schedule/TestContainer',
-                }
-              ],
-            },
-            {
-              name: 'scribingSchedule',
-              icon: 'table',
-              path: '/scribingSchedule',
-              routes: [
-                {
-                  name: 'ScribingNormal',
-                  icon: 'smile',
-                  path: '/scribingSchedule/ScribingNormal',
-                  component: './schedule/ScribingNormal',
-                },
-                {
-                  name: 'ScribingNoTest',
-                  icon: 'smile',
-                  path: '/scribingSchedule/ScribingNoTest',
-                  component: './schedule/ScribingNoTest',
-                },
-                {
-                  name: 'ScribingSchedule',
-                  icon: 'smile',
-                  path: '/scribingSchedule/ScribingSchedule',
-                  component: './schedule/ScribingSchedule',
-                }
-              ],
-            },
- */

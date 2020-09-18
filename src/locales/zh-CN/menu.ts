@@ -25,6 +25,8 @@ export default {
   'menu.schedule': '测试排产',
   'menu.scribingSchedule':"划片排产",
   'menu.PickingSchedule': '挑粒排产',
+  'menu.Operation': '工序',
+
 
   'menu.calendar':"日历",
   'menu.calendar.equipmentCalendar': '设备日历',
@@ -37,11 +39,13 @@ export default {
   'menu.scribingSchedule.ScribingNoStock': '无库存划片明细',
 
 
-  'menu.PickingSchedule.PickingItemNormal': '创建片装挑粒订单',
-  'menu.PickingSchedule.PackingItemOrder': '创建盒装挑粒订单',
-  'menu.PickingSchedule.PackingItemEmpty': '创建无片挑粒订单',
-  'menu.PickingSchedule.PackingItem': '创建挑粒工序',
+  'menu.PickingSchedule.PickingItemNormal': '创建片装挑粒明细',
+  'menu.PickingSchedule.PickingItemOrder': '创建盒装挑粒明细',
+  'menu.PickingSchedule.PickingItemEmpty': '创建无片挑粒明细',
+  'menu.PickingSchedule.PickingItem': '创建挑粒工序',
+  'menu.PickingSchedule.PickingSchedule': '挑粒排产',
 
+  'menu.Operation.OperationEquipment': '工序设备',
 
 
   'menu.list.list-table-list':"标准列表",
