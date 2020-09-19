@@ -147,7 +147,7 @@ const CreateTestItem: React.FC<{}> = () => {
     // },
     {
       title: '单元数',
-      dataIndex: ["wafer",'unitNumber'],
+      dataIndex: ["wafer", 'unitNumber'],
       hideInSearch: true
     },
     {
@@ -307,7 +307,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     id: product.id,
                     modelNr: product.product,
                     forecastQuantity: product.forecastQuantity,
-                    screenQuantity: product.screenQuantity,
+                    screenQuantity: product.total,
                     assessmentQuantity: product.assessmentQuantity,
                     circuitNr: product.circuitNo,
                   };
@@ -489,7 +489,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     product: productList?.map((target) => {
                       if (target && target.id) {
                         target.forecast = forecastList[target.id] ? forecastList[target.id] : 10;
-                        target.screen = screenList[target.id] ? screenList[target.id] : 10;
+
+                        target.screen = screenList[target.id]?screenList[target.id]:target.screenQuantity;
+
                         target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 22
                       }
                       return target;

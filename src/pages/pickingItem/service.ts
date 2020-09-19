@@ -48,6 +48,16 @@ export async function createOperation(searchInfo?: any) {
 }
 
 
+export async function autoCreateOperation(searchInfo?: any) {
+  return request('/server/pickingItem/autoCreateOperationItem', {
+    method: "post",
+    data: {
+      ...searchInfo,
+    }
+  });
+}
+
+
 export async function deletePickingOrders(ids?: any) {
   return request('/server/pickingItem/deletePickingOrders', {
     method: "post",

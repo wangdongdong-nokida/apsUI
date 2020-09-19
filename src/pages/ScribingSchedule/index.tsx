@@ -16,6 +16,7 @@ import {EditEquipment} from "@/pages/TestScheduling/components/EditEquipment";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 import {TestScheduleItem} from './data';
 import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete} from './service';
+import {ChangeTestStock} from "@/pages/ScribingSchedule/components/ChangeTestStock";
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -37,6 +38,9 @@ const CreateTestItem: React.FC<{}> = () => {
   const [selectRowKeys, handleSelectRowKeys] = useState<Key[]>([]);
 
   const [moveRowKeys, handleMoveRowKeys] = useState<Key[]>([]);
+
+  const [stockVisible, handleStockVisible] = useState<boolean>(false);
+
 
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "15", "20", "40"], pageSize: 20},
@@ -322,6 +326,21 @@ const CreateTestItem: React.FC<{}> = () => {
           ids: selectRowKeys,
           belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue("scheduleTaskLine-equipment-ID")
         }}/>
+
+      <ChangeTestStock
+        modalVisible={stockVisible}
+        onCancel={() => {
+          handleStockVisible(false)
+        }}
+        onOk={()=>{
+          scheduleTestFormRef?.current?.submit();
+          handleStockVisible(false);
+        }}
+        equipment={equipmentSelectItem}
+        params={{
+          taskIDs: selectRowKeys?selectRowKeys[0]:"",
+        }}/>
+
     </PageHeaderWrapper>
   )
 
