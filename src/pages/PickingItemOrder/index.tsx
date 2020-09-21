@@ -7,13 +7,7 @@ import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 import {FormInstance} from "antd/lib/form/Form";
 import {Key} from "antd/es/table/interface";
-import {
-  createPickingItem,
-  deletePickingOrders,
-  queryPickingOrders,
-  queryOccupyBySalesOrder,
-  querySalesOrder
-} from './service';
+import {createPickingItem, deletePickingOrders, queryPickingOrders, queryOccupyBySalesOrder, querySalesOrder} from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
 
@@ -273,7 +267,7 @@ const CreateTestItem: React.FC<{}> = () => {
             request={(params) => {
               return querySalesOrder(params);
             }}
-            params={{params: {"!*occupies": ""}}}
+            params={{params: {"waferGearWarehouse-WLXT": "芯片"}}}
             columns={order}
             rowSelection={{
               type: "radio",

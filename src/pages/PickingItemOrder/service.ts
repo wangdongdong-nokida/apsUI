@@ -14,7 +14,7 @@ export async function createPickingItem(params: any) {
 }
 
 export async function querySalesOrder(searchInfo?: any) {
-  return request('/server/salesOrder/findSalesOrder', {
+  return request('/server/pickingItem/getSalesOrderByOccupy', {
     method: "post",
     data: {
       ...searchInfo,

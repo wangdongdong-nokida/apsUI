@@ -60,15 +60,18 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: "类型",
-      dataIndex: "type"
+      dataIndex: "type",
+      hideInSearch:true
     },
     {
       title: "批次号",
-      dataIndex: "batchNr"
+      dataIndex: "batchNr",
+      hideInSearch:true
     },
     {
       title: "状态",
-      dataIndex: "status"
+      dataIndex: "status",
+      hideInSearch:true
     },
     {
       title: "备注",

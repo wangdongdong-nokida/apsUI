@@ -252,13 +252,13 @@ const CreateTestItem: React.FC<{}> = () => {
                          await autoCreateOperation(params);
                          operationActionRef.current?.reload();
                        }}
-              >自动创建挑粒工序</Button>),
+              >自动设置挑粒工序</Button>),
               selectedRowKeys && selectedRowKeys.length > 0 &&
               (<Button type="primary"
                        onClick={() => {
                          handleModalVisible(!modalVisible)
                        }}
-              >创建挑粒工序</Button>),
+              >设置挑粒工序</Button>),
               selectedRowKeys && selectedRowKeys.length > 0 && (
                 <Dropdown
                   overlay={
