@@ -28,16 +28,6 @@ export async function getWorkFlow(searchInfo?: any) {
   });
 }
 
-export async function getWorkStep(searchInfo?: any) {
-  return request('/server/workFlow/getWorkStep', {
-    method: "post",
-    data: {
-      ...searchInfo,
-    }
-  });
-}
-
-
 export async function createOperation(searchInfo?: any) {
   return request('/server/pickingItem/createOperationItem', {
     method: "post",

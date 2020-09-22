@@ -1,11 +1,12 @@
-import {Button, Col, Row, message, Menu, Dropdown, Modal, Select, InputNumber} from 'antd';
-import React, {useState, useRef, Key} from 'react';
+import {Button, Col, Row, message, Menu, Dropdown, Modal, Select} from 'antd';
+import React, {useState, useRef, Key, ReactText} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
 
 import {DownOutlined, EditOutlined} from "@ant-design/icons/lib";
 import {FormInstance} from "antd/lib/form/Form";
+import {EditEquipment} from "./components/EditEquipment";
 import {
   autoCreateOperation,
   createOperation,
@@ -13,8 +14,7 @@ import {
   deletePickingOrders,
   getWorkFlow,
   queryOperations,
-  queryPickingOrders,
-  schedulePickingItem
+  queryPickingOrders
 } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -25,10 +25,10 @@ const CreateTestItem: React.FC<{}> = () => {
   const operationActionRef = useRef<ActionType>();
   const operationFormRef = useRef<FormInstance>();
 
-  const [equipmentVisible, handlerEquipmentVisible] = useState<boolean>(true);
-  const [durationVisible, handlerDurationVisible] = useState<boolean>(true);
-  const [quantityVisible, handlerQuantityVisible] = useState<boolean>(true);
+  const [equipmentVisible, handlerEquipmentVisible] = useState<boolean>(false);
 
+  const [operationKeys, handleOperationKeys] = useState<ReactText[]>([]);
+  const [equipments, handleEquipments] = useState<any>([]);
 
   const handleRemove = async (ids: any) => {
     await deletePickingOrders(ids);
@@ -81,7 +81,7 @@ const CreateTestItem: React.FC<{}> = () => {
       title: "物料类型",
       dataIndex: ["salesOrder"],
       render: (text) => {
-        return text?"芯片":"圆片"
+        return text ? "芯片" : "圆片"
       }
     },
     {
@@ -102,56 +102,6 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ["id"],
       hideInSearch: true,
       hideInTable: true
-    },
-    {
-      title: "工位",
-      dataIndex: ["equipments"],
-      hideInTable: equipmentVisible,
-      width: 170,
-      render: (equipmets: any[], record) => {
-        const options = equipmets.map((key) => (
-          <Select.Option key={key.id} value={key.id}>
-            {key.name}
-          </Select.Option>)
-        );
-        return (
-          <Select style={{width: "90%"}}
-                  onChange={(selectValue) => {
-                    record.equipmentSelected = selectValue;
-                  }}>
-            {options}
-          </Select>);
-      },
-      hideInSearch: true
-
-    },
-    {
-      title: "生产时长",
-      dataIndex: ["durationTime"],
-      hideInTable: durationVisible,
-      render: (duration: any, record) => {
-        return (<InputNumber width="90%" min={1} onChange={(value) => {
-          record.duration = value;
-        }}/>)
-      },
-      hideInSearch: true
-
-
-    },
-    {
-      title: "数量",
-      dataIndex: ["quantity"],
-      hideInTable: quantityVisible,
-      render: (duration: any, record) => {
-        return (
-          <InputNumber min={1} style={{width: "90%"}}
-                       onChange={(value) => {
-                         record.quantity = value;
-                       }}
-          />)
-      },
-      hideInSearch: true
-
     },
     {
       title: '版号',
@@ -184,6 +134,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: "生产时长",
       dataIndex: ["durationTime"],
+      hideInSearch: true
+    },
+    {
+      title: "数量",
+      dataIndex: ["quantity"],
       hideInSearch: true
     },
     {
@@ -248,7 +203,7 @@ const CreateTestItem: React.FC<{}> = () => {
               selectedRowKeys && selectedRowKeys.length > 0 &&
               (<Button type="primary"
                        onClick={async () => {
-                         const params={pickingOrder};
+                         const params = {pickingOrder};
                          await autoCreateOperation(params);
                          operationActionRef.current?.reload();
                        }}
@@ -309,39 +264,29 @@ const CreateTestItem: React.FC<{}> = () => {
                 params: {...searchInfo}
               }
             }}
-            onLoad={() => {
-              handlerEquipmentVisible(true);
-              handlerDurationVisible(true);
-              handlerQuantityVisible(true);
-            }}
-            toolBarRender={(action, {selectedRowKeys, selectedRows}) => [<Button type="primary" icon={<EditOutlined/>}
-                                                                                 onClick={() => {
-                                                                                   handlerEquipmentVisible(!equipmentVisible);
-                                                                                   handlerDurationVisible(!durationVisible);
-                                                                                   handlerQuantityVisible(!quantityVisible);
-                                                                                 }}>编辑</Button>,
-              selectedRowKeys && selectedRowKeys.length > 0 &&
-              (<Button type="primary"
-                       onClick={async () => {
-                         try {
-                           const params = selectedRows?.map((selectRow) => {
-                             if ((!selectRow.equipmentSelected) || (!selectRow.duration) || (!selectRow.quantity)) {
-                               throw "请提填写工位时间和数量";
-                             }
-                             return {
-                               ID: selectRow.id,
-                               equipmentSelected: selectRow.equipmentSelected,
-                               duration: selectRow.duration,
-                               quantity: selectRow.quantity
-                             };
-                           });
-                           await schedulePickingItem(params);
-                           operationActionRef?.current?.reload();
-                         } catch (e) {
-                           message.error("请提填写完整工位、生产时间、数量");
-                         }
-                       }}
-              >挑粒排产</Button>),
+            toolBarRender={(action, {selectedRowKeys, selectedRows}) => [
+              selectedRowKeys && selectedRowKeys.length > 0 &&<Button type="primary" icon={<EditOutlined/>}
+                      onClick={() => {
+                        if (selectedRows&&selectedRows.length>0) {
+                          let operationType = null;
+                          for (let row = 0; row < selectedRows.length; row += 1) {
+                            if (operationType && operationType !== selectedRows[row].workStepName) {
+                              message.error("请选中相同的工序");
+                              return;
+                            }
+                            operationType = selectedRows[row].workStepName;
+                          }
+                          const insideEquipments = selectedRows[0] && selectedRows[0].equipments ? selectedRows[0].equipments : null;
+                          const options = insideEquipments ? insideEquipments.map((key) => (
+                            <Select.Option key={key.id} value={key.id}>
+                              {key.name}
+                            </Select.Option>)
+                          ) : null;
+
+                          handleEquipments(options);
+                          handlerEquipmentVisible(true);
+                        }
+                      }}>排产</Button>,
               selectedRowKeys && selectedRowKeys.length > 0 && (
                 <Dropdown
                   overlay={
@@ -371,9 +316,9 @@ const CreateTestItem: React.FC<{}> = () => {
             columns={operationColumn}
             rowSelection={{
               type: "checkbox",
-              // onChange: (selectedRowKeys) => {
-              //   handlePckingOrder(selectedRowKeys?selectedRowKeys[0]:"");
-              // }
+              onChange: (selectedRowKeys) => {
+                handleOperationKeys(selectedRowKeys);
+              }
             }}
           />
         </Col>
@@ -423,6 +368,10 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
         </Row>
       </Modal>
+
+      <EditEquipment modalVisible={equipmentVisible} onCancel={() => {
+        handlerEquipmentVisible(false)
+      }} params={{ids: operationKeys, equipments,operationActionRef}}/>
 
     </PageHeaderWrapper>
   )
