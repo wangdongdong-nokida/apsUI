@@ -103,6 +103,11 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true
     },
     {
+      title: '在制工序',
+      dataIndex: ["scheduleTestItem", 'operationStatus'],
+      hideInSearch: true
+    },
+    {
       title: '明细备注',
       dataIndex: ["scheduleTestItem", 'itemBrief'],
     },

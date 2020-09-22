@@ -87,10 +87,13 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ["scheduleScribingItem", 'ScribingType'],
     },
     {
+      title: '在制工序',
+      dataIndex: ["scheduleScribingItem", 'operationStatus'],
+    },
+    {
       title: '负责人',
       dataIndex: ["scheduleScribingItem", 'responsiblePerson'],
     },
-
     {
       title: '明细备注',
       dataIndex: ["scheduleScribingItem", 'itemBrief'],
@@ -98,19 +101,19 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '生产时长',
       dataIndex: "durationTime",
-      hideInSearch:true
+      hideInSearch: true
     },
     {
       title: '开始时间',
       dataIndex: "startDate",
       valueType: "dateTime",
-      hideInSearch:true
+      hideInSearch: true
     },
     {
       title: '结束时间',
       dataIndex: "endDate",
       valueType: "dateTime",
-      hideInSearch:true
+      hideInSearch: true
     },
   ];
 
@@ -277,22 +280,12 @@ const CreateTestItem: React.FC<{}> = () => {
             </Popconfirm>
           </Col>
           <Col>
-            <Button disabled={buttonAbleSingle()}>修改库存关联</Button>
+            <Button disabled={buttonAbleSingle()} onClick={()=>{
+              handleStockVisible(true);
+            }}>修改库存关联</Button>
           </Col>
           <Col>
-            <Button
-              // onClick={
-              //   async () => {
-              //     await request('http://172.16.0.12/CamstarPortal/startContainer.do', {
-              //       method: "POST",
-              //       mode: "no-cors",
-              //       data: {
-              //         data: {list: [{id: 1, type: 1}]}
-              //       }
-              //     });
-              //   }
-              // }
-            >导出</Button>
+            <Button>导出</Button>
           </Col>
         </Row>
       </Card>
@@ -332,13 +325,13 @@ const CreateTestItem: React.FC<{}> = () => {
         onCancel={() => {
           handleStockVisible(false)
         }}
-        onOk={()=>{
+        onOk={() => {
           scheduleTestFormRef?.current?.submit();
           handleStockVisible(false);
         }}
         equipment={equipmentSelectItem}
         params={{
-          taskIDs: selectRowKeys?selectRowKeys[0]:"",
+          taskIDs: selectRowKeys ? selectRowKeys[0] : "",
         }}/>
 
     </PageHeaderWrapper>

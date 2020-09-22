@@ -489,9 +489,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     product: productList?.map((target) => {
                       if (target && target.id) {
                         target.forecast = forecastList[target.id] ? forecastList[target.id] : 10;
-
                         target.screen = screenList[target.id]?screenList[target.id]:target.screenQuantity;
-
                         target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 22
                       }
                       return target;
