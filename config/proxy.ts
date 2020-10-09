@@ -22,7 +22,7 @@ export default {
   },
   pre: {
     '/server': {
-      target: 'http://localhost:7071',
+      target: 'http://localhost:65372',
       changeOrigin: true,
       pathRewrite: { '/server': '' },
     },
