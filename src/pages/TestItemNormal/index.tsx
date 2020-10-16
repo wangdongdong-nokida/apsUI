@@ -55,7 +55,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const inputStyle = {width: "100%"};
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 10},
-    scroll: {y: 300, scrollToFirstRowOnChange: true},
+    scroll: {y: 300, x: 1400, scrollToFirstRowOnChange: true},
     rowKey: "id",
     search: {span: 8},
     bordered: true,
@@ -107,8 +107,24 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'waferNr',
     },
     {
+      title: '父版号',
+      dataIndex: 'fatherWaferNr',
+    },
+    {
       title: '片号',
       dataIndex: 'sliceNr',
+    },
+    {
+      title: '圆片状态',
+      dataIndex: 'status',
+    },
+    {
+      title: '生产批号',
+      dataIndex: 'batchNr',
+    },
+    {
+      title: '占用状态',
+      dataIndex: 'bindingSecondOrders',
     },
   ];
 
@@ -123,23 +139,29 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ["wafer", 'nr'],
-      hideInSearch: true
+      hideInSearch: true,
+      fixed: true,
+      width: 120
     },
     {
       title: '电路序号',
       dataIndex: 'circuitNo',
-      hideInSearch: true
+      hideInSearch: true,
+      fixed: true,
+      width: 120
+    },
+    {
+      title: '型号',
+      dataIndex: ['product'],
+      hideInSearch: true,
+      fixed: true,
     },
     {
       title: '电路名称',
       dataIndex: 'circuitName',
       hideInSearch: true
     },
-    {
-      title: '型号',
-      dataIndex: ['product'],
-      hideInSearch: true
-    },
+
     // {
     //   title: '电路类型',
     //   dataIndex: ['product', 'circuitType', "name"],
@@ -148,22 +170,26 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '单元数',
       dataIndex: ["wafer", 'unitNumber'],
-      hideInSearch: true
+      hideInSearch: true,
+      width: 100
     },
     {
       title: '单元芯片数',
       dataIndex: 'quantity',
-      hideInSearch: true
+      hideInSearch: true,
+      width: 100
     },
     {
       title: '总数量',
       dataIndex: 'total',
-      hideInSearch: true
+      hideInSearch: true,
+      width: 100
     },
     {
       title: '预测数量',
       dataIndex: 'forecastQuantity',
       hideInSearch: true,
+      width: 100,
       render(text, record) {
         return (<Input onChange={(e) => {
           const forecastQuantity = forecastList;
@@ -177,6 +203,7 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '筛选数量',
       dataIndex: 'screenQuantity',
       hideInSearch: true,
+      width: 100,
       render(text, record) {
         return (<Input onChange={(e) => {
           const screenQuantity = screenList;
@@ -190,6 +217,7 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '考核数量',
       dataIndex: 'assessmentQuantity',
       hideInSearch: true,
+      width: 100,
       render(text, record) {
         return (<Input onChange={(e) => {
           const assessmentQuantity = assessmentList;
@@ -270,7 +298,7 @@ const CreateTestItem: React.FC<{}> = () => {
       <Row>
         <Col span={24}>
           <ProTable
-            headerTitle="二级订单"
+            headerTitle="二级任务"
             actionRef={secondActionRef}
             formRef={secondOrderFormRef}
             {...proTableProps}
@@ -489,7 +517,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     product: productList?.map((target) => {
                       if (target && target.id) {
                         target.forecast = forecastList[target.id] ? forecastList[target.id] : 10;
-                        target.screen = screenList[target.id]?screenList[target.id]:target.screenQuantity;
+                        target.screen = screenList[target.id] ? screenList[target.id] : target.screenQuantity;
                         target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 22
                       }
                       return target;

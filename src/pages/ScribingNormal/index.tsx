@@ -66,7 +66,7 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ["center", 'sliceNr'],
     },
     {
-      title: "二级订单号",
+      title: "二级任务号",
       dataIndex: "secondOrder"
     }
   ];
