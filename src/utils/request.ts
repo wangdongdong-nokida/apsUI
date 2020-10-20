@@ -60,7 +60,7 @@ request.interceptors.request.use((url, options) => {
 
   const token = sessionStorage.getItem("Authorization");
   console.info("url:",url);
-  //console.info("token:",token);
+  console.info("token:",token);
   if (token) {
     const headers = {
       'Content-Type': 'application/json',
