@@ -44,6 +44,10 @@ const CreateTestItem: React.FC<{}> = () => {
   const [productList, handleProductList] = useState<{ [key: string]: string | undefined }[]>();
   const [stockList, handleStockList] = useState<Key[]>();
 
+  const [forecastSelected, handleForecastSelected] = useState<[]>([]);
+  const [assessmentSelected, handleAssessmentSelected] = useState<[]>([]);
+  const [screenSelected, handleScreenSelected] = useState<[]>([]);
+
   const productFormReset = () => {
     // eslint-disable-next-line no-unused-expressions
     productFormRef?.current?.resetFields();
@@ -82,6 +86,19 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'waferNr',
     },
     {
+      title: '型号',
+      dataIndex: 'waferModelNr',
+    },
+    {
+      title: '产品类型',
+      dataIndex: ['productType', "name"],
+    },
+    {
+      title: '测试要求完成时间',
+      dataIndex: ['testFinishedDateRequired'],
+      valueType: "date"
+    },
+    {
       title: '任务类型',
       dataIndex: 'type',
     },
@@ -92,7 +109,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '产品类型',
       dataIndex: ['productType', "name"],
-    }
+    },
+    {
+      title: '测试调度备注',
+      dataIndex: ['testBrief'],
+    },
   ];
 
   const waferColumn: ProColumns<Wafer>[] = [
@@ -412,7 +433,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={testLabelHandler}
-                    >
+                            onChange={(value)=>{
+                              handleForecastSelected(value);
+                            }}>
                       {optionTextLabel(testLabelList)}
                     </Select>
                   </FormItem>
@@ -424,6 +447,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={screenLabelHandler}
+                            onChange={(value)=>{
+                              handleScreenSelected(value);
+                            }}
                     >
                       {optionTextLabel(screenLabelList)}
                     </Select>
@@ -437,6 +463,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={assessmentLabelHandler}
+                            onChange={(value)=>{
+                              handleAssessmentSelected(value);
+                            }}
                     >
                       {optionTextLabel(assessmentLabelList)}
                     </Select>
@@ -446,32 +475,34 @@ const CreateTestItem: React.FC<{}> = () => {
               </Row>
 
               <Row gutter={[30, 16]}>
-
-                <Col span={formSpan}>
+                <Col span={formSpan}>{!(forecastSelected.length>0)?"":(
                   <FormItem
                     name="forecastHours"
                     label="预测小时"
+                    rules={[{required:true,message:"请输入预测小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-                </Col>
+               )} </Col>
 
-                <Col span={formSpan}>
+                <Col span={formSpan}> {!(screenSelected.length>0)?"":(
                   <FormItem
                     label="筛选小时"
                     name="screenHours"
+                    rules={[{required:true,message:"请输入筛选小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-                </Col>
-                <Col span={formSpan}>
+                )}</Col>
+                <Col span={formSpan}>{!(assessmentSelected.length>0)?"":(
                   <FormItem
                     label="考核小时"
                     name="assessmentHours"
+                    rules={[{required:true,message:"请输入考核小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-                </Col>
+                )}</Col>
               </Row>
 
               <Row gutter={[30, 16]}>

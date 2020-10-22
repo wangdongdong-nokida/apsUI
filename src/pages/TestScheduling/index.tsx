@@ -39,11 +39,13 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const [selectRowKeys, handleSelectRowKeys] = useState<Key[]>([]);
 
+  const [selectRowWafer, handleSelectWafer] = useState<string | undefined>("");
+
   const [moveRowKeys, handleMoveRowKeys] = useState<Key[]>([]);
 
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "15", "20", "40"], pageSize: 20},
-    scroll: {y: 700, scrollToFirstRowOnChange: true},
+    scroll: {y: 700, x: 2500, scrollToFirstRowOnChange: true},
     rowKey: "id",
     search: {span: 8},
     bordered: true,
@@ -103,8 +105,13 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true
     },
     {
-      title: '在制工序',
+      title: '已完工序',
       dataIndex: ["scheduleTestItem", 'operationStatus'],
+      hideInSearch: true
+    },
+    {
+      title: '二级任务号',
+      dataIndex: ["scheduleTestItem","secondOrder", 'name'],
       hideInSearch: true
     },
     {
@@ -258,6 +265,7 @@ const CreateTestItem: React.FC<{}> = () => {
               type: 'checkbox',
               onChange: (selectedRowKeys: Key[], selectedRows: TestScheduleItem[]) => {
                 handleSelectRowKeys(selectedRowKeys);
+                handleSelectWafer(selectedRows.length > 0 ? selectedRows[0]?.scheduleTestItem?.waferNr : "");
               }
             }}/>
         </Col>
@@ -323,7 +331,7 @@ const CreateTestItem: React.FC<{}> = () => {
             </Popconfirm>
           </Col>
           <Col>
-            <Button disabled={buttonAbleSingle()} onClick={()=>{
+            <Button disabled={buttonAbleSingle()} onClick={() => {
               handleStockVisible(true);
             }}>修改库存关联</Button>
           </Col>
@@ -370,13 +378,14 @@ const CreateTestItem: React.FC<{}> = () => {
         onCancel={() => {
           handleStockVisible(false)
         }}
-        onOk={()=>{
+        onOk={() => {
           scheduleTestFormRef?.current?.submit();
           handleStockVisible(false);
         }}
         equipment={equipmentSelectItem}
         params={{
-          taskIDs: selectRowKeys?selectRowKeys[0]:"",
+          taskIDs: selectRowKeys ? selectRowKeys[0] : "",
+          waferNr: selectRowWafer
         }}/>
 
 

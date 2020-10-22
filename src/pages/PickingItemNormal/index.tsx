@@ -116,33 +116,33 @@ const CreateTestItem: React.FC<{}> = () => {
   const pickingOrderColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: ["pickingOrder", "id"],
+      dataIndex: [ "id"],
       hideInSearch: true,
       hideInTable: true
     },
     {
       title: '版号',
-      dataIndex: ["pickingOrder", 'waferNr'],
+      dataIndex: [ 'waferNr'],
     },
     {
       title: '片号',
-      dataIndex: ["pickingOrder", 'sliceNr'],
+      dataIndex: [ 'sliceNr'],
     },
     {
       title: '型号',
-      dataIndex: ["pickingOrder", 'modelNr'],
+      dataIndex: [ 'modelNr'],
     },
     {
       title: "电路序号",
-      dataIndex: ["pickingOrder", "circuitNr"]
+      dataIndex: [ "circuitNr"]
     },
     {
       title: '圆片状态',
-      dataIndex: ["pickingOrder", 'sliceState'],
+      dataIndex: [ 'sliceState'],
     },
     {
       title: '销售订单',
-      dataIndex: ["pickingOrder", 'bindSalesOrder'],
+      dataIndex: [ 'bindSalesOrder'],
     }
   ];
 

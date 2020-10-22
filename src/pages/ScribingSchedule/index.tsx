@@ -87,7 +87,7 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ["scheduleScribingItem", 'ScribingType'],
     },
     {
-      title: '在制工序',
+      title: '已完工序',
       dataIndex: ["scheduleScribingItem", 'operationStatus'],
     },
     {

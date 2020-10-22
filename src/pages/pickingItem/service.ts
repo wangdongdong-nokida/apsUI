@@ -67,6 +67,16 @@ export async function deleteOperations(ids?: any) {
   });
 }
 
+export async function getWorkStep(searchInfo?: any) {
+  return request('/server/workFlow/getWorkStep', {
+    method: "post",
+    data: {
+      ...searchInfo,
+    }
+  });
+}
+
+
 export async function schedulePickingItem(params?: any) {
   return request('/server/pickingItem/schedulePickingItem', {
     method: "post",

@@ -124,6 +124,10 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '是否重点',
       dataIndex: 'SFZDGC',
       hideInSearch: true
+    },    {
+      title: '是否星用',
+      dataIndex: 'sfxy',
+      hideInSearch: true
     },
     {
       title: '提供方式',

@@ -7,7 +7,13 @@ import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 import {FormInstance} from "antd/lib/form/Form";
 import {Key} from "antd/es/table/interface";
-import {createPickingItem, deletePickingOrders, queryPickingOrders, queryOccupyBySalesOrder, querySalesOrder} from './service';
+import {
+  createPickingItem,
+  deletePickingOrders,
+  queryPickingOrders,
+  queryOccupyBySalesOrder,
+  querySalesOrder
+} from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
 
@@ -182,6 +188,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '圆片状态',
       dataIndex: ["waferModelWarehouse", "waferWarehouse", 'sliceState'],
+      // hideInSearch: true,
+    },
+    {
+      title: '占料数量',
+      dataIndex: ["zlsl"],
       // hideInSearch: true,
     },
     {

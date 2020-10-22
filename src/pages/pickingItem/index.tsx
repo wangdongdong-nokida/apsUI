@@ -12,7 +12,7 @@ import {
   createOperation,
   deleteOperations,
   deletePickingOrders,
-  getWorkFlow,
+  getWorkFlow, getWorkStep,
   queryOperations,
   queryPickingOrders
 } from './service';
@@ -337,7 +337,7 @@ const CreateTestItem: React.FC<{}> = () => {
              }
       >
         <Row gutter={[10, 8]}>
-          <Col span={24}>
+          <Col span={12}>
             <ProTable
               search={false}
               options={false}
@@ -357,6 +357,28 @@ const CreateTestItem: React.FC<{}> = () => {
                 {
                   title: "工艺路径名称",
                   dataIndex: ["workFlowName", "workFlowName"],
+                },
+                {
+                  title: "ID",
+                  dataIndex: "id",
+                  hideInTable: true
+                }
+              ]}
+            />
+          </Col>
+          <Col span={12}>
+            <ProTable
+              search={false}
+              options={false}
+              rowKey="id"
+              request={async (params) => {
+                return getWorkStep(params);
+              }}
+              params={{params: {"workFlow-ID": workFlow}}}
+              columns={[
+                {
+                  title: "工序名称",
+                  dataIndex: ["workStepName", "stepName"],
                 },
                 {
                   title: "ID",

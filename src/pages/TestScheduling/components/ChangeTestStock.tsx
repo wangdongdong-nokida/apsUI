@@ -12,6 +12,7 @@ interface EditFormProps {
   equipment: any
   params: {
     taskIDs: ReactText,
+    waferNr:string|undefined
   }
 }
 
@@ -40,6 +41,7 @@ export const ChangeTestStock: React.FC<EditFormProps> = (props) => {
     {
       title: '版号',
       dataIndex: 'waferNr',
+      hideInSearch:true
     },
     {
       title: '片号',
@@ -58,9 +60,8 @@ export const ChangeTestStock: React.FC<EditFormProps> = (props) => {
         toolBarRender={(action, {selectedRowKeys}) => [
           selectedRowKeys && selectedRowKeys.length > 0 && <Button/>
         ]}
-
         beforeSearchSubmit={(index) => {
-          return {params: index}
+          return {params: {...index,waferNr:params.waferNr}}
         }}
         pagination={{pageSizeOptions: ["7", "10", "15", "20"], pageSize: 7}}
         rowSelection={{
@@ -69,10 +70,11 @@ export const ChangeTestStock: React.FC<EditFormProps> = (props) => {
             handleSelectedWafer(selectedRowKeys ? selectedRowKeys[0] : "");
           }
         }}
-        request={(parmas) => {
+        request={(requestParams) => {
           return request('/server/waferWarehouse/getWaferAll', {
             data: {
-              ...parmas,
+              ...requestParams,
+              waferNr:params.waferNr
             },
             method: "post"
           });
