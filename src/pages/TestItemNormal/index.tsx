@@ -96,7 +96,8 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '测试要求完成时间',
       dataIndex: ['testFinishedDateRequired'],
-      valueType: "date"
+      valueType: "date",
+      hideInSearch:true
     },
     {
       title: '任务类型',
@@ -111,8 +112,13 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['productType', "name"],
     },
     {
+      title: '测试班组',
+      dataIndex: ['csbz'],
+    },
+    {
       title: '测试调度备注',
       dataIndex: ['testBrief'],
+      hideInSearch:true
     },
   ];
 
@@ -433,7 +439,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={testLabelHandler}
-                            onChange={(value)=>{
+                            onChange={(value) => {
                               handleForecastSelected(value);
                             }}>
                       {optionTextLabel(testLabelList)}
@@ -447,7 +453,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={screenLabelHandler}
-                            onChange={(value)=>{
+                            onChange={(value) => {
                               handleScreenSelected(value);
                             }}
                     >
@@ -463,7 +469,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={assessmentLabelHandler}
-                            onChange={(value)=>{
+                            onChange={(value) => {
                               handleAssessmentSelected(value);
                             }}
                     >
@@ -475,30 +481,30 @@ const CreateTestItem: React.FC<{}> = () => {
               </Row>
 
               <Row gutter={[30, 16]}>
-                <Col span={formSpan}>{!(forecastSelected.length>0)?"":(
+                <Col span={formSpan}>{!(forecastSelected.length > 0) ? "" : (
                   <FormItem
                     name="forecastHours"
                     label="预测小时"
-                    rules={[{required:true,message:"请输入预测小时"}]}
+                    rules={[{required: true, message: "请输入预测小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-               )} </Col>
+                )} </Col>
 
-                <Col span={formSpan}> {!(screenSelected.length>0)?"":(
+                <Col span={formSpan}> {!(screenSelected.length > 0) ? "" : (
                   <FormItem
                     label="筛选小时"
                     name="screenHours"
-                    rules={[{required:true,message:"请输入筛选小时"}]}
+                    rules={[{required: true, message: "请输入筛选小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
                 )}</Col>
-                <Col span={formSpan}>{!(assessmentSelected.length>0)?"":(
+                <Col span={formSpan}>{!(assessmentSelected.length > 0) ? "" : (
                   <FormItem
                     label="考核小时"
                     name="assessmentHours"
-                    rules={[{required:true,message:"请输入考核小时"}]}
+                    rules={[{required: true, message: "请输入考核小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>

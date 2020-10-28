@@ -54,20 +54,20 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '片号',
       dataIndex: 'sliceNr',
     },
-    {
-      title: "父版号",
-      dataIndex: "fatherWaferNr"
-    },
-    {
-      title: "类型",
-      dataIndex: "type",
-      hideInSearch:true
-    },
-    {
-      title: "批次号",
-      dataIndex: "batchNr",
-      hideInSearch:true
-    },
+    // {
+    //   title: "父版号",
+    //   dataIndex: "fatherWaferNr"
+    // },
+    // {
+    //   title: "类型",
+    //   dataIndex: "type",
+    //   hideInSearch:true
+    // },
+    // {
+    //   title: "批次号",
+    //   dataIndex: "batchNr",
+    //   hideInSearch:true
+    // },
     {
       title: "状态",
       dataIndex: "status",
@@ -110,6 +110,10 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '销售订单',
       dataIndex: 'bindSalesOrder',
+    },
+    {
+      title: '数量',
+      dataIndex: 'quantity',
     }
   ];
 

@@ -61,14 +61,31 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '版号',
       dataIndex: ["center", 'waferNr'],
     },
+
     {
       title: '片号',
       dataIndex: ["center", 'sliceNr'],
     },
     {
+      title: '父版号',
+      dataIndex: ["center", 'waferWarehouse','fatherWaferNr'],
+    },
+    {
+      title: '圆片状态',
+      dataIndex: ["center", 'waferWarehouse','status'],
+    },
+    {
       title: "二级任务号",
       dataIndex: "secondOrder"
-    }
+    },
+    {
+      title: '产品类型',
+      dataIndex: ["productType"],
+    },
+    {
+      title: '任务类型',
+      dataIndex: ["orderType"],
+    },
   ];
 
   const createButton = (params: any) => {
@@ -98,7 +115,7 @@ const CreateTestItem: React.FC<{}> = () => {
         actionRef={stockActionRef}
         formRef={stockFormRef}
         {...proTableProps}
-        rowKey={(record)=>{
+        rowKey={(record) => {
           return record.center.id
         }}
         // @ts-ignore

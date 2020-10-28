@@ -112,7 +112,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '提供方式',
-      dataIndex: 'tgfs',
+      dataIndex: ["lTgfs",'lTgfsname'],
       hideInSearch: true
     },
     {
@@ -213,10 +213,10 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '版号',
       dataIndex: ['waferNr'],
     },
-    // {
-    //   title: '片号',
-    //   dataIndex: ['sliceNr'],
-    // },
+    {
+      title: '片号',
+      dataIndex: ['sliceNr'],
+    },
     {
       title: '型号',
       dataIndex: ['modelNr'],
