@@ -118,7 +118,7 @@ const CreateTestItem: React.FC<{}> = () => {
   ];
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments();
+    const equipments = await queryEquipments({type:"划片"});
     const equipmentSearch = {};
     // eslint-disable-next-line no-unused-expressions
     handleEquipmentSelectItem(equipments?.map((op: EquipmentItem) => {

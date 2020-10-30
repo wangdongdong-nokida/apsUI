@@ -1,14 +1,14 @@
 import request from 'umi-request';
-import {SecondOrder, TableListParams, TestParameter} from './data';
+import {SecondOrder} from './data';
 
 
 
 
-export async function querySecondOrder(searchInfo?: SecondOrder) {
+export async function querySecondOrder(params?: {}) {
   return request('/server/secondOrder/findSecondOrders', {
     method: "post",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
@@ -22,29 +22,21 @@ export async function createTestItem(params: any) {
   });
 }
 
-export async function queryWaferWarehouse(searchInfo?: SecondOrder) {
+export async function queryWaferWarehouse(params?: {}) {
   return request('/server/waferWarehouse/findAllByPage', {
     method: "post",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
 
-export async function queryEquipments(searchInfo?: TableListParams) {
+export async function queryEquipments(params?: {}) {
   return request('/server/equipment/getByUser', {
-    params: searchInfo,
+    method: "post",
+    data: {params},
   });
 }
 
-export async function removeRule(searchInfo: { key: number[] }) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: {
-      ...searchInfo,
-      method: 'delete',
-    },
-  });
-}
 
 

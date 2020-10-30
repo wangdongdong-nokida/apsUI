@@ -1,6 +1,4 @@
 import request from 'umi-request';
-import {SecondOrder, TableListParams} from './data';
-
 
 
 export async function createTestItem(params: any) {
@@ -12,19 +10,20 @@ export async function createTestItem(params: any) {
   });
 }
 
-export async function queryWaferWarehouse(searchInfo?: SecondOrder) {
+export async function queryWaferWarehouse(params?: {}) {
   return request('/server/scribingItem/getScribingItem', {
     method: "post",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
 
 
-export async function queryEquipments(searchInfo?: TableListParams) {
+export async function queryEquipments(params?: {}) {
   return request('/server/equipment/getByUser', {
-    params: searchInfo,
+    method: "post",
+    data: {params},
   });
 }
 

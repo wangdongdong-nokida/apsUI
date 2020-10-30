@@ -45,13 +45,13 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "15", "20", "40"], pageSize: 20},
-    scroll: {y: 700, x: 2500, scrollToFirstRowOnChange: true},
+    scroll: {y: 700, x: 3000, scrollToFirstRowOnChange: true},
     rowKey: "id",
     search: {span: 8},
     bordered: true,
-    beforeSearchSubmit: (searchInfo: any) => {
+    beforeSearchSubmit: (params: any) => {
       return {
-        params: searchInfo,
+        params: params,
         orderBy: "indexOrder"
       }
     }
@@ -111,7 +111,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '二级任务号',
-      dataIndex: ["scheduleTestItem","secondOrder", 'name'],
+      dataIndex: ["scheduleTestItem", "secondOrder", 'name'],
       hideInSearch: true
     },
     {
@@ -120,21 +120,22 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '测试备注',
-      dataIndex: ["scheduleTestItem", 'testBrief'],
+      dataIndex: ["scheduleTestItem", 'secondOrder', 'csbz'],
     },
     {
       title: '流片进度',
-      dataIndex: ["scheduleTestItem", 'arrivalProgress'],
+      dataIndex: ["scheduleTestItem", 'testScribingCenter', "waferWarehouse", "lLpjd", "jdb"],
       hideInSearch: true
     },
     {
       title: '流片更新时间',
-      dataIndex: ["scheduleTestItem", 'arrivalUpdateTime'],
+      dataIndex: ["scheduleTestItem", 'testScribingCenter', "waferWarehouse", "lLpjd", "rpsj"],
+      valueType:"date",
       hideInSearch: true
     },
     {
       title: '入库时间',
-      dataIndex: ["scheduleTestItem", 'warehousingTime'],
+      dataIndex: ["scheduleTestItem", 'testScribingCenter', "waferWarehouse", 'DPSJ'],
       hideInSearch: true
     },
     {
@@ -169,7 +170,7 @@ const CreateTestItem: React.FC<{}> = () => {
   ];
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments();
+    const equipments = await queryEquipments({type: "测试"});
     const equipmentSearch = {};
     // eslint-disable-next-line no-unused-expressions
     handleEquipmentSelectItem(equipments?.map((op: EquipmentItem) => {

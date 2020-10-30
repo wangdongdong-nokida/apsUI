@@ -90,26 +90,57 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'waferModelNr',
     },
     {
-      title: '产品类型',
-      dataIndex: ['productType', "name"],
-    },
-    {
       title: '测试要求完成时间',
       dataIndex: ['testFinishedDateRequired'],
       valueType: "date",
-      hideInSearch:true
+      hideInSearch: true
     },
     {
       title: '任务类型',
       dataIndex: 'type',
+      hideInSearch: true
+    },
+    {
+      title: '任务类型',
+      dataIndex: 'type',
+      hideInTable: true,
+      valueEnum: {
+        生产: "生产",
+        研制: "研制",
+        考核: "考核"
+      }
     },
     {
       title: '任务状态',
       dataIndex: 'status',
+      hideInSearch:true
+    },
+    {
+      title: '任务状态',
+      dataIndex: 'status',
+      hideInTable: true,
+      valueEnum: {
+        未发布: "未发布",
+        已发布: "已发布",
+        完成: "完成",
+        中止: "中止",
+        暂停: "暂停",
+      }
     },
     {
       title: '产品类型',
       dataIndex: ['productType', "name"],
+      hideInSearch:true
+    },
+    {
+      title: '产品类型',
+      dataIndex: ['productType', "name"],
+      hideInTable:true,
+      valueEnum: {
+        单片: "单片",
+        圆片: "圆片",
+        载体: "载体",
+      }
     },
     {
       title: '测试班组',
@@ -118,7 +149,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '测试调度备注',
       dataIndex: ['testBrief'],
-      hideInSearch:true
+      hideInSearch: true
     },
   ];
 
@@ -289,7 +320,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments();
+    const equipments = await queryEquipments({type: "测试"});
     handleEquipment(equipments);
   };
 

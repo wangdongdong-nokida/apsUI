@@ -122,7 +122,7 @@ const PickingSchedule: React.FC<{}> = () => {
   ];
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments();
+    const equipments = await queryEquipments({type:"挑粒镜检"});
     const equipmentSearch = {};
     // eslint-disable-next-line no-unused-expressions
     handleEquipmentSelectItem(equipments?.map((op: EquipmentItem) => {

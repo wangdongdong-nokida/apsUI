@@ -1,5 +1,4 @@
 import request from 'umi-request';
-import {TableListParams} from './data';
 
 export async function createTestItem(params: any) {
   return request('/server/scribingItem/createNoStock', {
@@ -10,9 +9,10 @@ export async function createTestItem(params: any) {
   });
 }
 
-export async function queryEquipments(searchInfo?: TableListParams) {
+export async function queryEquipments(params?: {}) {
   return request('/server/equipment/getByUser', {
-    params: searchInfo,
+    method: "post",
+    data: {params},
   });
 }
 
@@ -24,13 +24,4 @@ export async function getEquipmentEndDate(searchInfo?:any) {
   });
 }
 
-export async function removeRule(searchInfo: { key: number[] }) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: {
-      ...searchInfo,
-      method: 'delete',
-    },
-  });
-}
 

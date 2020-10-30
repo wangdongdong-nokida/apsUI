@@ -4,39 +4,39 @@ import {ReactText} from "react";
 import {Key} from "antd/es/table/interface";
 
 
-export async function editBrief(searchInfo?: { [key: string]: string }) {
+export async function editBrief(params?: { [key: string]: string }) {
   return request('/server/scribingItem/editBrief', {
     method: "POST",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
 
-export async function editDurationTime(searchInfo?: { [key: string]: ReactText[] }) {
+export async function editDurationTime(params?: { [key: string]: ReactText[] }) {
   return request('/server/testItem/editDurationTime', {
     method: "POST",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
 
-export async function editEquipment(searchInfo?: { [key: string]: string }) {
+export async function editEquipment(params?: { [key: string]: string }) {
   return request('/server/testItem/editEquipment', {
     method: "POST",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
 
 
-export async function queryTestItem(searchInfo?: TableListParams) {
+export async function queryTestItem(params?: TableListParams) {
   return request('/server/testItem/findAll', {
     method: "POST",
     data: {
-      ...searchInfo,
+      ...params,
     }
   });
 }
@@ -50,12 +50,12 @@ export async function moveTask(search:{moveKeys:Key[],toPlace:Key[],equipmentId:
   })
 }
 
-export async function testItemDelete(equipmentId:[any],searchInfo?: ReactText[]) {
+export async function testItemDelete(equipmentId:[any],params?: ReactText[]) {
   return request('/server/testItem/testItemDelete', {
     method: "POST",
     data: {
       equipmentId,
-      ids:searchInfo,
+      ids:params,
     }
   });
 }

@@ -2,18 +2,17 @@ import request from 'umi-request';
 import {SecondOrder, TableListParams, TestParameter} from './data';
 
 
-
-export async function querySecondOrder(searchInfo?: SecondOrder) {
+export async function querySecondOrder(params?: SecondOrder) {
   return request('/server/secondOrder/findSecondOrders', {
     method: "post",
     data: {
-      ...searchInfo,
-      testContainer:true
+      ...params,
+      testContainer: true
     }
   });
 }
 
-export  async function createTestItem(params:any) {
+export async function createTestItem(params: any) {
   return request('/server/testItem/create', {
     method: "post",
     data: {
@@ -23,26 +22,27 @@ export  async function createTestItem(params:any) {
 
 }
 
-export async function queryEquipments(searchInfo?: TableListParams) {
+export async function queryEquipments(params?: {}) {
   return request('/server/equipment/getByUser', {
-    params: searchInfo,
+    method: "post",
+    data: {params},
   });
 }
 
-export async function queryTextLabel(searchInfo?: TestParameter) {
+export async function queryTextLabel(params?: TestParameter) {
   return request('/server/testParameter/findAllByParams', {
     method: "post",
     data: {
-      params: searchInfo,
+      params,
     }
   });
 }
 
-export async function removeRule(searchInfo: { key: number[] }) {
+export async function removeRule(params: { key: number[] }) {
   return request('/api/rule', {
     method: 'POST',
     data: {
-      ...searchInfo,
+      ...params,
       method: 'delete',
     },
   });

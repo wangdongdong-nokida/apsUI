@@ -113,7 +113,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments();
+    const equipments = await queryEquipments({type:"测试"});
     handleEquipment(equipments);
 
     const date = moment();

@@ -94,7 +94,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments();
+    const equipments = await queryEquipments({type:"划片"});
     handleEquipment(equipments);
   };
 

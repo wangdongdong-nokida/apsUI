@@ -54,24 +54,35 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '片号',
       dataIndex: 'sliceNr',
     },
-    // {
-    //   title: "父版号",
-    //   dataIndex: "fatherWaferNr"
-    // },
-    // {
-    //   title: "类型",
-    //   dataIndex: "type",
-    //   hideInSearch:true
-    // },
-    // {
-    //   title: "批次号",
-    //   dataIndex: "batchNr",
-    //   hideInSearch:true
-    // },
     {
       title: "状态",
       dataIndex: "status",
-      hideInSearch:true
+      hideInSearch: true
+    },
+    {
+      title: "合同号",
+      dataIndex: "bindingContracts",
+      hideInSearch: true
+    },
+    {
+      title: "客户",
+      dataIndex: "bindingCustomers",
+      hideInSearch: true
+    },
+    {
+      title: "订单数量",
+      dataIndex: "bindingQuantity",
+      hideInSearch: true
+    },
+    {
+      title: "订单类型",
+      dataIndex: "bindingSalesOrderType",
+      hideInSearch: true
+    },
+    {
+      title: "销售订单号",
+      dataIndex: "bindingSalesOrders",
+      hideInSearch: true
     },
     {
       title: "备注",
@@ -120,33 +131,33 @@ const CreateTestItem: React.FC<{}> = () => {
   const pickingOrderColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: [ "id"],
+      dataIndex: ["id"],
       hideInSearch: true,
       hideInTable: true
     },
     {
       title: '版号',
-      dataIndex: [ 'waferNr'],
+      dataIndex: ['waferNr'],
     },
     {
       title: '片号',
-      dataIndex: [ 'sliceNr'],
+      dataIndex: ['sliceNr'],
     },
     {
       title: '型号',
-      dataIndex: [ 'modelNr'],
+      dataIndex: ['modelNr'],
     },
     {
       title: "电路序号",
-      dataIndex: [ "circuitNr"]
+      dataIndex: ["circuitNr"]
     },
     {
       title: '圆片状态',
-      dataIndex: [ 'sliceState'],
+      dataIndex: ['sliceState'],
     },
     {
       title: '销售订单',
-      dataIndex: [ 'bindSalesOrder'],
+      dataIndex: ['bindSalesOrder'],
     }
   ];
 
@@ -159,7 +170,7 @@ const CreateTestItem: React.FC<{}> = () => {
   return (
     <PageHeaderWrapper>
 
-{/*
+      {/*
       <Row>
         <Col span={24}>
           <TableForm/>
@@ -197,7 +208,7 @@ const CreateTestItem: React.FC<{}> = () => {
       <Row>
         <Col span={24}>
           <ProTable
-            headerTitle="型号信息(片装)"
+            headerTitle="物料状态(片装)"
             actionRef={stockActionRef}
             formRef={stockFormRef}
             {...proTableProps}
@@ -249,7 +260,7 @@ const CreateTestItem: React.FC<{}> = () => {
           />
         </Col>
       </Row>
-      <Row  gutter={[30, 16]}>
+      <Row gutter={[30, 16]}>
         <Col span={24}>
           <ProTable
             headerTitle="已建挑粒明细"
