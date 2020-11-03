@@ -52,11 +52,11 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true,
       hideInTable: true
     },
-    // {
-    //   title: '型号',
-    //   dataIndex: 'xh',
-    //   fixed: true
-    // },
+    {
+      title: '型号',
+      dataIndex: 'xh',
+      fixed: true
+    },
     {
       title: '订单数量',
       dataIndex: 'DGSL',
@@ -85,10 +85,10 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '订单号',
       dataIndex: 'l_ddname',
     },
-    {
-      title: '版号',
-      dataIndex: 'bh',
-    },
+    // {
+    //   title: '版号',
+    //   dataIndex: 'bh',
+    // },
     {
       title: '订单状态',
       dataIndex: 'ddzt',

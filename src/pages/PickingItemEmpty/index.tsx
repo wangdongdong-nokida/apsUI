@@ -85,7 +85,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '客户',
-      dataIndex: 'khjc',
+      dataIndex: ['lHt', "KH"],
       fixed: true
     },
     {
@@ -100,10 +100,10 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '订单号',
       dataIndex: 'lHtname',
     },
-    {
-      title: '版号',
-      dataIndex: 'bh',
-    },
+    // {
+    //   title: '版号',
+    //   dataIndex: 'bh',
+    // },
     {
       title: '订单状态',
       dataIndex: 'ddzt',
