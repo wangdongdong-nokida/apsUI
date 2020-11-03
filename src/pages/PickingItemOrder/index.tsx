@@ -52,14 +52,14 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true,
       hideInTable: true
     },
-    {
-      title: '型号',
-      dataIndex: 'xh',
-      fixed: true
-    },
+    // {
+    //   title: '型号',
+    //   dataIndex: 'xh',
+    //   fixed: true
+    // },
     {
       title: '订单数量',
-      dataIndex: 'ddsl',
+      dataIndex: 'DGSL',
       hideInSearch: true,
       fixed: true
     },
@@ -70,7 +70,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '客户',
-      dataIndex: 'khjc',
+      dataIndex: ['lHt', "KH"],
       fixed: true
     },
     {
@@ -83,7 +83,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '订单号',
-      dataIndex: 'ddh',
+      dataIndex: 'l_ddname',
     },
     {
       title: '版号',

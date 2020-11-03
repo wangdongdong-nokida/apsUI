@@ -31,6 +31,10 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const [secondOrderList, handleSecondOrderList] = useState<Key>();
 
+  const [forecastSelected, handleForecastSelected] = useState<[]>([]);
+  const [assessmentSelected, handleAssessmentSelected] = useState<[]>([]);
+  const [screenSelected, handleScreenSelected] = useState<[]>([]);
+
   const formSpan = 6;
   const inputStyle = {width: "100%"};
   const proTableProps = {
@@ -79,7 +83,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '产品类型',
-      dataIndex: ['productType',"name"],
+      dataIndex: ['productType', "name"],
     }
   ];
 
@@ -113,7 +117,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments({type:"测试"});
+    const equipments = await queryEquipments({type: "测试"});
     handleEquipment(equipments);
 
     const date = moment();
@@ -135,7 +139,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const onSecondOrderSelect = (selectedRowKeys: Key[], selectedRows: any) => {
     handleSecondOrderList(selectedRowKeys[0]);
     if (selectedRows.length > 0) {
-      const modelNr: string|undefined= selectedRows[0].waferModelNr;
+      const modelNr: string | undefined = selectedRows[0].waferModelNr;
       handlerWaferModelNr(modelNr);
     }
   };
@@ -171,8 +175,8 @@ const CreateTestItem: React.FC<{}> = () => {
                   >
                     <Select style={inputStyle}
                             onFocus={equipmentHandler}
-                            onChange={async (selectValue) =>{
-                              const date=moment(await getEquipmentEndDate(selectValue));
+                            onChange={async (selectValue) => {
+                              const date = moment(await getEquipmentEndDate(selectValue));
                               form.setFieldsValue({"planningStartTime": date.clone()});
                               form.setFieldsValue({"planningFinishTime": date.clone()});
                               form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
@@ -201,7 +205,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={testLabelHandler}
-                    >
+                            onChange={(value) => {
+                              handleForecastSelected(value);
+                            }}>
                       {optionTextLabel(testLabelList)}
                     </Select>
                   </FormItem>
@@ -213,6 +219,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={screenLabelHandler}
+                            onChange={(value) => {
+                              handleScreenSelected(value);
+                            }}
                     >
                       {optionTextLabel(screenLabelList)}
                     </Select>
@@ -226,6 +235,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     <Select style={inputStyle}
                             mode="multiple"
                             onFocus={assessmentLabelHandler}
+                            onChange={(value) => {
+                              handleAssessmentSelected(value);
+                            }}
                     >
                       {optionTextLabel(assessmentLabelList)}
                     </Select>
@@ -235,32 +247,34 @@ const CreateTestItem: React.FC<{}> = () => {
               </Row>
 
               <Row gutter={[30, 16]}>
-
-                <Col span={formSpan}>
+                <Col span={formSpan}>{!(forecastSelected.length > 0) ? "" : (
                   <FormItem
                     name="forecastHours"
                     label="预测小时"
+                    rules={[{required: true, message: "请输入预测小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-                </Col>
+                )} </Col>
 
-                <Col span={formSpan}>
+                <Col span={formSpan}> {!(screenSelected.length > 0) ? "" : (
                   <FormItem
                     label="筛选小时"
                     name="screenHours"
+                    rules={[{required: true, message: "请输入筛选小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-                </Col>
-                <Col span={formSpan}>
+                )}</Col>
+                <Col span={formSpan}>{!(assessmentSelected.length > 0) ? "" : (
                   <FormItem
                     label="考核小时"
                     name="assessmentHours"
+                    rules={[{required: true, message: "请输入考核小时"}]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
-                </Col>
+                )}</Col>
               </Row>
 
               <Row gutter={[30, 16]}>
@@ -305,7 +319,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     secondOrder: secondOrderList,
                     waferNr: productFormRef?.current?.getFieldValue("wafer-nr"),
                     testContainer: true,
-                    modelNr:waferModelNr,
+                    modelNr: waferModelNr,
                   });
                   hide();
                   message.success('创建成功');
