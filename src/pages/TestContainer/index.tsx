@@ -23,7 +23,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const secondActionRef = useRef<ActionType>();
 
   const [waferModelNr, handlerWaferModelNr] = useState<{}>();
-  // const [selectedWaferNr, handlerSelectedWaferNr] = useState<{}>();
+  const [selectedWaferNr, handlerSelectedWaferNr] = useState<{}>();
   const [equipmentList, handleEquipment] = useState<EquipmentItem[]>();
   const [testLabelList, handleTestLabel] = useState<TestParameter[]>();
   const [screenLabelList, handleScreenLabel] = useState<TestParameter[]>();
@@ -140,7 +140,9 @@ const CreateTestItem: React.FC<{}> = () => {
     handleSecondOrderList(selectedRowKeys[0]);
     if (selectedRows.length > 0) {
       const modelNr: string | undefined = selectedRows[0].waferModelNr;
+      const {waferNr} = selectedRows[0];
       handlerWaferModelNr(modelNr);
+      handlerSelectedWaferNr(waferNr);
     }
   };
 
@@ -317,7 +319,7 @@ const CreateTestItem: React.FC<{}> = () => {
                   await createButton({
                     ...submitForm,
                     secondOrder: secondOrderList,
-                    waferNr: productFormRef?.current?.getFieldValue("wafer-nr"),
+                    waferNr: selectedWaferNr,
                     testContainer: true,
                     modelNr: waferModelNr,
                   });

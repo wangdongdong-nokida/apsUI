@@ -74,7 +74,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '订单数量',
-      dataIndex: 'ddsl',
+      dataIndex: 'dgsl',
       hideInSearch: true,
       fixed: true
     },
@@ -98,7 +98,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '订单号',
-      dataIndex: 'lHtname',
+      dataIndex: 'lDdname',
     },
     // {
     //   title: '版号',

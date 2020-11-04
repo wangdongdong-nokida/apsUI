@@ -38,7 +38,7 @@ export const EditEquipment: React.FC<EditEquipmentProps> = (props) => {
     <Modal visible={modalVisible} onCancel={onCancel} onOk={onOk} destroyOnClose>
       <Form form={form}>
         <FormItem rules={[{required: true, message: "请选择设备！"}]} label="设备" name="equipmentID">
-          <Select style={{width: "70%"}} defaultValue={params.equipments[0]?.props?.value}>
+          <Select style={{width: "70%"}}>
             {params.equipments}
           </Select>
         </FormItem>
