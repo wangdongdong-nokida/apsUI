@@ -40,7 +40,7 @@ const CreateTestItem: React.FC<{}> = () => {
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: searchInfo
+        searchInfo
       }
     }
   };
@@ -48,42 +48,42 @@ const CreateTestItem: React.FC<{}> = () => {
   const order: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: 'id',
+      dataIndex: ['salesOrder','id'],
       hideInSearch: true,
       hideInTable: true
     },
     {
       title: '型号',
-      dataIndex: 'xh',
+      dataIndex: ['salesOrder','xh'],
       fixed: true
     },
     {
       title: '订单数量',
-      dataIndex: 'dgsl',
+      dataIndex: ['salesOrder','dgsl'],
       hideInSearch: true,
       fixed: true
     },
     {
       title: '合同号',
-      dataIndex: ['lHt', "lHtname"],
+      dataIndex: ['salesOrder','lHt', "lHtname"],
       fixed: true
     },
     {
       title: '客户',
-      dataIndex: ['lHt', "KH"],
+      dataIndex: ['salesOrder','lHt', "kh"],
       fixed: true
     },
     {
       title: '合同备注',
-      dataIndex: ['lHt', "bz"],
+      dataIndex: ['salesOrder','lHt', "bz"],
     },
     {
       title: '订单类别',
-      dataIndex: 'ddlb',
+      dataIndex: ['salesOrder','ddlb'],
     },
     {
       title: '订单号',
-      dataIndex: 'lDdname',
+      dataIndex: ['salesOrder','lDdname'],
     },
     // {
     //   title: '版号',
@@ -91,62 +91,58 @@ const CreateTestItem: React.FC<{}> = () => {
     // },
     {
       title: '订单状态',
-      dataIndex: 'ddzt',
+      dataIndex: ['salesOrder','ddzt'],
       hideInSearch: true
     },
 
     {
       title: '是否军检',
-      dataIndex: 'sfjj',
+      dataIndex: ['salesOrder','sfjj'],
       hideInSearch: true
     },
     {
       title: '是否监制',
-      dataIndex: 'sfjz',
+      dataIndex: ['salesOrder','sfjz'],
       hideInSearch: true
     },
     {
       title: '是否重点',
-      dataIndex: 'SFZDGC',
+      dataIndex: ['salesOrder','SFZDGC'],
       hideInSearch: true
     },
     {
       title: '提供方式',
-      dataIndex: ["lTgfs",'lTgfsname'],
+      dataIndex: ['salesOrder',"lTgfs", 'lTgfsname'],
       hideInSearch: true
     },
     {
       title: '预发货日期',
-      dataIndex: 'yfhrq',
+      dataIndex: ['salesOrder','yfhrq'],
       hideInSearch: true
     },
     {
       title: '检验完成时间',
-      dataIndex: 'jywcsj',
+      dataIndex: ['salesOrder','jywcsj'],
       hideInSearch: true
     },
     {
       title: "父版号",
-      dataIndex: "fatherWaferNr",
+      dataIndex: ['salesOrder',"fatherWaferNr"],
       hideInSearch: true
     },
     {
       title: "类型",
-      dataIndex: "type",
+      dataIndex: ['salesOrder',"type"],
       hideInSearch: true
     },
     {
       title: "批次号",
-      dataIndex: "batchNr",
+      dataIndex: ['salesOrder',"batchNr"],
       hideInSearch: true
     },
     {
-      title: "状态",
-      dataIndex: "status"
-    },
-    {
       title: "备注",
-      dataIndex: "bz",
+      dataIndex: ['salesOrder',"bz"],
       hideInSearch: true
     }
   ];
@@ -250,6 +246,9 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={secondOrderActionRef}
             formRef={secondOrderFormRef}
             {...proTableProps}
+            rowKey={(record, index)=>{
+              return record?.salesOrder?.id;
+            }}
             toolBarRender={(action, {selectedRowKeys}) => [
               selectedRowKeys && selectedRowKeys.length > 0 && <Button
                 icon={<PlusOutlined/>}
@@ -284,12 +283,11 @@ const CreateTestItem: React.FC<{}> = () => {
               type: "radio",
               onChange: (selectedRowKeys, selectRowItem) => {
                 handleSalesOrder(selectedRowKeys);
-                handlerddh(selectRowItem ? selectRowItem[0]?.ddh : "");
+                handlerddh(selectRowItem ? selectRowItem[0]?.salesOrder?.ddh : "");
               }
             }}
           />
         </Col>
-
 
       </Row>
 
