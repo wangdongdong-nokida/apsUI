@@ -93,6 +93,10 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '订单数量',
       dataIndex: ['salesOrderQuantities'],
       hideInSearch: true
+    },
+    {
+      title: '数量',
+      dataIndex: ['quantity'],
     }
   ];
 
@@ -107,10 +111,10 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '显示方式',
       dataIndex: ["showType"],
       hideInTable: true,
-      valueEnum:{
-        total:"所有",
-        created:"已排",
-        uncreated:"未排"
+      valueEnum: {
+        total: "所有",
+        created: "已排",
+        uncreated: "未排"
       }
     },
     {
@@ -280,28 +284,29 @@ const CreateTestItem: React.FC<{}> = () => {
               }
             }}
             toolBarRender={(action, {selectedRowKeys, selectedRows}) => [
-              selectedRowKeys && selectedRowKeys.length > 0 && <Button type="primary" icon={<EditOutlined/>}
-                                                                       onClick={() => {
-                                                                         if (selectedRows && selectedRows.length > 0) {
-                                                                           let operationType = null;
-                                                                           for (let row = 0; row < selectedRows.length; row += 1) {
-                                                                             if (operationType && operationType !== selectedRows[row].workStepName) {
-                                                                               message.error("请选中相同的工序");
-                                                                               return;
-                                                                             }
-                                                                             operationType = selectedRows[row].workStepName;
-                                                                           }
-                                                                           const insideEquipments = selectedRows[0] && selectedRows[0].equipments ? selectedRows[0].equipments : null;
-                                                                           const options = insideEquipments ? insideEquipments.map((key) => (
-                                                                             <Select.Option key={key.id} value={key.id}>
-                                                                               {key.name}
-                                                                             </Select.Option>)
-                                                                           ) : null;
+              selectedRowKeys && selectedRowKeys.length > 0 &&
+              <Button type="primary" icon={<EditOutlined/>}
+                      onClick={() => {
+                        if (selectedRows && selectedRows.length > 0) {
+                          let operationType = null;
+                          for (let row = 0; row < selectedRows.length; row += 1) {
+                            if (operationType && operationType !== selectedRows[row].workStepName) {
+                              message.error("请选中相同的工序");
+                              return;
+                            }
+                            operationType = selectedRows[row].workStepName;
+                          }
+                          const insideEquipments = selectedRows[0] && selectedRows[0].equipments ? selectedRows[0].equipments : null;
+                          const options = insideEquipments ? insideEquipments.map((key) => (
+                            <Select.Option key={key.id} value={key.id}>
+                              {key.name}
+                            </Select.Option>)
+                          ) : null;
 
-                                                                           handleEquipments(options);
-                                                                           handlerEquipmentVisible(true);
-                                                                         }
-                                                                       }}>排产</Button>,
+                          handleEquipments(options);
+                          handlerEquipmentVisible(true);
+                        }
+                      }}>排产</Button>,
               selectedRowKeys && selectedRowKeys.length > 0 && (
                 <Dropdown
                   overlay={
@@ -389,7 +394,7 @@ const CreateTestItem: React.FC<{}> = () => {
               request={async (params) => {
                 return getWorkStep(params);
               }}
-              params={{params: {"workFlow-ID": workFlow}}}
+              params={{params: {"workFlow-ID": workFlow}, orderBy: "SEQUENCE"}}
               columns={[
                 {
                   title: "工序名称",

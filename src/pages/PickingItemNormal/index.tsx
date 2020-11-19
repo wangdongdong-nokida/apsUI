@@ -158,6 +158,10 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '销售订单',
       dataIndex: ['bindSalesOrder'],
+    },
+    {
+      title: '数量',
+      dataIndex: ['quantity'],
     }
   ];
 
@@ -177,34 +181,32 @@ const CreateTestItem: React.FC<{}> = () => {
         </Col>
       </Row>
 */}
-      <Row>
-        <Col>
-          <Row gutter={[30, 16]}>
-            <Col span={24}>
-              <ProTable
-                headerTitle="库存信息"
-                actionRef={stockActionRef}
-                formRef={stockFormRef}
-                {...proTableProps}
-                scroll={{y: 500, x: 1800, scrollToFirstRowOnChange: true}}
-                request={(params) => {
-                  return queryWaferWarehouse(params);
-                }}
-                columns={waferColumn}
-                rowSelection={{
-                  type: "radio",
-                  onChange: (selectedRowKeys) => {
-                    handleStockList(selectedRowKeys);
-                    if (productFormRef && productFormRef.current) {
-                      productFormRef.current.submit();
-                    }
-                  }
-                }}
-              />
-            </Col>
-          </Row>
+
+      <Row gutter={[30, 16]}>
+        <Col span={24}>
+          <ProTable
+            headerTitle="库存信息"
+            actionRef={stockActionRef}
+            formRef={stockFormRef}
+            {...proTableProps}
+            scroll={{y: 500, x: 1800, scrollToFirstRowOnChange: true}}
+            request={(params) => {
+              return queryWaferWarehouse(params);
+            }}
+            columns={waferColumn}
+            rowSelection={{
+              type: "radio",
+              onChange: (selectedRowKeys) => {
+                handleStockList(selectedRowKeys);
+                if (productFormRef && productFormRef.current) {
+                  productFormRef.current.submit();
+                }
+              }
+            }}
+          />
         </Col>
       </Row>
+
       <Row>
         <Col span={24}>
           <ProTable

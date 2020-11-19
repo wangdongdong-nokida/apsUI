@@ -120,7 +120,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '测试备注',
-      dataIndex: ["scheduleTestItem", 'secondOrder', 'csbz'],
+      dataIndex: ["scheduleTestItem", 'secondOrder', 'testBrief'],
     },
     {
       title: '流片进度',

@@ -293,7 +293,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const testLabelHandler = async () => {
-    const testLabel = await queryTextLabel({type: "测试"});
+    const testLabel = await queryTextLabel({type: "预测"});
     handleTestLabel(testLabel.data);
   };
 

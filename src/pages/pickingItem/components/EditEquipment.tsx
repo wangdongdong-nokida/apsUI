@@ -45,9 +45,11 @@ export const EditEquipment: React.FC<EditEquipmentProps> = (props) => {
         <FormItem rules={[{required: true, message: "请输入生产时间！"}]} label="生产时间" name="durationTime">
           <InputNumber style={{width: "70%"}}/>
         </FormItem>
+{/*
         <FormItem rules={[{required: true, message: "请输入生产数量！"}]} label="生产数量" name="quantity">
           <InputNumber style={{width: "70%"}}/>
         </FormItem>
+*/}
       </Form>
     </Modal>
   )
