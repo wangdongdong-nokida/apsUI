@@ -96,7 +96,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '明细备注',
-      dataIndex: ["scheduleScribingItem", 'itemBrief'],
+      dataIndex: ["scheduleScribingItem", 'brief'],
     },
     {
       title: '生产时长',

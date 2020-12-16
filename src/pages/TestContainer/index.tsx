@@ -57,13 +57,14 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInTable: true,
       hideInSearch: true
     },
-    {
-      title: '编号',
-      dataIndex: 'nr',
-    },
+    // {
+    //   title: '编号',
+    //   dataIndex: 'nr',
+    // },
     {
       title: '名称',
       dataIndex: 'name',
+      hideInSearch:true
     },
     {
       title: '版号',
@@ -84,6 +85,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '产品类型',
       dataIndex: ['productType', "name"],
+      hideInSearch:true
     }
   ];
 

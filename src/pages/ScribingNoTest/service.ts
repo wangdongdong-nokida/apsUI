@@ -1,7 +1,4 @@
 import request from 'umi-request';
-import {SecondOrder} from './data';
-
-
 
 
 export async function querySecondOrder(params?: {}) {
@@ -9,6 +6,7 @@ export async function querySecondOrder(params?: {}) {
     method: "post",
     data: {
       ...params,
+      noTest: true
     }
   });
 }

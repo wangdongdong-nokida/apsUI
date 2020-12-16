@@ -94,6 +94,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '测试类型',
       dataIndex: ["scheduleTestItem", 'testType'],
+      valueEnum:{
+        "预测":"预测",
+        "筛选":"筛选",
+        "考核":"考核"
+      }
     },
     {
       title: '测试参数',
@@ -117,10 +122,12 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '明细备注',
       dataIndex: ["scheduleTestItem", 'itemBrief'],
+      hideInSearch: true
     },
     {
       title: '测试备注',
       dataIndex: ["scheduleTestItem", 'secondOrder', 'testBrief'],
+      hideInSearch: true
     },
     {
       title: '流片进度',
@@ -135,17 +142,18 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '入库时间',
-      dataIndex: ["scheduleTestItem", 'testScribingCenter', "waferWarehouse", 'DPSJ'],
+      dataIndex: ["scheduleTestItem", 'testScribingCenter', "waferWarehouse", 'dpsj'],
       hideInSearch: true
     },
     {
       title: '到货延误',
-      dataIndex: ["scheduleTestItem", 'ArrivalDelay'],
+      dataIndex: ["scheduleTestItem", 'arrivalDelay'],
       hideInSearch: true
     },
     {
       title: '生产时长',
       dataIndex: "durationTime",
+      hideInSearch: true
     },
     {
       title: '排产开始时间',

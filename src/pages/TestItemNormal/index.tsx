@@ -10,6 +10,7 @@ import {EquipmentItem} from "@/pages/equipmentCalendar/data";
 import moment from "moment";
 import {FormInstance} from "antd/lib/form/Form";
 import {Key} from "antd/es/table/interface";
+import TextArea from "antd/lib/input/TextArea";
 import {WaferProduct, SecondOrder, TestParameter, Wafer} from './data';
 import {
   createTestItem, getEquipmentEndDate,
@@ -101,6 +102,31 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true
     },
     {
+      title: '任务级别',
+      dataIndex: 'urgency',
+      hideInSearch: true
+    },
+    {
+      title: '任务数量',
+      dataIndex: 'quantity',
+      hideInSearch: true
+    },
+    {
+      title: '任务来源',
+      dataIndex: 'rwly',
+      hideInSearch: true
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'applyDate',
+      hideInSearch: true
+    },
+    {
+      title: '测试调度备注',
+      dataIndex: 'testBrief',
+      hideInSearch: true
+    },
+    {
       title: '任务类型',
       dataIndex: 'type',
       hideInTable: true,
@@ -115,18 +141,18 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'status',
       hideInSearch:true
     },
-    {
-      title: '任务状态',
-      dataIndex: 'status',
-      hideInTable: true,
-      valueEnum: {
-        未发布: "未发布",
-        已发布: "已发布",
-        完成: "完成",
-        中止: "中止",
-        暂停: "暂停",
-      }
-    },
+    // {
+    //   title: '任务状态',
+    //   dataIndex: 'status',
+    //   hideInTable: true,
+    //   valueEnum: {
+    //     未发布: "未发布",
+    //     已发布: "已发布",
+    //     完成: "完成",
+    //     中止: "中止",
+    //     暂停: "暂停",
+    //   }
+    // },
     {
       title: '产品类型',
       dataIndex: ['productType', "name"],
@@ -145,6 +171,10 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '测试班组',
       dataIndex: ['csbz'],
+      valueEnum: {
+        测试A: "测试A",
+        测试B: "测试B",
+      }
     },
     {
       title: '测试调度备注',
@@ -190,7 +220,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const productColumns: ProColumns<WaferProduct>[] = [
     {
       title: '版号',
-      dataIndex: ["wafer", 'nr'],
+      dataIndex: ["==wafer", 'nr'],
       valueEnum: waferNrList,
       hideInTable: true,
     },
@@ -412,7 +442,7 @@ const CreateTestItem: React.FC<{}> = () => {
             // @ts-ignore
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo, waferNr: productFormRef?.current?.getFieldValue("wafer-nr")}
+                params: {...searchInfo, "==waferNr": productFormRef?.current?.getFieldValue("==wafer-nr")}
               }
             }}
             request={(params) => {
@@ -563,6 +593,17 @@ const CreateTestItem: React.FC<{}> = () => {
                     label="预估交片日期"
                     name="planningAvailableTime">
                     <DatePicker mode="date" style={inputStyle} disabled/>
+                  </FormItem>
+                </Col>
+              </Row>
+
+              <Row gutter={[30, 16]}>
+                <Col span={formSpan}>
+                  <FormItem
+                    label="备注"
+                    name="testBrief"
+                  >
+                    <TextArea style={inputStyle}/>
                   </FormItem>
                 </Col>
               </Row>

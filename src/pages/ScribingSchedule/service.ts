@@ -36,6 +36,7 @@ export async function queryTestItem(params?: TableListParams) {
   return request('/server/testItem/findAll', {
     method: "POST",
     data: {
+      orderBy:"indexOrder",
       ...params,
     }
   });

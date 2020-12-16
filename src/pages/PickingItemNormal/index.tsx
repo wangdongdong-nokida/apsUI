@@ -1,4 +1,4 @@
-import {Button, Col, Row, message, Menu, Dropdown} from 'antd';
+import {Button, Col, Row, message, Menu, Dropdown, Select, Tag} from 'antd';
 import React, {useState, useRef} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -21,6 +21,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const productFormRef = useRef<FormInstance>();
 
   const [stockList, handleStockList] = useState<Key[]>();
+  const [modelNr, handleModelNr] = useState<Key[]>();
   const [productList, handleProductList] = useState<Key[]>();
 
   const handleRemove = async (ids: any) => {
@@ -45,6 +46,15 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInSearch: true,
       hideInTable: true
+    },
+    {
+      title: '状态',
+      dataIndex: 'createState',
+      hideInTable:true,
+      valueEnum:{
+        created: "已创建",
+        uncreated: "未创建"
+      }
     },
     {
       title: '版号',
@@ -86,7 +96,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: "备注",
-      dataIndex: "brief"
+      dataIndex: "bindingContractBrief"
     }
   ];
 
@@ -107,8 +117,37 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ["waferWarehouse", 'sliceNr'],
     },
     {
+      title: '型号选择',
+      dataIndex: 'modelNrs',
+      render(text, record, action) {
+        const options = text?.map((value, number, record) => (
+          <Select.Option value={value} key={number}>
+            {value}
+          </Select.Option>
+        ));
+        handleModelNr(text ? text[0] : null);
+        return (
+          <Select style={{width: "100%"}} defaultValue={text ? text[0] : null} onChange={(value) => {
+            handleModelNr(value);
+          }}>
+            {options}
+          </Select>);
+      }
+    },
+    {
       title: '型号',
-      dataIndex: 'modelNr',
+      dataIndex: 'modelNrs',
+      render(text, record, action) {
+        return (
+          text?.map((value) => {
+            return (
+              <Tag>
+                {value}
+              </Tag>
+            )
+          })
+        );
+      }
     },
     {
       title: "电路序号",
@@ -174,14 +213,6 @@ const CreateTestItem: React.FC<{}> = () => {
   return (
     <PageHeaderWrapper>
 
-      {/*
-      <Row>
-        <Col span={24}>
-          <TableForm/>
-        </Col>
-      </Row>
-*/}
-
       <Row gutter={[30, 16]}>
         <Col span={24}>
           <ProTable
@@ -230,7 +261,8 @@ const CreateTestItem: React.FC<{}> = () => {
                     const hide = message.loading('正在添加');
                     try {
                       await createButton({
-                        modelIds: productList
+                        modelIds: productList,
+                        modelNrs: [modelNr]
                       });
                       hide();
                       message.success('创建成功');

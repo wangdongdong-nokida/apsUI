@@ -81,10 +81,11 @@ export async function schedulePickingItem(params?: any) {
   return request('/server/pickingItem/schedulePickingItem', {
     method: "post",
     data: {
-      "params":params,
+      "params": params,
     }
   });
 }
+
 
 
 

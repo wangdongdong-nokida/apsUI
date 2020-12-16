@@ -58,6 +58,15 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInTable: true,
     },
     {
+      title: '状态',
+      dataIndex: 'createState',
+      hideInTable: true,
+      valueEnum: {
+        created: "已设置",
+        uncreated: "未设置"
+      }
+    },
+    {
       title: '版号',
       dataIndex: ['waferNr'],
     },
@@ -71,23 +80,33 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: "电路序号",
-      dataIndex: ["circuitNr"]
+      dataIndex: ["circuitNr"],
+      hideInSearch: true
     },
     {
       title: "物料状态",
-      dataIndex: ["sliceState"]
+      dataIndex: ["sliceState"],
+      hideInSearch: true
     },
     {
       title: "物料类型",
       dataIndex: ["salesOrder"],
       render: (text) => {
         return text ? "芯片" : "圆片"
-      }
+      },
+      hideInSearch: true
     },
     {
       title: '销售订单',
       dataIndex: ['bindSalesOrder'],
-      hideInSearch: true
+    },
+    {
+      title: '客户',
+      dataIndex: ['bindCustomer'],
+    },
+    {
+      title: '合同',
+      dataIndex: ['bindContract'],
     },
     {
       title: '订单数量',
@@ -97,6 +116,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '数量',
       dataIndex: ['quantity'],
+      hideInSearch: true
     }
   ];
 
@@ -120,7 +140,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ['waferNr'],
-      hideInSearch: true
+      // hideInSearch: true
     },
     {
       title: '片号',
@@ -143,7 +163,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: "工序",
       dataIndex: ["workStepName"],
-      hideInSearch: true
+      // hideInSearch: true
     },
     {
       title: "工位",
@@ -175,6 +195,14 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['bindSalesOrder'],
       width: 300,
       hideInSearch: true
+    },
+    {
+      title: '客户',
+      dataIndex: ['bindCustomer'],
+    },
+    {
+      title: '合同',
+      dataIndex: ['bindContract'],
     },
     {
       title: '订单数量',

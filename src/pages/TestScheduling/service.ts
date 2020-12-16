@@ -37,6 +37,7 @@ export async function queryTestItem(searchInfo?: TableListParams) {
     method: "POST",
     data: {
       ...searchInfo,
+      orderBy:"indexOrder"
     }
   });
 }

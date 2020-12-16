@@ -1,4 +1,4 @@
-import {Button, Col, Row, message, Menu, Dropdown, Card, Form, InputNumber} from 'antd';
+import {Button, Col, Row, message, Menu, Dropdown, Card, Form, InputNumber, Input} from 'antd';
 import React, {useState, useRef} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -34,7 +34,7 @@ const CreateTestItem: React.FC<{}> = () => {
     const hide = message.loading("正在添加请稍等");
 
     try {
-      await createPickingItem({...submitForm,salesOrder:params});
+      await createPickingItem({...submitForm, salesOrder: params});
       pickingOrderActionRef.current?.reload();
       hide();
     } catch (e) {
@@ -85,7 +85,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '客户',
-      dataIndex: ['lHt', "KH"],
+      dataIndex: ['lHt', "kh"],
       fixed: true
     },
     {
@@ -94,7 +94,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '订单类别',
-      dataIndex: 'ddlb',
+      dataIndex: ["lHt", 'ddlx'],
     },
     {
       title: '订单号',
@@ -124,7 +124,7 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '是否重点',
       dataIndex: 'SFZDGC',
       hideInSearch: true
-    },    {
+    }, {
       title: '是否星用',
       dataIndex: 'sfxy',
       hideInSearch: true
@@ -217,29 +217,38 @@ const CreateTestItem: React.FC<{}> = () => {
             request={(params) => {
               return querySalesOrder(params);
             }}
-            params={{params: {"*occupies": ""}}}
+            // params={{params: {"*occupies": ""}}}
             columns={order}
             rowSelection={{
               type: "radio",
               onChange: (selectedRowKeys, selectRowItem) => {
                 handleSalesOrder(selectedRowKeys ? selectedRowKeys[0] : '');
-                handlerddh(selectRowItem ? selectRowItem[0]?.ddh : "");
+                handlerddh(selectRowItem ? selectRowItem[0]?.lDdname : "");
               }
             }}
           />
         </Col>
 
       </Row>
-      <Card  hidden={!salesOrder}>
+      <Card hidden={!salesOrder}>
         <Form form={form}>
           <Row>
             <Col span={6}>
               <FormItem
                 name="emptyCount"
                 label="无片数量"
-                rules={[{required:true,message:"请填入无片数量！！！"}]}
+                rules={[{required: true, message: "请填入无片数量！！！"}]}
               >
                 <InputNumber style={inputStyle} min={0}/>
+              </FormItem>
+            </Col>
+            <Col span={6}>
+              <FormItem
+                name="waferNr"
+                label="版号"
+                rules={[{required: true, message: "请填入版号！！！"}]}
+              >
+                <Input style={inputStyle} min={0}/>
               </FormItem>
             </Col>
           </Row>

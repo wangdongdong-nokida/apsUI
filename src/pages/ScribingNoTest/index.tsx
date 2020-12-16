@@ -35,7 +35,7 @@ const CreateTestItem: React.FC<{}> = () => {
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: {searchInfo}
+        params: searchInfo
       }
     }
   };
@@ -48,16 +48,12 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true
     },
     {
-      title: '编号',
-      dataIndex: 'nr',
+      title: '版号',
+      dataIndex: 'waferNr',
     },
     {
       title: '名称',
       dataIndex: 'name',
-    },
-    {
-      title: '版号',
-      dataIndex: 'waferNr',
     },
     {
       title: '订单类型',
@@ -99,6 +95,14 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '片号',
       dataIndex: 'sliceNr',
     },
+    {
+      title: '圆片状态',
+      dataIndex: 'status',
+    },
+    {
+      title: '绑定状态',
+      dataIndex: 'bindingScribing',
+    },
   ];
 
   const createButton = (params: any) => {
@@ -132,7 +136,6 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={secondActionRef}
             formRef={secondOrderFormRef}
             {...proTableProps}
-            params={{noTest:true}}
             request={(params) => querySecondOrder(params)}
             columns={secondOrderColumns}
             rowSelection={{

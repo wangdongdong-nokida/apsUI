@@ -1,4 +1,4 @@
-import {Button, Card, Col, Dropdown, Menu, message, notification, Popconfirm, Row, Select} from 'antd';
+import {Button, Card, Col, Dropdown, Menu, message, Modal, notification, Popconfirm, Row, Select} from 'antd';
 import React, {ReactText, useRef, useState} from 'react';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -15,7 +15,16 @@ import {EditDurationTimeForm} from "@/pages/TestScheduling/components/EditDurati
 import {EditEquipment} from "@/pages/TestScheduling/components/EditEquipment";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
 import {TestScheduleItem} from './data';
-import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete} from './service';
+import {
+  bindingWaferGearWarehouse,
+  editBrief,
+  editDurationTime,
+  editEquipment,
+  findAllWaferWarehouse, findWaferGearWarehouse,
+  moveTask,
+  queryTestItem,
+  testItemDelete
+} from './service';
 
 
 const PickingSchedule: React.FC<{}> = () => {
@@ -33,14 +42,18 @@ const PickingSchedule: React.FC<{}> = () => {
   const [durationTimeVisible, handleDurationTimeVisible] = useState<boolean>(false);
 
   const [equipmentVisible, handleEquipmentVisible] = useState<boolean>(false);
+  const [stockVisible, handleStockVisible] = useState<boolean>(false);
 
   const [selectRowKeys, handleSelectRowKeys] = useState<Key[]>([]);
+  const [selectWaferNr, handleSelectWaferNr] = useState<Key[]>([]);
 
   const [moveRowKeys, handleMoveRowKeys] = useState<Key[]>([]);
+  const [waferKey, handleWaferKey] = useState<Key>();
+  const [waferGearWarehouseKey, handleWaferGearWarehouseKey] = useState<Key[]>();
 
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "15", "20", "40"], pageSize: 20},
-    scroll: {y: 700,x:1800, scrollToFirstRowOnChange: true},
+    scroll: {y: 700, x: 1800, scrollToFirstRowOnChange: true},
     rowKey: "id",
     search: {span: 8},
     bordered: true,
@@ -122,7 +135,7 @@ const PickingSchedule: React.FC<{}> = () => {
   ];
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments({type:"挑粒镜检"});
+    const equipments = await queryEquipments({type: "挑粒镜检"});
     const equipmentSearch = {};
     // eslint-disable-next-line no-unused-expressions
     handleEquipmentSelectItem(equipments?.map((op: EquipmentItem) => {
@@ -180,7 +193,7 @@ const PickingSchedule: React.FC<{}> = () => {
       <Row>
         <Col span={24}>
           <ProTable<TestScheduleItem>
-            headerTitle="划片排产"
+            headerTitle="挑粒排产"
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
             {...proTableProps}
@@ -217,8 +230,9 @@ const PickingSchedule: React.FC<{}> = () => {
             rowSelection={{
               type: 'checkbox',
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              onChange: (selectedRowKeys: Key[], selectedRows: TestScheduleItem[]) => {
+              onChange: (selectedRowKeys: Key[], selectedRows: any) => {
                 handleSelectRowKeys(selectedRowKeys);
+                handleSelectWaferNr(selectedRows ? selectedRows[0]?.waferNr : null);
               }
             }}/>
         </Col>
@@ -284,7 +298,9 @@ const PickingSchedule: React.FC<{}> = () => {
             </Popconfirm>
           </Col>
           <Col>
-            <Button disabled={buttonAbleSingle()}>修改库存关联</Button>
+            <Button disabled={buttonAbleSingle()} onClick={() => {
+              handleStockVisible(!stockVisible)
+            }}>添加库存关联</Button>
           </Col>
           <Col>
             <Button
@@ -303,6 +319,116 @@ const PickingSchedule: React.FC<{}> = () => {
           </Col>
         </Row>
       </Card>
+
+
+      <Modal visible={stockVisible} width={1500} destroyOnClose
+             onCancel={() => {
+               handleStockVisible(false)
+             }}
+             onOk={async () => {
+               // const params = {pickingOrder, workFlow};
+               // await createOperationItem(params);
+               // operationActionRef.current?.reload();
+
+               const hide=message.loading("正在绑定库存信息。");
+               try {
+                 await bindingWaferGearWarehouse(selectRowKeys[0],waferGearWarehouseKey);
+                 hide();
+               }catch (e) {
+                 hide();
+                 message.error(e.data.message)
+               }finally {
+                 scheduleTestActionRef?.current?.reload();
+               }
+               handleStockVisible(false);
+             }
+             }
+      >
+        <Row gutter={[10, 8]}>
+          <Col span={12}>
+            <ProTable
+              search={false}
+              options={false}
+              rowKey="id"
+              pagination={{pageSizeOptions: ["5", "10", "15", "20", "40"], pageSize: 10}}
+              rowSelection={
+                {
+                  type: "radio",
+                  onChange: (selectedRowKeys) => {
+                    handleWaferKey(selectedRowKeys ? selectedRowKeys[0] : "");
+                  }
+                }
+              }
+              request={async (params) => {
+                return findAllWaferWarehouse(params, selectWaferNr)
+              }}
+
+              columns={[
+                {
+                  title: "版号",
+                  dataIndex: ["waferNr"],
+                },
+                {
+                  title: "片号",
+                  dataIndex: ["sliceNr"],
+                },
+                {
+                  title: "ID",
+                  dataIndex: "id",
+                  hideInTable: true
+                }
+              ]}
+            />
+          </Col>
+          <Col span={12}>
+            <ProTable
+              search={false}
+              options={false}
+              rowKey="id"
+              request={async (params) => {
+                return findWaferGearWarehouse(params);
+              }}
+              params={{params: {"waferModelWarehouse-waferWarehouse-ID": waferKey}}}
+              rowSelection={
+                {
+                  type: "checkbox",
+                  onChange: (selectRowKeys) => {
+                    handleWaferGearWarehouseKey(selectRowKeys);
+                  }
+                }
+              }
+              columns={[
+                {
+                  title: 'id',
+                  dataIndex: ["pickingOrder", "id"],
+                  hideInSearch: true,
+                  hideInTable: true
+                },
+                {
+                  title: '版号',
+                  dataIndex: ['waferModelWarehouse', 'waferWarehouse', 'waferNr'],
+                },
+                {
+                  title: '片号',
+                  dataIndex: ['waferModelWarehouse', 'waferWarehouse', 'sliceNr'],
+                },
+                {
+                  title: '型号',
+                  dataIndex: ['waferModelWarehouse', 'modelNr'],
+                },
+                {
+                  title: "电路序号",
+                  dataIndex: ['waferModelWarehouse', "circuitNr"]
+                },
+                {
+                  title: '物料状态',
+                  dataIndex: ['wlzt'],
+                }
+              ]}
+            />
+          </Col>
+        </Row>
+      </Modal>
 
 
       <EditBriefForm

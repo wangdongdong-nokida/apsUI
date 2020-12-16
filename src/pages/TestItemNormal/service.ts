@@ -33,6 +33,7 @@ export async function queryWaferProducts(searchInfo?: any) {
   return request('/server/waferProduct/findProductsByWafer', {
     data: {
       ...searchInfo,
+      orderBy:"circuitNo"
     },
     method: "post"
   });
