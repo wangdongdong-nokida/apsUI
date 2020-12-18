@@ -1,5 +1,6 @@
 import request from 'umi-request';
 import {TestParameter} from './data';
+import { TableListParams } from '@/pages/TestScheduling/data';
 
 
 export async function querySecondOrder(params?: {}) {
@@ -46,7 +47,6 @@ export async function queryEquipments(params?: {}) {
   });
 }
 
-
 export async function getEquipmentEndDate(searchInfo?: any) {
   return request('/server/equipment/getEndDate', {
     params: {
@@ -63,5 +63,16 @@ export async function queryTextLabel(searchInfo?: TestParameter) {
     }
   });
 }
+
+export async function queryTestItemBySecondOrder(searchInfo?: any) {
+  return request('/server/testItem/findAllBySecondOrder', {
+    method: "POST",
+    data: {
+      ...searchInfo,
+      orderBy:"indexOrder"
+    }
+  });
+}
+
 
 

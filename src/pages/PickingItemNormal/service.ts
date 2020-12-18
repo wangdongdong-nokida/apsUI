@@ -8,15 +8,6 @@ export async function queryRule(searchInfo?: TableListParams) {
   });
 }
 
-export async function querySecondOrder(searchInfo?: SecondOrder) {
-  return request('/server/secondOrder/findSecondOrders', {
-    method: "post",
-    data: {
-      ...searchInfo,
-    }
-  });
-}
-
 export async function createPickingItem(params: any) {
   return request('/server/pickingItem/createPickingOrder', {
     method: "post",

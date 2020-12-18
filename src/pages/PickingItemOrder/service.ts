@@ -17,6 +17,7 @@ export async function querySalesOrder(searchInfo?: any) {
   return request('/server/pickingItem/getSalesOrderByOccupy', {
     method: "post",
     data: {
+      // orderBy:"salesOrder.jywcsj",
       ...searchInfo,
     }
   });

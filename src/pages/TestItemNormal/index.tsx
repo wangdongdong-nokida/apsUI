@@ -1,24 +1,25 @@
-import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input} from 'antd';
-import React, {useState, useRef} from 'react';
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
+import { Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input } from 'antd';
+import React, { useState, useRef } from 'react';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
+import { ActionType, ProColumns } from '@ant-design/pro-table/lib/Table';
 
-import FormItem from "antd/lib/form/FormItem";
-import {PlusOutlined} from "@ant-design/icons/lib";
-import {EquipmentItem} from "@/pages/equipmentCalendar/data";
-import moment from "moment";
-import {FormInstance} from "antd/lib/form/Form";
-import {Key} from "antd/es/table/interface";
-import TextArea from "antd/lib/input/TextArea";
-import {WaferProduct, SecondOrder, TestParameter, Wafer} from './data';
+import FormItem from 'antd/lib/form/FormItem';
+import { PlusOutlined } from '@ant-design/icons/lib';
+import { EquipmentItem } from '@/pages/equipmentCalendar/data';
+import moment from 'moment';
+import { FormInstance } from 'antd/lib/form/Form';
+import { Key } from 'antd/es/table/interface';
+import TextArea from 'antd/lib/input/TextArea';
+import { ScheduleTestItem } from '@/pages/TestItemNormal/components/ScheduleTestItem';
+import { WaferProduct, SecondOrder, TestParameter, Wafer } from './data';
 import {
   createTestItem, getEquipmentEndDate,
   queryEquipments,
   querySecondOrder,
   queryTextLabel,
   queryWaferProducts,
-  queryWaferWarehouse
+  queryWaferWarehouse,
 } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -48,6 +49,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const [forecastSelected, handleForecastSelected] = useState<[]>([]);
   const [assessmentSelected, handleAssessmentSelected] = useState<[]>([]);
   const [screenSelected, handleScreenSelected] = useState<[]>([]);
+  const [scheduleTestItemVisible, handleScheduleTestItemVisible] = useState<boolean>(false);
 
   const productFormReset = () => {
     // eslint-disable-next-line no-unused-expressions
@@ -57,18 +59,18 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const formSpan = 6;
-  const inputStyle = {width: "100%"};
+  const inputStyle = { width: '100%' };
   const proTableProps = {
-    pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 10},
-    scroll: {y: 300, x: 1400, scrollToFirstRowOnChange: true},
-    rowKey: "id",
-    search: {span: 8},
+    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 10 },
+    scroll: { y: 300, x: 1400, scrollToFirstRowOnChange: true },
+    rowKey: 'id',
+    search: { span: 8 },
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: searchInfo
-      }
-    }
+        params: searchInfo,
+      };
+    },
   };
 
   const secondOrderColumns: ProColumns<SecondOrder>[] = [
@@ -76,7 +78,16 @@ const CreateTestItem: React.FC<{}> = () => {
       title: 'id',
       dataIndex: 'id',
       hideInTable: true,
-      hideInSearch: true
+      hideInSearch: true,
+    },
+    {
+      title: '创建状态',
+      dataIndex: ['showState'],
+      hideInTable: true,
+      valueEnum: {
+        'created': '已创建',
+        'uncreated': '未创建',
+      },
     },
     {
       title: '二级任务号',
@@ -93,93 +104,96 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '测试要求完成时间',
       dataIndex: ['testFinishedDateRequired'],
-      valueType: "date",
-      hideInSearch: true
+      valueType: 'date',
+      hideInSearch: true,
     },
     {
       title: '任务类型',
       dataIndex: 'type',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '任务级别',
       dataIndex: 'urgency',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '任务数量',
       dataIndex: 'quantity',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '任务来源',
       dataIndex: 'rwly',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '创建时间',
       dataIndex: 'applyDate',
-      hideInSearch: true
+      hideInSearch: true,
+    },
+    {
+      title: '创建人',
+      dataIndex: ['employee', 'name'],
     },
     {
       title: '测试调度备注',
       dataIndex: 'testBrief',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '任务类型',
       dataIndex: 'type',
       hideInTable: true,
       valueEnum: {
-        生产: "生产",
-        研制: "研制",
-        考核: "考核"
-      }
+        生产: '生产',
+        研制: '研制',
+        考核: '考核',
+      },
     },
     {
       title: '任务状态',
       dataIndex: 'status',
-      hideInSearch:true
-    },
-    // {
-    //   title: '任务状态',
-    //   dataIndex: 'status',
-    //   hideInTable: true,
-    //   valueEnum: {
-    //     未发布: "未发布",
-    //     已发布: "已发布",
-    //     完成: "完成",
-    //     中止: "中止",
-    //     暂停: "暂停",
-    //   }
-    // },
-    {
-      title: '产品类型',
-      dataIndex: ['productType', "name"],
-      hideInSearch:true
+      hideInSearch: true,
     },
     {
-      title: '产品类型',
-      dataIndex: ['productType', "name"],
-      hideInTable:true,
+      title: '任务状态',
+      dataIndex: 'status',
+      hideInTable: true,
       valueEnum: {
-        单片: "单片",
-        圆片: "圆片",
-        载体: "载体",
-      }
+        已发布: '已发布',
+        完成: '完成',
+        中止: '中止',
+        暂停: '暂停',
+      },
+    },
+    {
+      title: '产品类型',
+      dataIndex: ['productType', 'name'],
+      hideInSearch: true,
+    },
+    {
+      title: '产品类型',
+      dataIndex: ['productType', 'name'],
+      hideInTable: true,
+      valueEnum: {
+        单片: '单片',
+        圆片: '圆片',
+        载体: '载体',
+      },
     },
     {
       title: '测试班组',
       dataIndex: ['csbz'],
       valueEnum: {
-        测试A: "测试A",
-        测试B: "测试B",
-      }
+        测试A: '测试A',
+        测试B: '测试B',
+      },
     },
     {
       title: '测试调度备注',
       dataIndex: ['testBrief'],
-      hideInSearch: true
+      hideInSearch: true,
     },
   ];
 
@@ -188,7 +202,7 @@ const CreateTestItem: React.FC<{}> = () => {
       title: 'id',
       dataIndex: 'id',
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '版号',
@@ -214,29 +228,33 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '占用状态',
       dataIndex: 'bindingSecondOrders',
     },
+    {
+      title: '流片进度',
+      dataIndex: ['lLpjd', 'jdb'],
+      hideInSearch: true,
+    },
   ];
-
 
   const productColumns: ProColumns<WaferProduct>[] = [
     {
       title: '版号',
-      dataIndex: ["==wafer", 'nr'],
+      dataIndex: ['==wafer', 'nr'],
       valueEnum: waferNrList,
       hideInTable: true,
     },
     {
       title: '版号',
-      dataIndex: ["wafer", 'nr'],
+      dataIndex: ['wafer', 'nr'],
       hideInSearch: true,
       fixed: true,
-      width: 120
+      width: 120,
     },
     {
       title: '电路序号',
       dataIndex: 'circuitNo',
       hideInSearch: true,
       fixed: true,
-      width: 120
+      width: 120,
     },
     {
       title: '型号',
@@ -247,7 +265,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '电路名称',
       dataIndex: 'circuitName',
-      hideInSearch: true
+      hideInSearch: true,
     },
 
     // {
@@ -257,21 +275,21 @@ const CreateTestItem: React.FC<{}> = () => {
     // },
     {
       title: '单元数',
-      dataIndex: ["wafer", 'unitNumber'],
+      dataIndex: ['wafer', 'unitNumber'],
       hideInSearch: true,
-      width: 100
+      width: 100,
     },
     {
       title: '单元芯片数',
       dataIndex: 'quantity',
       hideInSearch: true,
-      width: 100
+      width: 100,
     },
     {
       title: '总数量',
       dataIndex: 'total',
       hideInSearch: true,
-      width: 100
+      width: 100,
     },
     {
       title: '预测数量',
@@ -285,7 +303,7 @@ const CreateTestItem: React.FC<{}> = () => {
           handleForecastList(forecastQuantity);
         }
         } min={0} defaultValue={10}/>);
-      }
+      },
     },
     {
       title: '筛选数量',
@@ -299,7 +317,7 @@ const CreateTestItem: React.FC<{}> = () => {
           handleScreenList(screenQuantity);
         }
         } min={0} defaultValue={record.total}/>);
-      }
+      },
     },
     {
       title: '考核数量',
@@ -313,27 +331,26 @@ const CreateTestItem: React.FC<{}> = () => {
           handleAssessmentList(assessmentQuantity);
         }
         } min={0} defaultValue={22}/>);
-      }
-    }
+      },
+    },
   ];
 
-
   const createButton = (params: any) => {
-    return createTestItem(params)
+    return createTestItem(params);
   };
 
   const testLabelHandler = async () => {
-    const testLabel = await queryTextLabel({type: "预测"});
+    const testLabel = await queryTextLabel({ type: '预测' });
     handleTestLabel(testLabel.data);
   };
 
   const screenLabelHandler = async () => {
-    const screenLabel = await queryTextLabel({type: "筛选"});
+    const screenLabel = await queryTextLabel({ type: '筛选' });
     handleScreenLabel(screenLabel.data);
   };
 
   const assessmentLabelHandler = async () => {
-    const assessmentLabel = await queryTextLabel({type: "考核"});
+    const assessmentLabel = await queryTextLabel({ type: '考核' });
     handleAssessmentLabel(assessmentLabel.data);
   };
 
@@ -350,7 +367,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments({type: "测试"});
+    const equipments = await queryEquipments({ type: '测试' });
     handleEquipment(equipments);
   };
 
@@ -367,7 +384,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const onSecondOrderSelect = (selectedRowKeys: Key[], selectedRows: any) => {
     handleSecondOrderList(selectedRowKeys[0]);
     if (selectedRows.length > 0) {
-      const waferNrs: string[] | undefined = selectedRows[0].waferNr?.split(";");
+      const waferNrs: string[] | undefined = selectedRows[0].waferNr?.split(';');
       const object = {};
       if (waferNrs) {
         for (let i = 0; i < waferNrs?.length; i += 1) {
@@ -391,6 +408,11 @@ const CreateTestItem: React.FC<{}> = () => {
             formRef={secondOrderFormRef}
             {...proTableProps}
             request={(params) => querySecondOrder(params)}
+            toolBarRender={(action, { selectedRowKeys, selectedRows }) => [
+              selectedRowKeys && selectedRowKeys.length > 0 && <Button onClick={() => {
+                handleScheduleTestItemVisible(!scheduleTestItemVisible)
+              }}>显示已建明细</Button>,
+            ]}
             columns={secondOrderColumns}
             rowSelection={{
               type: 'radio',
@@ -399,7 +421,7 @@ const CreateTestItem: React.FC<{}> = () => {
         </Col>
       </Row>
 
-      <Row justify="start" style={{marginTop: 20}}>
+      <Row justify="start" style={{ marginTop: 20 }}>
         <Col span={12}>
           <ProTable
             headerTitle="芯片信息"
@@ -429,7 +451,7 @@ const CreateTestItem: React.FC<{}> = () => {
                   };
                 });
                 handleProductList(modelNrs);
-              }
+              },
             }}
           />
         </Col>
@@ -442,8 +464,8 @@ const CreateTestItem: React.FC<{}> = () => {
             // @ts-ignore
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo, "==waferNr": productFormRef?.current?.getFieldValue("==wafer-nr")}
-              }
+                params: { ...searchInfo, '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') },
+              };
             }}
             request={(params) => {
               return queryWaferWarehouse(params);
@@ -452,7 +474,7 @@ const CreateTestItem: React.FC<{}> = () => {
             rowSelection={{
               onChange: (selectedRowKeys) => {
                 handleStockList(selectedRowKeys);
-              }
+              },
             }}
           />
         </Col>
@@ -466,26 +488,26 @@ const CreateTestItem: React.FC<{}> = () => {
                   <FormItem
                     name="equipmentId"
                     label="待排设备"
-                    rules={[{required: true, message: '请选中一台设备'}]}
+                    rules={[{ required: true, message: '请选中一台设备' }]}
                   >
                     <Select style={inputStyle}
                             onFocus={equipmentHandler}
                             onChange={async (selectValue) => {
                               const date = moment(await getEquipmentEndDate(selectValue));
-                              form.setFieldsValue({"planningStartTime": date.clone()});
-                              form.setFieldsValue({"planningFinishTime": date.clone()});
-                              form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
+                              form.setFieldsValue({ 'planningStartTime': date.clone() });
+                              form.setFieldsValue({ 'planningFinishTime': date.clone() });
+                              form.setFieldsValue({ 'planningAvailableTime': date.add(3, 'd') });
                             }}
                     >
                       {optionEquipment()}
                     </Select>
                   </FormItem>
                 </Col>
-                {stockList && stockList.length > 0 ? "" : (<Col span={formSpan}>
+                {stockList && stockList.length > 0 ? '' : (<Col span={formSpan}>
                   <FormItem
                     label="无片数量"
                     name="sliceNum"
-                    rules={[{required: true, message: '请填入无片数量'}]}
+                    rules={[{ required: true, message: '请填入无片数量' }]}
                   >
                     <InputNumber min={0} style={inputStyle}/>
                   </FormItem>
@@ -540,38 +562,36 @@ const CreateTestItem: React.FC<{}> = () => {
                   </FormItem>
                 </Col>
               </Row>
-
               <Row gutter={[30, 16]}>
-                <Col span={formSpan}>{!(forecastSelected.length > 0) ? "" : (
+                <Col span={formSpan}>{!(forecastSelected.length > 0) ? '' : (
                   <FormItem
                     name="forecastHours"
                     label="预测小时"
-                    rules={[{required: true, message: "请输入预测小时"}]}
+                    rules={[{ required: true, message: '请输入预测小时' }]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
                 )} </Col>
 
-                <Col span={formSpan}> {!(screenSelected.length > 0) ? "" : (
+                <Col span={formSpan}> {!(screenSelected.length > 0) ? '' : (
                   <FormItem
                     label="筛选小时"
                     name="screenHours"
-                    rules={[{required: true, message: "请输入筛选小时"}]}
+                    rules={[{ required: true, message: '请输入筛选小时' }]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
                 )}</Col>
-                <Col span={formSpan}>{!(assessmentSelected.length > 0) ? "" : (
+                <Col span={formSpan}>{!(assessmentSelected.length > 0) ? '' : (
                   <FormItem
                     label="考核小时"
                     name="assessmentHours"
-                    rules={[{required: true, message: "请输入考核小时"}]}
+                    rules={[{ required: true, message: '请输入考核小时' }]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
                 )}</Col>
               </Row>
-
               <Row gutter={[30, 16]}>
                 <Col span={formSpan}>
                   <FormItem
@@ -596,7 +616,6 @@ const CreateTestItem: React.FC<{}> = () => {
                   </FormItem>
                 </Col>
               </Row>
-
               <Row gutter={[30, 16]}>
                 <Col span={formSpan}>
                   <FormItem
@@ -627,12 +646,12 @@ const CreateTestItem: React.FC<{}> = () => {
                       if (target && target.id) {
                         target.forecast = forecastList[target.id] ? forecastList[target.id] : 10;
                         target.screen = screenList[target.id] ? screenList[target.id] : target.screenQuantity;
-                        target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 22
+                        target.assessment = assessmentList[target.id] ? assessmentList[target.id] : 22;
                       }
                       return target;
                     }),
                     stock: stockList,
-                    waferNr: productFormRef?.current?.getFieldValue("wafer-nr")
+                    waferNr: productFormRef?.current?.getFieldValue('wafer-nr'),
                   });
                   hide();
                   message.success('创建成功');
@@ -648,9 +667,10 @@ const CreateTestItem: React.FC<{}> = () => {
         </Row>
       </Card>
 
+      <ScheduleTestItem modalVisible={scheduleTestItemVisible} onCancel={()=>{handleScheduleTestItemVisible(false)}} secondOrderID={secondOrderList}/>
 
     </PageHeaderWrapper>
-  )
+  );
 
 };
 

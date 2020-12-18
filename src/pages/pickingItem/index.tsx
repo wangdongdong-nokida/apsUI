@@ -380,6 +380,7 @@ const CreateTestItem: React.FC<{}> = () => {
                const params = {pickingOrder, workFlow};
                await createOperationItem(params);
                operationActionRef.current?.reload();
+               pickingOrderActionRef.current?.reload();
                handleModalVisible(false);
              }
              }

@@ -1,18 +1,18 @@
-import {Button, Col, Row, message, Menu, Dropdown} from 'antd';
-import React, {useState, useRef} from 'react';
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
+import { Button, Col, Row, message, Menu, Dropdown } from 'antd';
+import React, { useState, useRef } from 'react';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
+import { ActionType, ProColumns } from '@ant-design/pro-table/lib/Table';
 
-import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
-import {FormInstance} from "antd/lib/form/Form";
-import {Key} from "antd/es/table/interface";
+import { DownOutlined, PlusOutlined } from '@ant-design/icons/lib';
+import { FormInstance } from 'antd/lib/form/Form';
+import { Key } from 'antd/es/table/interface';
 import {
   createPickingItem,
   deletePickingOrders,
   queryPickingOrders,
   queryOccupyBySalesOrder,
-  querySalesOrder
+  querySalesOrder,
 } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -34,15 +34,15 @@ const CreateTestItem: React.FC<{}> = () => {
 
 
   const proTableProps = {
-    pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 5},
-    rowKey: "id",
-    search: {span: 8},
+    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 5 },
+    rowKey: 'id',
+    search: { span: 8 },
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        searchInfo
-      }
-    }
+        searchInfo,
+      };
+    },
   };
 
   const order: ProColumns<{}>[] = [
@@ -50,45 +50,71 @@ const CreateTestItem: React.FC<{}> = () => {
       title: 'id',
       dataIndex: ['salesOrder', 'id'],
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '状态',
       dataIndex: 'createState',
-      hideInTable:true,
-      valueEnum:{
-        created: "已创建",
-        uncreated: "未创建"
-      }
+      hideInTable: true,
+      valueEnum: {
+        created: '已创建',
+        uncreated: '未创建',
+      },
+    },
+    {
+      title: '合同类别',
+      dataIndex: ['salesOrder', 'lHt', 'ddlx'],
+      fixed: true,
     },
     {
       title: '型号',
       dataIndex: ['salesOrder', 'xh'],
-      fixed: true
+      fixed: true,
     },
     {
       title: '订单数量',
       dataIndex: ['salesOrder', 'dgsl'],
       hideInSearch: true,
-      fixed: true
+      fixed: true,
     },
     {
       title: '合同号',
-      dataIndex: ['salesOrder', 'lHt', "lHtname"],
-      fixed: true
+      dataIndex: ['salesOrder', 'lHt', 'lHtname'],
+      fixed: true,
     },
     {
       title: '客户',
-      dataIndex: ['salesOrder', 'lHt', "kh"],
-      fixed: true
+      dataIndex: ['salesOrder', 'lHt', 'kh'],
+      fixed: true,
+    },
+    {
+      title: '检验完成时间',
+      dataIndex: ['salesOrder', 'jywcsj'],
+      hideInSearch: true,
+    },
+    {
+      title: '预发货日期',
+      dataIndex: ['salesOrder', 'yfhrq'],
+      hideInSearch: true,
+    },
+    {
+      title: '提供方式',
+      dataIndex: ['salesOrder', 'lTgfs', 'lTgfsname'],
+      hideInSearch: true,
+    },
+    {
+      title: '质量等级',
+      dataIndex: ['salesOrder', 'zldj'],
+      hideInSearch: true,
     },
     {
       title: '合同备注',
-      dataIndex: ['salesOrder', 'lHt', "bz"],
+      dataIndex: ['salesOrder', 'lHt', 'bz'],
     },
     {
-      title: '订单类别',
-      dataIndex: ['salesOrder', 'lHt','ddlx'],
+      title: '备注',
+      dataIndex: ['salesOrder', 'ckbz'],
+      hideInSearch: true,
     },
     {
       title: '订单号',
@@ -101,118 +127,98 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '订单状态',
       dataIndex: ['salesOrder', 'ddzt'],
-      hideInSearch: true
+      hideInSearch: true,
     },
 
     {
       title: '是否军检',
       dataIndex: ['salesOrder', 'sfjj'],
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '是否监制',
       dataIndex: ['salesOrder', 'sfjz'],
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '是否重点',
       dataIndex: ['salesOrder', 'sfzdgc'],
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
-      title: '提供方式',
-      dataIndex: ['salesOrder', "lTgfs", 'lTgfsname'],
-      hideInSearch: true
+      title: '父版号',
+      dataIndex: ['salesOrder', 'fatherWaferNr'],
+      hideInSearch: true,
     },
     {
-      title: '预发货日期',
-      dataIndex: ['salesOrder', 'yfhrq'],
-      hideInSearch: true
+      title: '类型',
+      dataIndex: ['salesOrder', 'type'],
+      hideInSearch: true,
     },
     {
-      title: '检验完成时间',
-      dataIndex: ['salesOrder', 'jywcsj'],
-      hideInSearch: true
+      title: '批次号',
+      dataIndex: ['salesOrder', 'batchNr'],
+      hideInSearch: true,
     },
-    {
-      title: "父版号",
-      dataIndex: ['salesOrder', "fatherWaferNr"],
-      hideInSearch: true
-    },
-    {
-      title: "类型",
-      dataIndex: ['salesOrder', "type"],
-      hideInSearch: true
-    },
-    {
-      title: "批次号",
-      dataIndex: ['salesOrder', "batchNr"],
-      hideInSearch: true
-    },
-    {
-      title: "备注",
-      dataIndex: ['salesOrder', "bz"],
-      hideInSearch: true
-    }
   ];
 
 
   const productColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: "id",
+      dataIndex: 'id',
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '版号',
-      dataIndex: ["waferModelWarehouse", "waferWarehouse", 'waferNr'],
+      dataIndex: ['waferModelWarehouse', 'waferWarehouse', 'waferNr'],
       // fixed: 'left',
       hideInSearch: true,
     },
     {
       title: '片号',
-      dataIndex: ["waferModelWarehouse", "waferWarehouse", 'sliceNr'],
+      dataIndex: ['waferModelWarehouse', 'waferWarehouse', 'sliceNr'],
       hideInSearch: true,
     },
     {
       title: '型号',
-      dataIndex: ["waferModelWarehouse", 'modelNr'],
+      dataIndex: ['waferModelWarehouse', 'modelNr'],
       hideInSearch: true,
     },
     {
-      title: "电路序号",
-      dataIndex: ["waferModelWarehouse", "circuitNr"],
+      title: '电路序号',
+      dataIndex: ['waferModelWarehouse', 'circuitNr'],
       hideInSearch: true,
     },
     {
-      title: "物理形态",
-      dataIndex: ["wlxt"],
+      title: '物理形态',
+      dataIndex: ['wlxt'],
       hideInSearch: true,
     },
     {
       title: '圆片状态',
-      dataIndex: ["wlzt"],
+      dataIndex: ['wlzt'],
       // hideInSearch: true,
     },
     {
       title: '占料数量',
-      dataIndex: ["zlsl"],
+      dataIndex: ['zlsl'],
       // hideInSearch: true,
     },
     {
       title: '销售订单',
       dataIndex: 'bindSalesOrder',
       // hideInSearch: true,
-    }
+    },
   ];
 
   const pickingOrderColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: ["pickingOrder", "id"],
+      dataIndex: ['pickingOrder', 'id'],
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '版号',
@@ -227,8 +233,8 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['modelNr'],
     },
     {
-      title: "电路序号",
-      dataIndex: ["circuitNr"]
+      title: '电路序号',
+      dataIndex: ['circuitNr'],
     },
     {
       title: '圆片状态',
@@ -237,12 +243,12 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '销售订单',
       dataIndex: ['bindSalesOrder'],
-    }
+    },
   ];
 
 
   const createButton = (params: any) => {
-    return createPickingItem(params)
+    return createPickingItem(params);
   };
 
 
@@ -258,7 +264,7 @@ const CreateTestItem: React.FC<{}> = () => {
             rowKey={(record, index) => {
               return record?.salesOrder?.id;
             }}
-            toolBarRender={(action, {selectedRowKeys}) => [
+            toolBarRender={(action, { selectedRowKeys }) => [
               selectedRowKeys && selectedRowKeys.length > 0 && <Button
                 icon={<PlusOutlined/>}
                 type="primary"
@@ -267,7 +273,7 @@ const CreateTestItem: React.FC<{}> = () => {
                   const hide = message.loading('正在添加');
                   try {
                     await createButton({
-                      salesOrderIds: selectedRowKeys
+                      salesOrderIds: selectedRowKeys,
                     });
                     hide();
                     message.success('创建成功');
@@ -280,20 +286,20 @@ const CreateTestItem: React.FC<{}> = () => {
                     pickingOrderActionRef?.current?.reload();
                   }
                 }}
-              >创建挑粒明细</Button>
+              >创建挑粒明细</Button>,
             ]}
-            scroll={{y: 500, x: 2500, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 500, x: 2500, scrollToFirstRowOnChange: true }}
             request={(params) => {
               return querySalesOrder(params);
             }}
-            params={{params: {"waferGearWarehouse-WLXT": "芯片"}}}
+            params={{ params: { 'waferGearWarehouse-WLXT': '芯片' } }}
             columns={order}
             rowSelection={{
-              type: "radio",
+              type: 'radio',
               onChange: (selectedRowKeys, selectRowItem) => {
                 handleSalesOrder(selectedRowKeys);
-                handlerddh(selectRowItem ? selectRowItem[0]?.salesOrder?.lDdname : "");
-              }
+                handlerddh(selectRowItem ? selectRowItem[0]?.salesOrder?.lDdname : '');
+              },
             }}
           />
         </Col>
@@ -309,23 +315,28 @@ const CreateTestItem: React.FC<{}> = () => {
                 actionRef={occupyActionRef}
                 formRef={occupyFormRef}
                 {...proTableProps}
-                scroll={{y: 500, x: 800, scrollToFirstRowOnChange: true}}
+                scroll={{ y: 500, x: 800, scrollToFirstRowOnChange: true }}
                 beforeSearchSubmit={(searchInfo) => {
                   return {
-                    params: {...searchInfo}
-                  }
+                    params: { ...searchInfo },
+                  };
                 }}
                 postData={(data) => {
                   return data ? data?.map((value) => {
                     value.zlsl = 0;
                     value?.occupies?.map((occupy) => {
-                      value.zlsl +=occupy?.zlsl;
+                      value.zlsl += occupy?.zlsl;
                     });
                     return value;
                   }) : data;
                 }}
                 search={false}
-                params={{params: {"salesOrder-ID": salesOrder ? salesOrder[0] : '', "waferGearWarehouse-WLXT": "芯片"}}}
+                params={{
+                  params: {
+                    'salesOrder-ID': salesOrder ? salesOrder[0] : '',
+                    'waferGearWarehouse-WLXT': '芯片',
+                  },
+                }}
                 request={(params) => {
                   return queryOccupyBySalesOrder(params);
                 }}
@@ -349,14 +360,14 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={pickingOrderActionRef}
             formRef={pickingOrderFormRef}
             {...proTableProps}
-            scroll={{y: 500, x: 1000, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 500, x: 1000, scrollToFirstRowOnChange: true }}
             search={false}
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo}
-              }
+                params: { ...searchInfo },
+              };
             }}
-            toolBarRender={(action, {selectedRowKeys}) => [
+            toolBarRender={(action, { selectedRowKeys }) => [
               selectedRowKeys && selectedRowKeys.length > 0 && (
                 <Dropdown
                   overlay={
@@ -377,9 +388,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     批量操作 <DownOutlined/>
                   </Button>
                 </Dropdown>
-              )
+              ),
             ]}
-            params={{params: {"<>bindSalesOrder": ddh, "salesOrder": true}}}
+            params={{ params: { '<>bindSalesOrder': ddh, 'salesOrder': true } }}
             request={(params) => {
               return queryPickingOrders(params);
             }}
@@ -394,7 +405,7 @@ const CreateTestItem: React.FC<{}> = () => {
       </Row>
 
     </PageHeaderWrapper>
-  )
+  );
 
 };
 

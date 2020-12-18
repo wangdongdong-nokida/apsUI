@@ -112,6 +112,14 @@ const PickingSchedule: React.FC<{}> = () => {
       dataIndex: ["equipmentName",],
     },
     {
+      title: '客户',
+      dataIndex: ['bindCustomer'],
+    },
+    {
+      title: '合同',
+      dataIndex: ['bindContract'],
+    },
+    {
       title: "生产时长",
       dataIndex: ["durationTime"],
     },

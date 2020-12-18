@@ -13,6 +13,16 @@ export async function editBrief(searchInfo?: { [key: string]: string }) {
   });
 }
 
+
+export async function editSupplyTime(searchInfo?: { [key: string]:  ReactText[] }) {
+  return request('/server/testItem/editSupplyTime', {
+    method: "POST",
+    data: {
+      ...searchInfo,
+    }
+  });
+}
+
 export async function editDurationTime(searchInfo?: { [key: string]: ReactText[] }) {
   return request('/server/testItem/editDurationTime', {
     method: "POST",

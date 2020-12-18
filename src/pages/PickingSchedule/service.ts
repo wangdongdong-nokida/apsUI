@@ -33,7 +33,7 @@ export async function editEquipment(searchInfo?: { [key: string]: string }) {
 
 
 export async function queryTestItem(searchInfo?: TableListParams) {
-  return request('/server/testItem/findAll', {
+  return request('/server/testItem/findOperationAll', {
     method: "POST",
     data: {
       orderBy: "indexOrder",

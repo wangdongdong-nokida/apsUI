@@ -1,16 +1,16 @@
-import {Button, Col, Row, message, Menu, Dropdown, Select, Tag} from 'antd';
-import React, {useState, useRef} from 'react';
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
+import { Button, Col, Row, message, Menu, Dropdown, Select, Tag } from 'antd';
+import React, { useState, useRef } from 'react';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
+import { ActionType, ProColumns } from '@ant-design/pro-table/lib/Table';
 
-import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
-import {FormInstance} from "antd/lib/form/Form";
-import {Key} from "antd/es/table/interface";
-import {Wafer} from './data';
+import { DownOutlined, PlusOutlined } from '@ant-design/icons/lib';
+import { FormInstance } from 'antd/lib/form/Form';
+import { Key } from 'antd/es/table/interface';
+import { Wafer } from './data';
 import {
   createPickingItem, deletePickingOrders, queryPickingOrders, queryWaferProductWarehouse,
-  queryWaferWarehouse
+  queryWaferWarehouse,
 } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -29,15 +29,15 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const proTableProps = {
-    pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 5},
-    rowKey: "id",
-    search: {span: 8},
+    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 5 },
+    rowKey: 'id',
+    search: { span: 8 },
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: searchInfo
-      }
-    }
+        params: searchInfo,
+      };
+    },
   };
 
   const waferColumn: ProColumns<Wafer>[] = [
@@ -45,16 +45,16 @@ const CreateTestItem: React.FC<{}> = () => {
       title: 'id',
       dataIndex: 'id',
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '状态',
       dataIndex: 'createState',
-      hideInTable:true,
-      valueEnum:{
-        created: "已创建",
-        uncreated: "未创建"
-      }
+      hideInTable: true,
+      valueEnum: {
+        created: '已创建',
+        uncreated: '未创建',
+      },
     },
     {
       title: '版号',
@@ -65,56 +65,60 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'sliceNr',
     },
     {
-      title: "状态",
-      dataIndex: "status",
-      hideInSearch: true
+      title: '状态',
+      dataIndex: 'status',
+      hideInSearch: true,
     },
     {
-      title: "合同号",
-      dataIndex: "bindingContracts",
-      hideInSearch: true
+      title: '合同号',
+      dataIndex: 'bindingContracts',
+      hideInSearch: true,
     },
     {
-      title: "客户",
-      dataIndex: "bindingCustomers",
-      hideInSearch: true
+      title: '客户',
+      dataIndex: 'bindingCustomers',
+      hideInSearch: true,
     },
     {
-      title: "订单数量",
-      dataIndex: "bindingQuantity",
-      hideInSearch: true
+      title: '订单数量',
+      dataIndex: 'bindingQuantity',
+      hideInSearch: true,
     },
     {
-      title: "订单类型",
-      dataIndex: "bindingSalesOrderType",
-      hideInSearch: true
+      title: '订单类型',
+      dataIndex: 'bindingSalesOrderType',
+      hideInSearch: true,
     },
     {
-      title: "销售订单号",
-      dataIndex: "bindingSalesOrders",
-      hideInSearch: true
+      title: '销售订单号',
+      dataIndex: 'bindingSalesOrders',
+      hideInSearch: true,
     },
     {
-      title: "备注",
-      dataIndex: "bindingContractBrief"
-    }
+      title: '备注',
+      dataIndex: 'bindingContractBrief',
+    },
+    {
+      title: '检验完成时间',
+      dataIndex: 'bindingjywcsj',
+    },
   ];
 
 
   const productColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: "id",
+      dataIndex: 'id',
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '版号',
-      dataIndex: ["waferWarehouse", 'waferNr'],
+      dataIndex: ['waferWarehouse', 'waferNr'],
     },
     {
       title: '片号',
-      dataIndex: ["waferWarehouse", 'sliceNr'],
+      dataIndex: ['waferWarehouse', 'sliceNr'],
     },
     {
       title: '型号选择',
@@ -127,12 +131,12 @@ const CreateTestItem: React.FC<{}> = () => {
         ));
         handleModelNr(text ? text[0] : null);
         return (
-          <Select style={{width: "100%"}} defaultValue={text ? text[0] : null} onChange={(value) => {
+          <Select style={{ width: '100%' }} defaultValue={text ? text[0] : null} onChange={(value) => {
             handleModelNr(value);
           }}>
             {options}
           </Select>);
-      }
+      },
     },
     {
       title: '型号',
@@ -144,18 +148,18 @@ const CreateTestItem: React.FC<{}> = () => {
               <Tag>
                 {value}
               </Tag>
-            )
+            );
           })
         );
-      }
+      },
     },
     {
-      title: "电路序号",
-      dataIndex: "circuitNr"
+      title: '电路序号',
+      dataIndex: 'circuitNr',
     },
     {
       title: '圆片状态',
-      dataIndex: ["waferWarehouse", 'status'],
+      dataIndex: ['waferWarehouse', 'status'],
     },
     {
       title: '销售订单',
@@ -164,15 +168,15 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '数量',
       dataIndex: 'quantity',
-    }
+    },
   ];
 
   const pickingOrderColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: ["id"],
+      dataIndex: ['id'],
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '版号',
@@ -187,8 +191,8 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['modelNr'],
     },
     {
-      title: "电路序号",
-      dataIndex: ["circuitNr"]
+      title: '电路序号',
+      dataIndex: ['circuitNr'],
     },
     {
       title: '圆片状态',
@@ -201,12 +205,12 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '数量',
       dataIndex: ['quantity'],
-    }
+    },
   ];
 
 
   const createButton = (params: any) => {
-    return createPickingItem(params)
+    return createPickingItem(params);
   };
 
 
@@ -220,19 +224,19 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={stockActionRef}
             formRef={stockFormRef}
             {...proTableProps}
-            scroll={{y: 500, x: 1800, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 500, x: 1800, scrollToFirstRowOnChange: true }}
             request={(params) => {
               return queryWaferWarehouse(params);
             }}
             columns={waferColumn}
             rowSelection={{
-              type: "radio",
+              type: 'radio',
               onChange: (selectedRowKeys) => {
                 handleStockList(selectedRowKeys);
                 if (productFormRef && productFormRef.current) {
                   productFormRef.current.submit();
                 }
-              }
+              },
             }}
           />
         </Col>
@@ -245,14 +249,14 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={stockActionRef}
             formRef={stockFormRef}
             {...proTableProps}
-            scroll={{y: 500, x: 1000, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 500, x: 1000, scrollToFirstRowOnChange: true }}
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo}
-              }
+                params: { ...searchInfo },
+              };
             }}
             toolBarRender={
-              (action, {selectedRowKeys}) => [
+              (action, { selectedRowKeys }) => [
                 selectedRowKeys && selectedRowKeys.length > 0 && <Button
                   icon={<PlusOutlined/>}
                   type="primary"
@@ -262,7 +266,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     try {
                       await createButton({
                         modelIds: productList,
-                        modelNrs: [modelNr]
+                        modelNrs: [modelNr],
                       });
                       hide();
                       message.success('创建成功');
@@ -277,11 +281,11 @@ const CreateTestItem: React.FC<{}> = () => {
                       }
                     }
                   }}
-                >创建挑粒明细</Button>
+                >创建挑粒明细</Button>,
               ]
             }
             search={false}
-            params={{params: {"waferWarehouse-ID": stockList ? stockList[0] : ''}}}
+            params={{ params: { 'waferWarehouse-ID': stockList ? stockList[0] : '' } }}
             request={(params) => {
               return queryWaferProductWarehouse(params);
             }}
@@ -289,7 +293,7 @@ const CreateTestItem: React.FC<{}> = () => {
             rowSelection={{
               onChange: (selectedRowKeys) => {
                 handleProductList(selectedRowKeys);
-              }
+              },
             }}
           />
         </Col>
@@ -301,14 +305,14 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={productActionRef}
             formRef={productFormRef}
             {...proTableProps}
-            scroll={{y: 250, x: 1500, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 250, x: 1500, scrollToFirstRowOnChange: true }}
             search={false}
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo}
-              }
+                params: { ...searchInfo },
+              };
             }}
-            toolBarRender={(action, {selectedRowKeys}) => [
+            toolBarRender={(action, { selectedRowKeys }) => [
               selectedRowKeys && selectedRowKeys.length > 0 && (
                 <Dropdown
                   overlay={
@@ -329,9 +333,9 @@ const CreateTestItem: React.FC<{}> = () => {
                     批量操作 <DownOutlined/>
                   </Button>
                 </Dropdown>
-              )
+              ),
             ]}
-            params={{params: {"waferGearWarehouse-waferModelWarehouse-waferWarehouse-ID": stockList ? stockList[0] : ''}}}
+            params={{ params: { 'waferGearWarehouse-waferModelWarehouse-waferWarehouse-ID': stockList ? stockList[0] : '' } }}
             request={(params) => {
               return queryPickingOrders(params);
             }}
@@ -339,14 +343,14 @@ const CreateTestItem: React.FC<{}> = () => {
             rowSelection={{
               onChange: (selectedRowKeys) => {
                 handleProductList(selectedRowKeys);
-              }
+              },
             }}
           />
         </Col>
       </Row>
 
     </PageHeaderWrapper>
-  )
+  );
 
 };
 

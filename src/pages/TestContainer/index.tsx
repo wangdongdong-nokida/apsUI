@@ -1,18 +1,19 @@
-import {Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input} from 'antd';
-import React, {useState, useRef} from 'react';
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
+import { Button, Select, Form, Card, Col, Row, DatePicker, InputNumber, message, Input } from 'antd';
+import React, { useState, useRef } from 'react';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
+import { ActionType, ProColumns } from '@ant-design/pro-table/lib/Table';
 
-import FormItem from "antd/lib/form/FormItem";
-import {PlusOutlined} from "@ant-design/icons/lib";
-import {EquipmentItem} from "@/pages/equipmentCalendar/data";
-import moment from "moment";
-import {FormInstance} from "antd/lib/form/Form";
-import {Key} from "antd/es/table/interface";
-import {SecondOrder, TestParameter} from './data';
-import {createTestItem, queryEquipments, querySecondOrder, queryTextLabel,} from './service';
-import {getEquipmentEndDate} from "@/pages/TestItemNormal/service";
+import FormItem from 'antd/lib/form/FormItem';
+import { PlusOutlined } from '@ant-design/icons/lib';
+import { EquipmentItem } from '@/pages/equipmentCalendar/data';
+import moment from 'moment';
+import { FormInstance } from 'antd/lib/form/Form';
+import { Key } from 'antd/es/table/interface';
+import { SecondOrder, TestParameter } from './data';
+import { createTestItem, queryEquipments, querySecondOrder, queryTextLabel } from './service';
+import { getEquipmentEndDate } from '@/pages/TestItemNormal/service';
+import TextArea from 'antd/lib/input/TextArea';
 
 const CreateTestItem: React.FC<{}> = () => {
   const [form] = Form.useForm();
@@ -36,18 +37,18 @@ const CreateTestItem: React.FC<{}> = () => {
   const [screenSelected, handleScreenSelected] = useState<[]>([]);
 
   const formSpan = 6;
-  const inputStyle = {width: "100%"};
+  const inputStyle = { width: '100%' };
   const proTableProps = {
-    pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 10},
-    scroll: {y: 300, scrollToFirstRowOnChange: true},
-    rowKey: "id",
-    search: {span: 8},
+    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 10 },
+    scroll: { y: 300, scrollToFirstRowOnChange: true },
+    rowKey: 'id',
+    search: { span: 8 },
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: searchInfo
-      }
-    }
+        params: searchInfo,
+      };
+    },
   };
 
   const secondOrderColumns: ProColumns<SecondOrder>[] = [
@@ -55,16 +56,25 @@ const CreateTestItem: React.FC<{}> = () => {
       title: 'id',
       dataIndex: 'id',
       hideInTable: true,
-      hideInSearch: true
+      hideInSearch: true,
     },
     // {
     //   title: '编号',
     //   dataIndex: 'nr',
     // },
     {
+      title: '创建状态',
+      dataIndex: ['showState'],
+      hideInTable: true,
+      valueEnum: {
+        'created': '已创建',
+        'uncreated': '未创建',
+      },
+    },
+    {
       title: '名称',
       dataIndex: 'name',
-      hideInSearch:true
+      hideInSearch: true,
     },
     {
       title: '版号',
@@ -79,33 +89,43 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'type',
     },
     {
+      title: '任务数量',
+      dataIndex: 'quantity',
+      hideInSearch: true,
+    },
+    {
+      title: '测试调度备注',
+      dataIndex: 'testBrief',
+      hideInSearch: true,
+    },
+    {
       title: '订单状态',
       dataIndex: 'status',
     },
     {
       title: '产品类型',
-      dataIndex: ['productType', "name"],
-      hideInSearch:true
-    }
+      dataIndex: ['productType', 'name'],
+      hideInSearch: true,
+    },
   ];
 
 
   const createButton = (params: any) => {
-    return createTestItem(params)
+    return createTestItem(params);
   };
 
   const testLabelHandler = async () => {
-    const testLabel = await queryTextLabel({type: "测试"});
+    const testLabel = await queryTextLabel({ type: '预测' });
     handleTestLabel(testLabel.data);
   };
 
   const screenLabelHandler = async () => {
-    const screenLabel = await queryTextLabel({type: "筛选"});
+    const screenLabel = await queryTextLabel({ type: '筛选' });
     handleScreenLabel(screenLabel.data);
   };
 
   const assessmentLabelHandler = async () => {
-    const assessmentLabel = await queryTextLabel({type: "考核"});
+    const assessmentLabel = await queryTextLabel({ type: '考核' });
     handleAssessmentLabel(assessmentLabel.data);
   };
 
@@ -119,13 +139,13 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const equipmentHandler = async () => {
-    const equipments = await queryEquipments({type: "测试"});
+    const equipments = await queryEquipments({ type: '测试' });
     handleEquipment(equipments);
 
     const date = moment();
-    form.setFieldsValue({"planningStartTime": date.clone()});
-    form.setFieldsValue({"planningFinishTime": date.clone()});
-    form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
+    form.setFieldsValue({ 'planningStartTime': date.clone() });
+    form.setFieldsValue({ 'planningFinishTime': date.clone() });
+    form.setFieldsValue({ 'planningAvailableTime': date.add(3, 'd') });
   };
 
   const optionEquipment = () => {
@@ -142,7 +162,7 @@ const CreateTestItem: React.FC<{}> = () => {
     handleSecondOrderList(selectedRowKeys[0]);
     if (selectedRows.length > 0) {
       const modelNr: string | undefined = selectedRows[0].waferModelNr;
-      const {waferNr} = selectedRows[0];
+      const { waferNr } = selectedRows[0];
       handlerWaferModelNr(modelNr);
       handlerSelectedWaferNr(waferNr);
     }
@@ -175,15 +195,15 @@ const CreateTestItem: React.FC<{}> = () => {
                   <FormItem
                     name="equipmentId"
                     label="待排设备"
-                    rules={[{required: true, message: '请选中一台设备'}]}
+                    rules={[{ required: true, message: '请选中一台设备' }]}
                   >
                     <Select style={inputStyle}
                             onFocus={equipmentHandler}
                             onChange={async (selectValue) => {
                               const date = moment(await getEquipmentEndDate(selectValue));
-                              form.setFieldsValue({"planningStartTime": date.clone()});
-                              form.setFieldsValue({"planningFinishTime": date.clone()});
-                              form.setFieldsValue({"planningAvailableTime": date.add(3, "d")});
+                              form.setFieldsValue({ 'planningStartTime': date.clone() });
+                              form.setFieldsValue({ 'planningFinishTime': date.clone() });
+                              form.setFieldsValue({ 'planningAvailableTime': date.add(3, 'd') });
                             }}
                     >
                       {optionEquipment()}
@@ -194,7 +214,7 @@ const CreateTestItem: React.FC<{}> = () => {
                   <FormItem
                     name="testSymbol"
                     label="测试标识"
-                    rules={[{required: true, message: '请填写测试标识'}]}>
+                    rules={[{ required: true, message: '请填写测试标识' }]}>
                     <Input style={inputStyle}/>
                   </FormItem>
                 </Col>
@@ -251,30 +271,30 @@ const CreateTestItem: React.FC<{}> = () => {
               </Row>
 
               <Row gutter={[30, 16]}>
-                <Col span={formSpan}>{!(forecastSelected.length > 0) ? "" : (
+                <Col span={formSpan}>{!(forecastSelected.length > 0) ? '' : (
                   <FormItem
                     name="forecastHours"
                     label="预测小时"
-                    rules={[{required: true, message: "请输入预测小时"}]}
+                    rules={[{ required: true, message: '请输入预测小时' }]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
                 )} </Col>
 
-                <Col span={formSpan}> {!(screenSelected.length > 0) ? "" : (
+                <Col span={formSpan}> {!(screenSelected.length > 0) ? '' : (
                   <FormItem
                     label="筛选小时"
                     name="screenHours"
-                    rules={[{required: true, message: "请输入筛选小时"}]}
+                    rules={[{ required: true, message: '请输入筛选小时' }]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
                 )}</Col>
-                <Col span={formSpan}>{!(assessmentSelected.length > 0) ? "" : (
+                <Col span={formSpan}>{!(assessmentSelected.length > 0) ? '' : (
                   <FormItem
                     label="考核小时"
                     name="assessmentHours"
-                    rules={[{required: true, message: "请输入考核小时"}]}
+                    rules={[{ required: true, message: '请输入考核小时' }]}
                   >
                     <InputNumber min={0} defaultValue={0} style={inputStyle}/>
                   </FormItem>
@@ -305,6 +325,17 @@ const CreateTestItem: React.FC<{}> = () => {
                   </FormItem>
                 </Col>
               </Row>
+              <Row gutter={[30, 16]}>
+                <Col span={formSpan}>
+                  <FormItem
+                    label="备注"
+                    name="testBrief"
+                  >
+                    <TextArea style={inputStyle}/>
+                  </FormItem>
+                </Col>
+              </Row>
+
             </Form>
           </Col>
         </Row>
@@ -340,7 +371,7 @@ const CreateTestItem: React.FC<{}> = () => {
       </Card>
 
     </PageHeaderWrapper>
-  )
+  );
 
 };
 
