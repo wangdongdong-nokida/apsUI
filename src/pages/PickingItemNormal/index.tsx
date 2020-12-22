@@ -21,7 +21,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const productFormRef = useRef<FormInstance>();
 
   const [stockList, handleStockList] = useState<Key[]>();
-  const [modelNr, handleModelNr] = useState<Key[]>();
+  const modelNr = {};
   const [productList, handleProductList] = useState<Key[]>();
 
   const handleRemove = async (ids: any) => {
@@ -129,10 +129,10 @@ const CreateTestItem: React.FC<{}> = () => {
             {value}
           </Select.Option>
         ));
-        handleModelNr(text ? text[0] : null);
+        modelNr[record?.id] = text ? text[0] : null;
         return (
           <Select style={{ width: '100%' }} defaultValue={text ? text[0] : null} onChange={(value) => {
-            handleModelNr(value);
+            modelNr[record?.id] = value;
           }}>
             {options}
           </Select>);
@@ -264,9 +264,10 @@ const CreateTestItem: React.FC<{}> = () => {
                     // const submitForm = await form.validateFields();
                     const hide = message.loading('正在添加');
                     try {
+                      // console.log(...modelNr);
                       await createButton({
                         modelIds: productList,
-                        modelNrs: [modelNr],
+                        modelNrs: modelNr,
                       });
                       hide();
                       message.success('创建成功');
