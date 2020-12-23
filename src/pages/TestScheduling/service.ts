@@ -45,6 +45,7 @@ export async function editEquipment(searchInfo?: { [key: string]: string }) {
 export async function queryTestItem(searchInfo?: TableListParams) {
   return request('/server/testItem/findAll', {
     method: "POST",
+    responseType:'json',
     data: {
       ...searchInfo,
       orderBy:"indexOrder"
@@ -69,6 +70,31 @@ export async function testItemDelete(equipmentId:[any],searchInfo?: ReactText[])
       ids:searchInfo,
     }
   });
+}
+
+export async function  exportTestItemData (headerNameArray :[any],headerKeyArray : [any], testItemParamsList : [any])  {
+  console.info("testItemList",testItemParamsList)
+  const data = await request('/server/testItem/exportTestItemData',{
+    method: "POST",
+    responseType:'blob',
+    data: {
+      headerNameArray,
+      headerKeyArray,
+      testItemParamsList,
+    }
+  });
+  const aLink = document.createElement('a');
+  document.body.appendChild(aLink);
+  aLink.style.display='none';
+  let objectUrl = null;
+  let binaryData = [];
+  binaryData.push(data);
+  objectUrl = window.URL.createObjectURL(new Blob(binaryData));
+
+  aLink.href = objectUrl;
+  aLink.download = "测试排产.xls";
+  aLink.click();
+  document.body.removeChild(aLink);
 }
 
 
