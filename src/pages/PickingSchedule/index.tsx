@@ -101,7 +101,8 @@ const PickingSchedule: React.FC<{}> = () => {
     },
     {
       title: "工艺路径",
-      dataIndex: ["workFlowName"]
+      dataIndex: ["workFlowName"],
+      hideInSearch: true,
     },
     {
       title: "工序",
@@ -110,6 +111,7 @@ const PickingSchedule: React.FC<{}> = () => {
     {
       title: "工位",
       dataIndex: ["equipmentName",],
+      hideInSearch: true,
     },
     {
       title: '客户',
@@ -122,14 +124,17 @@ const PickingSchedule: React.FC<{}> = () => {
     {
       title: "生产时长",
       dataIndex: ["durationTime"],
+      hideInSearch: true,
     },
     {
       title: '排产开始时间',
       dataIndex: ['startDate'],
+      hideInSearch: true,
     },
     {
       title: '排产结束时间',
       dataIndex: ['endDate'],
+      hideInSearch: true,
     },
     {
       title: '销售订单',
@@ -139,6 +144,7 @@ const PickingSchedule: React.FC<{}> = () => {
     {
       title: '订单数量',
       dataIndex: ['salesOrderQuantities'],
+      hideInSearch: true,
     }
   ];
 
