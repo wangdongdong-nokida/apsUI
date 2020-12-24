@@ -97,7 +97,15 @@ export async function  exportTestItemData (headerNameArray :[any],headerKeyArray
   document.body.removeChild(aLink);
 }
 
-
+export async function querySecondOrderInfoByName(secondOrderName : any) {
+  console.info("secondOrderName",secondOrderName)
+  return request('/server/testItem/querySecondOrderInfoByName', {
+    method: "GET",
+    params:{
+      secondOrderName
+    }
+  });
+}
 
 
 

@@ -27,6 +27,7 @@ import {
   exportTestItemData,
 } from './service';
 import { EditSupplyTime } from '@/pages/TestScheduling/components/EditSupplyTime';
+import { ViewSecondOrderInfo } from '@/pages/TestScheduling/components/ViewSecondOrderInfo';
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -55,6 +56,10 @@ const CreateTestItem: React.FC<{}> = () => {
   const [moveRowKeys, handleMoveRowKeys] = useState<Key[]>([]);
 
   const [testItemParamsList,handleTestItemParamsList] = useState<any>();
+
+  const [viewSecondOrderInfoVisible, handleViewSecondOrderInfoVisible] = useState<boolean>(false);
+
+  const [secondOrderClickRow, handleSecondOrderClickRow] = useState<any>();
 
   const proTableProps = {
     pagination: { pageSizeOptions: ['5', '10', '15', '20', '40'], pageSize: 20 },
@@ -134,6 +139,19 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '二级任务号',
       dataIndex: ['scheduleTestItem', 'secondOrder', 'name'],
       hideInSearch: true,
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              console.info("entity",entity)
+              handleSecondOrderClickRow(entity);
+              handleViewSecondOrderInfoVisible(!viewSecondOrderInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '明细备注',
@@ -448,9 +466,11 @@ const CreateTestItem: React.FC<{}> = () => {
           taskIDs: selectRowKeys ? selectRowKeys[0] : '',
           waferNr: selectRowWafer,
         }}/>
-
+      <ViewSecondOrderInfo modalVisible={viewSecondOrderInfoVisible} onCancel={()=>{handleViewSecondOrderInfoVisible(false)}} secondOrderRow={secondOrderClickRow}/>
 
     </PageHeaderWrapper>
+
+
   );
 
 };
