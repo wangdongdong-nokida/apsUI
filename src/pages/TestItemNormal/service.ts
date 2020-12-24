@@ -74,5 +74,25 @@ export async function queryTestItemBySecondOrder(searchInfo?: any) {
   });
 }
 
+export async function queryYjrwBySecondOrderId(secondOrderId?: any) {
+  return request('/server/testItem/findYjrwBySecondOrderId', {
+    method: "GET",
+    params: {
+      secondOrderId,
+    }
+  });
+}
+
+export async function querySalesOrderByFirstOrderId(firstOrderId?: any) {
+  return request('/server/testItem/findSalesOrderByFirstOrderId', {
+    method: "GET",
+    params: {
+      firstOrderId,
+    }
+  });
+}
+
+
+
 
 

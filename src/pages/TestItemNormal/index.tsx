@@ -12,6 +12,7 @@ import { FormInstance } from 'antd/lib/form/Form';
 import { Key } from 'antd/es/table/interface';
 import TextArea from 'antd/lib/input/TextArea';
 import { ScheduleTestItem } from '@/pages/TestItemNormal/components/ScheduleTestItem';
+import { ViewYjrwInfo } from '@/pages/TestItemNormal/components/ViewYjrwInfo';
 import { WaferProduct, SecondOrder, TestParameter, Wafer } from './data';
 import {
   createTestItem, getEquipmentEndDate,
@@ -50,7 +51,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const [assessmentSelected, handleAssessmentSelected] = useState<[]>([]);
   const [screenSelected, handleScreenSelected] = useState<[]>([]);
   const [scheduleTestItemVisible, handleScheduleTestItemVisible] = useState<boolean>(false);
-
+  const [ViewYjrwInfoVisible, handleViewYjrwInfoVisible] = useState<boolean>(false);
   const productFormReset = () => {
     // eslint-disable-next-line no-unused-expressions
     productFormRef?.current?.resetFields();
@@ -92,6 +93,17 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '二级任务号',
       dataIndex: 'name',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleViewYjrwInfoVisible(!ViewYjrwInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '版号',
@@ -669,6 +681,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
       <ScheduleTestItem modalVisible={scheduleTestItemVisible} onCancel={()=>{handleScheduleTestItemVisible(false)}} secondOrderID={secondOrderList}/>
 
+      <ViewYjrwInfo modalVisible={ViewYjrwInfoVisible} onCancel={()=>{handleViewYjrwInfoVisible(false)}} secondOrderID={secondOrderList}/>
     </PageHeaderWrapper>
   );
 
