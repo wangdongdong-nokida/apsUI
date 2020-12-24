@@ -12,11 +12,11 @@ import { Key } from 'antd/es/table/interface';
 interface ViewYjrwInfoProps {
   modalVisible: boolean;
   onCancel: () => void;
-  secondOrderID:any
+  secondOrderRow:any
 }
 
 export const ViewYjrwInfo: React.FC<ViewYjrwInfoProps> = (props) => {
-  const { modalVisible, onCancel,secondOrderID } = props;
+  const { modalVisible, onCancel,secondOrderRow } = props;
 
   const [firstOrderId, firstOrderIdHandle] = useState<any>('');
 
@@ -300,7 +300,7 @@ export const ViewYjrwInfo: React.FC<ViewYjrwInfoProps> = (props) => {
             {...proTableProps}
             search={false}
             rowKey="ID"
-            request={() => queryYjrwBySecondOrderId(secondOrderID)}
+            request={() => queryYjrwBySecondOrderId(secondOrderRow.id)}
             columns={yjrwInfoColumns}
             rowSelection={{
               type: 'radio',

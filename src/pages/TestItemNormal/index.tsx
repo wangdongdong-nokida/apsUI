@@ -52,6 +52,8 @@ const CreateTestItem: React.FC<{}> = () => {
   const [screenSelected, handleScreenSelected] = useState<[]>([]);
   const [scheduleTestItemVisible, handleScheduleTestItemVisible] = useState<boolean>(false);
   const [ViewYjrwInfoVisible, handleViewYjrwInfoVisible] = useState<boolean>(false);
+
+  const [secondOrderClickRow, handlesecondOrderClickRow] = useState<any>();
   const productFormReset = () => {
     // eslint-disable-next-line no-unused-expressions
     productFormRef?.current?.resetFields();
@@ -97,6 +99,7 @@ const CreateTestItem: React.FC<{}> = () => {
         return (
           <a
             onClick={() => {
+              handlesecondOrderClickRow(entity);
               handleViewYjrwInfoVisible(!ViewYjrwInfoVisible)
             }}
           >
@@ -681,7 +684,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
       <ScheduleTestItem modalVisible={scheduleTestItemVisible} onCancel={()=>{handleScheduleTestItemVisible(false)}} secondOrderID={secondOrderList}/>
 
-      <ViewYjrwInfo modalVisible={ViewYjrwInfoVisible} onCancel={()=>{handleViewYjrwInfoVisible(false)}} secondOrderID={secondOrderList}/>
+      <ViewYjrwInfo modalVisible={ViewYjrwInfoVisible} onCancel={()=>{handleViewYjrwInfoVisible(false)}} secondOrderRow={secondOrderClickRow}/>
     </PageHeaderWrapper>
   );
 
