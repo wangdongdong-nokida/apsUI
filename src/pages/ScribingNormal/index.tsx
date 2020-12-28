@@ -73,6 +73,19 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '圆片状态',
       dataIndex: ["center", 'waferWarehouse','status'],
+      valueEnum: {
+        已划片: '已划片',
+        实验片: '实验片',
+        报废: '报废',
+        退工艺线: '退工艺线',
+        测试不合格: '测试不合格',
+        测试中: '测试中',
+        已预测: '已预测',
+        已测待划: '已测待划',
+        划片中: '划片中',
+        库里待测试: '库里待测试',
+        流片中: '流片中',
+      },
     },
     {
       title: "二级任务号",
@@ -81,10 +94,16 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '产品类型',
       dataIndex: ["productType"],
+      hideInSearch: true,
     },
     {
       title: '任务类型',
       dataIndex: ["orderType"],
+      valueEnum: {
+        生产: '生产',
+        研制: '研制',
+        考核: '考核',
+      },
     },
   ];
 
