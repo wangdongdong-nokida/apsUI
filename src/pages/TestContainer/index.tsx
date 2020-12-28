@@ -72,9 +72,8 @@ const CreateTestItem: React.FC<{}> = () => {
       },
     },
     {
-      title: '名称',
+      title: '二级任务号',
       dataIndex: 'name',
-      hideInSearch: true,
     },
     {
       title: '版号',
@@ -89,6 +88,19 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'type',
     },
     {
+      title: '测试班组',
+      dataIndex: 'csbz',
+      valueEnum: {
+        测试A: '测试A',
+        测试B: '测试B',
+      },
+    },
+    {
+      title: '批次号',
+      dataIndex: 'batchNr',
+      hideInSearch: true,
+    },
+    {
       title: '任务数量',
       dataIndex: 'quantity',
       hideInSearch: true,
@@ -101,6 +113,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '订单状态',
       dataIndex: 'status',
+      hideInSearch: true,
     },
     {
       title: '产品类型',
