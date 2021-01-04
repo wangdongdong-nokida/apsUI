@@ -96,10 +96,10 @@ const CreateTestItem: React.FC<{}> = () => {
       },
       hideInSearch: true
     },
-    {
-      title: '销售订单',
-      dataIndex: ['bindSalesOrder'],
-    },
+    // {
+    //   title: '销售订单',
+    //   dataIndex: ['bindSalesOrder'],
+    // },
     {
       title: '客户',
       dataIndex: ['bindCustomer'],
@@ -190,12 +190,12 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['endDate'],
       hideInSearch: true
     },
-    {
-      title: '销售订单',
-      dataIndex: ['bindSalesOrder'],
-      width: 300,
-      hideInSearch: true
-    },
+    // {
+    //   title: '销售订单',
+    //   dataIndex: ['bindSalesOrder'],
+    //   width: 300,
+    //   hideInSearch: true
+    // },
     {
       title: '客户',
       dataIndex: ['bindCustomer'],

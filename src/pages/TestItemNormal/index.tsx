@@ -666,7 +666,7 @@ const CreateTestItem: React.FC<{}> = () => {
                       return target;
                     }),
                     stock: stockList,
-                    waferNr: productFormRef?.current?.getFieldValue('wafer-nr'),
+                    waferNr: productFormRef?.current?.getFieldValue('==wafer-nr'),
                   });
                   hide();
                   message.success('创建成功');

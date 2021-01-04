@@ -267,7 +267,8 @@ const CreateTestItem: React.FC<{}> = () => {
                       // console.log(...modelNr);
                       await createButton({
                         modelIds: productList,
-                        modelNrs: modelNr,
+                        modelNrs:
+                        modelNr,
                       });
                       hide();
                       message.success('创建成功');

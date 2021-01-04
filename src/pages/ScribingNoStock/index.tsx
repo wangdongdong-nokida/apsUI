@@ -99,7 +99,7 @@ const CreateTestItem: React.FC<{}> = () => {
                   <FormItem
                     label="任务编码"
                     name="operationNr"
-                    rules={[{required: true, message: '请填入任务编码'}]}
+                    // rules={[{required: true, message: '请填入任务编码'}]}
                   >
                     <Input style={inputStyle}/>
                   </FormItem>
@@ -109,7 +109,7 @@ const CreateTestItem: React.FC<{}> = () => {
                   <FormItem
                     label="负责人"
                     name="responsiblePerson"
-                    rules={[{required: true, message: '请填入负责人'}]}
+                    // rules={[{required: true, message: '请填入负责人'}]}
                   >
                     <Input style={inputStyle}/>
                   </FormItem>
