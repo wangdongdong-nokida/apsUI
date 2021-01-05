@@ -3,6 +3,7 @@ import React, {ReactText} from "react";
 import FormItem from "antd/lib/form/FormItem";
 import {ActionType} from "@ant-design/pro-table/lib/Table";
 import {schedulePickingItem} from "../service";
+import TextArea from 'antd/lib/input/TextArea';
 
 
 interface EditEquipmentProps {
@@ -45,11 +46,11 @@ export const EditEquipment: React.FC<EditEquipmentProps> = (props) => {
         <FormItem rules={[{required: true, message: "请输入生产时间！"}]} label="生产时间" name="durationTime">
           <InputNumber style={{width: "70%"}}/>
         </FormItem>
-{/*
-        <FormItem rules={[{required: true, message: "请输入生产数量！"}]} label="生产数量" name="quantity">
-          <InputNumber style={{width: "70%"}}/>
+
+        <FormItem label="备注" name="itemBrief">
+          <TextArea style={{width: "70%"}}/>
         </FormItem>
-*/}
+
       </Form>
     </Modal>
   )

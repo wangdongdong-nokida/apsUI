@@ -1,12 +1,12 @@
-import {Button, Col, Row, message, Menu, Dropdown, Modal, Select} from 'antd';
-import React, {useState, useRef, Key, ReactText} from 'react';
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
+import { Button, Col, Row, message, Menu, Dropdown, Modal, Select } from 'antd';
+import React, { useState, useRef, Key, ReactText } from 'react';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import {ActionType, ProColumns} from "@ant-design/pro-table/lib/Table";
+import { ActionType, ProColumns } from '@ant-design/pro-table/lib/Table';
 
-import {DownOutlined, EditOutlined} from "@ant-design/icons/lib";
-import {FormInstance} from "antd/lib/form/Form";
-import {EditEquipment} from "./components/EditEquipment";
+import { DownOutlined, EditOutlined } from '@ant-design/icons/lib';
+import { FormInstance } from 'antd/lib/form/Form';
+import { EditEquipment } from './components/EditEquipment';
 import {
   autoCreateOperation,
   createOperation,
@@ -14,7 +14,7 @@ import {
   deletePickingOrders,
   getWorkFlow, getWorkStep,
   queryOperations,
-  queryPickingOrders
+  queryPickingOrders,
 } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -39,21 +39,21 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const proTableProps = {
-    pagination: {pageSizeOptions: ["5", "10", "20"], pageSize: 5},
-    rowKey: "id",
-    search: {span: 8},
+    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 5 },
+    rowKey: 'id',
+    search: { span: 8 },
     bordered: true,
     beforeSearchSubmit: (searchInfo: any) => {
       return {
-        params: searchInfo
-      }
-    }
+        params: searchInfo,
+      };
+    },
   };
 
   const pickingOrderColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: ["pickingOrder", "id"],
+      dataIndex: ['pickingOrder', 'id'],
       hideInSearch: true,
       hideInTable: true,
     },
@@ -62,9 +62,9 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'createState',
       hideInTable: true,
       valueEnum: {
-        created: "已设置",
-        uncreated: "未设置"
-      }
+        created: '已设置',
+        uncreated: '未设置',
+      },
     },
     {
       title: '版号',
@@ -79,22 +79,22 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['modelNr'],
     },
     {
-      title: "电路序号",
-      dataIndex: ["circuitNr"],
-      hideInSearch: true
+      title: '电路序号',
+      dataIndex: ['circuitNr'],
+      hideInSearch: true,
     },
     {
-      title: "物料状态",
-      dataIndex: ["sliceState"],
-      hideInSearch: true
+      title: '物料状态',
+      dataIndex: ['sliceState'],
+      hideInSearch: true,
     },
     {
-      title: "物料类型",
-      dataIndex: ["salesOrder"],
+      title: '物料类型',
+      dataIndex: ['salesOrder'],
       render: (text) => {
-        return text ? "芯片" : "圆片"
+        return text ? '芯片' : '圆片';
       },
-      hideInSearch: true
+      hideInSearch: true,
     },
     // {
     //   title: '销售订单',
@@ -111,31 +111,31 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '订单数量',
       dataIndex: ['salesOrderQuantities'],
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '数量',
       dataIndex: ['quantity'],
-      hideInSearch: true
-    }
+      hideInSearch: true,
+    },
   ];
 
   const operationColumn: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: ["id"],
+      dataIndex: ['id'],
       hideInSearch: true,
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '显示方式',
-      dataIndex: ["showType"],
+      dataIndex: ['showType'],
       hideInTable: true,
       valueEnum: {
-        total: "所有",
-        created: "已排",
-        uncreated: "未排"
-      }
+        total: '所有',
+        created: '已排',
+        uncreated: '未排',
+      },
     },
     {
       title: '版号',
@@ -151,44 +151,44 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['modelNr'],
     },
     {
-      title: "电路序号",
-      dataIndex: ["circuitNr"],
-      hideInSearch: true
+      title: '电路序号',
+      dataIndex: ['circuitNr'],
+      hideInSearch: true,
     },
     {
-      title: "工艺路径",
-      dataIndex: ["workFlowName"],
-      hideInSearch: true
+      title: '工艺路径',
+      dataIndex: ['workFlowName'],
+      hideInSearch: true,
     },
     {
-      title: "工序",
-      dataIndex: ["workStepName"],
+      title: '工序',
+      dataIndex: ['workStepName'],
       // hideInSearch: true
     },
     {
-      title: "工位",
-      dataIndex: ["equipmentName",],
-      hideInSearch: true
+      title: '工位',
+      dataIndex: ['equipmentName'],
+      hideInSearch: true,
     },
     {
-      title: "生产时长",
-      dataIndex: ["durationTime"],
-      hideInSearch: true
+      title: '生产时长',
+      dataIndex: ['durationTime'],
+      hideInSearch: true,
     },
     {
-      title: "数量",
-      dataIndex: ["quantity"],
-      hideInSearch: true
+      title: '数量',
+      dataIndex: ['quantity'],
+      hideInSearch: true,
     },
     {
       title: '排产开始时间',
       dataIndex: ['startDate'],
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '排产结束时间',
       dataIndex: ['endDate'],
-      hideInSearch: true
+      hideInSearch: true,
     },
     // {
     //   title: '销售订单',
@@ -207,8 +207,13 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '订单数量',
       dataIndex: ['salesOrderQuantities'],
-      hideInSearch: true
-    }
+      hideInSearch: true,
+    },
+    {
+      title: '明细备注',
+      dataIndex: ['itemBrief'],
+      hideInSearch: true,
+    },
   ];
 
 
@@ -218,7 +223,7 @@ const CreateTestItem: React.FC<{}> = () => {
   // const [operationDataState, handlerOperationDataState] = useState<Key[]>();
 
   const createOperationItem = async (params: any) => {
-    const hide = message.loading("正在创建工序,请稍后");
+    const hide = message.loading('正在创建工序,请稍后');
     try {
       await createOperation(params);
       hide();
@@ -239,18 +244,18 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={pickingOrderActionRef}
             formRef={pickingOrderFormRef}
             {...proTableProps}
-            scroll={{y: 500, x: 2000, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 500, x: 2000, scrollToFirstRowOnChange: true }}
             // search={false}
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo}
-              }
+                params: { ...searchInfo },
+              };
             }}
-            toolBarRender={(action, {selectedRowKeys}) => [
+            toolBarRender={(action, { selectedRowKeys }) => [
               selectedRowKeys && selectedRowKeys.length > 0 &&
               (<Button type="primary"
                        onClick={async () => {
-                         const params = {pickingOrder};
+                         const params = { pickingOrder };
                          await autoCreateOperation(params);
                          operationActionRef.current?.reload();
                        }}
@@ -258,7 +263,7 @@ const CreateTestItem: React.FC<{}> = () => {
               selectedRowKeys && selectedRowKeys.length > 0 &&
               (<Button type="primary"
                        onClick={() => {
-                         handleModalVisible(!modalVisible)
+                         handleModalVisible(!modalVisible);
                        }}
               >设置挑粒工序</Button>),
               selectedRowKeys && selectedRowKeys.length > 0 && (
@@ -281,7 +286,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     批量操作 <DownOutlined/>
                   </Button>
                 </Dropdown>
-              )
+              ),
             ]}
             // params={{params: {"<>bindSalesOrder": ddh, "salesOrder": true}}}
             request={(params) => {
@@ -289,10 +294,10 @@ const CreateTestItem: React.FC<{}> = () => {
             }}
             columns={pickingOrderColumn}
             rowSelection={{
-              type: "checkbox",
+              type: 'checkbox',
               onChange: (selectedRowKeys) => {
-                handlePickingOrder(selectedRowKeys ? selectedRowKeys : "");
-              }
+                handlePickingOrder(selectedRowKeys ? selectedRowKeys : '');
+              },
             }}
           />
         </Col>
@@ -304,14 +309,14 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={operationActionRef}
             formRef={operationFormRef}
             {...proTableProps}
-            scroll={{y: 500, x: 2200, scrollToFirstRowOnChange: true}}
+            scroll={{ y: 500, x: 2200, scrollToFirstRowOnChange: true }}
             // search={false}
             beforeSearchSubmit={(searchInfo) => {
               return {
-                params: {...searchInfo}
-              }
+                params: { ...searchInfo },
+              };
             }}
-            toolBarRender={(action, {selectedRowKeys, selectedRows}) => [
+            toolBarRender={(action, { selectedRowKeys, selectedRows }) => [
               selectedRowKeys && selectedRowKeys.length > 0 &&
               <Button type="primary" icon={<EditOutlined/>}
                       onClick={() => {
@@ -319,7 +324,7 @@ const CreateTestItem: React.FC<{}> = () => {
                           let operationType = null;
                           for (let row = 0; row < selectedRows.length; row += 1) {
                             if (operationType && operationType !== selectedRows[row].workStepName) {
-                              message.error("请选中相同的工序");
+                              message.error('请选中相同的工序');
                               return;
                             }
                             operationType = selectedRows[row].workStepName;
@@ -328,7 +333,7 @@ const CreateTestItem: React.FC<{}> = () => {
                           const options = insideEquipments ? insideEquipments.map((key) => (
                             <Select.Option key={key.id} value={key.id}>
                               {key.name}
-                            </Select.Option>)
+                            </Select.Option>),
                           ) : null;
 
                           handleEquipments(options);
@@ -355,7 +360,7 @@ const CreateTestItem: React.FC<{}> = () => {
                     批量操作 <DownOutlined/>
                   </Button>
                 </Dropdown>
-              )
+              ),
             ]}
             // params={{params: {"pickingOrder-ID": pickingOrder}}}
             request={(params) => {
@@ -363,10 +368,10 @@ const CreateTestItem: React.FC<{}> = () => {
             }}
             columns={operationColumn}
             rowSelection={{
-              type: "checkbox",
+              type: 'checkbox',
               onChange: (selectedRowKeys) => {
                 handleOperationKeys(selectedRowKeys);
-              }
+              },
             }}
           />
         </Col>
@@ -374,10 +379,10 @@ const CreateTestItem: React.FC<{}> = () => {
 
       <Modal visible={modalVisible} width={800} destroyOnClose
              onCancel={() => {
-               handleModalVisible(false)
+               handleModalVisible(false);
              }}
              onOk={async () => {
-               const params = {pickingOrder, workFlow};
+               const params = { pickingOrder, workFlow };
                await createOperationItem(params);
                operationActionRef.current?.reload();
                pickingOrderActionRef.current?.reload();
@@ -393,25 +398,25 @@ const CreateTestItem: React.FC<{}> = () => {
               rowKey="id"
               rowSelection={
                 {
-                  type: "radio",
+                  type: 'radio',
                   onChange: (selectedRowKeys) => {
-                    handleWorkFlow(selectedRowKeys ? selectedRowKeys[0] : "");
-                  }
+                    handleWorkFlow(selectedRowKeys ? selectedRowKeys[0] : '');
+                  },
                 }
               }
               request={async (params) => {
-                return getWorkFlow(params)
+                return getWorkFlow(params);
               }}
               columns={[
                 {
-                  title: "工艺路径名称",
-                  dataIndex: ["workFlowName", "workFlowName"],
+                  title: '工艺路径名称',
+                  dataIndex: ['workFlowName', 'workFlowName'],
                 },
                 {
-                  title: "ID",
-                  dataIndex: "id",
-                  hideInTable: true
-                }
+                  title: 'ID',
+                  dataIndex: 'id',
+                  hideInTable: true,
+                },
               ]}
             />
           </Col>
@@ -423,17 +428,17 @@ const CreateTestItem: React.FC<{}> = () => {
               request={async (params) => {
                 return getWorkStep(params);
               }}
-              params={{params: {"workFlow-ID": workFlow}, orderBy: "SEQUENCE"}}
+              params={{ params: { 'workFlow-ID': workFlow }, orderBy: 'SEQUENCE' }}
               columns={[
                 {
-                  title: "工序名称",
-                  dataIndex: ["workStepName", "stepName"],
+                  title: '工序名称',
+                  dataIndex: ['workStepName', 'stepName'],
                 },
                 {
-                  title: "ID",
-                  dataIndex: "id",
-                  hideInTable: true
-                }
+                  title: 'ID',
+                  dataIndex: 'id',
+                  hideInTable: true,
+                },
               ]}
             />
           </Col>
@@ -441,11 +446,11 @@ const CreateTestItem: React.FC<{}> = () => {
       </Modal>
 
       <EditEquipment modalVisible={equipmentVisible} onCancel={() => {
-        handlerEquipmentVisible(false)
-      }} params={{ids: operationKeys, equipments, operationActionRef}}/>
+        handlerEquipmentVisible(false);
+      }} params={{ ids: operationKeys, equipments, operationActionRef }}/>
 
     </PageHeaderWrapper>
-  )
+  );
 
 };
 

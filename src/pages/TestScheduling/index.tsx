@@ -28,11 +28,16 @@ import {
 } from './service';
 import { EditSupplyTime } from '@/pages/TestScheduling/components/EditSupplyTime';
 import { ViewSecondOrderInfo } from '@/pages/TestScheduling/components/ViewSecondOrderInfo';
+import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
+import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
 
 
 const CreateTestItem: React.FC<{}> = () => {
 
   const scheduleTestFormRef = useRef<FormInstance>();
+
+  const [durationDelayTimeVisible, handleDurationDelayTimeVisible] = useState<boolean>(false);
+
 
   const scheduleTestActionRef = useRef<ActionType>();
 
@@ -60,6 +65,14 @@ const CreateTestItem: React.FC<{}> = () => {
   const [viewSecondOrderInfoVisible, handleViewSecondOrderInfoVisible] = useState<boolean>(false);
 
   const [secondOrderClickRow, handleSecondOrderClickRow] = useState<any>();
+
+  const durationDelayTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
+    await editDurationDelayTime(searchInfo);
+    handleDurationDelayTimeVisible(false);
+    if (scheduleTestFormRef.current) {
+      scheduleTestFormRef.current.submit();
+    }
+  };
 
   const proTableProps = {
     pagination: { pageSizeOptions: ['5', '10', '15', '20', '40'], pageSize: 20 },
@@ -187,6 +200,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '生产时长',
       dataIndex: 'durationTime',
+      hideInSearch: true,
+    },
+    {
+      title: '延误时长',
+      dataIndex: ['durationDelayTime'],
       hideInSearch: true,
     },
     {
@@ -348,6 +366,12 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
           <Col>
             <Button disabled={buttonAbleMultiple()} onClick={async () => {
+              await handleDurationDelayTimeVisible(true);
+            }}>修改延误时长</Button>
+          </Col>
+
+          <Col>
+            <Button disabled={buttonAbleMultiple()} onClick={async () => {
               await handleSupplyTimeVisible(true);
             }}>修改计划交片日期</Button>
           </Col>
@@ -439,6 +463,16 @@ const CreateTestItem: React.FC<{}> = () => {
         onUpdate={durationTimeOnOk}
         params={{ ids: selectRowKeys }}
       />
+
+      <EditDurationDelayTimeForm
+        modalVisible={durationDelayTimeVisible}
+        onCancel={() => {
+          handleDurationDelayTimeVisible(false);
+        }}
+        onUpdate={durationDelayTimeOnOk}
+        params={{ ids: selectRowKeys }}
+      />
+
 
       <EditEquipment
         modalVisible={equipmentVisible}

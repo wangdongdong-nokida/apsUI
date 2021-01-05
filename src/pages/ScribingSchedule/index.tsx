@@ -14,12 +14,17 @@ import {Key} from "antd/es/table/interface";
 import {EditDurationTimeForm} from "@/pages/TestScheduling/components/EditDurationTimeForm";
 import {EditEquipment} from "@/pages/TestScheduling/components/EditEquipment";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons/lib";
+import {ChangeTestStock} from "@/pages/ScribingSchedule/components/ChangeTestStock";
+import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
+import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
 import {TestScheduleItem} from './data';
 import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete} from './service';
-import {ChangeTestStock} from "@/pages/ScribingSchedule/components/ChangeTestStock";
 
 
 const CreateTestItem: React.FC<{}> = () => {
+
+
+  const [durationDelayTimeVisible, handleDurationDelayTimeVisible] = useState<boolean>(false);
 
   const scheduleTestFormRef = useRef<FormInstance>();
 
@@ -42,6 +47,14 @@ const CreateTestItem: React.FC<{}> = () => {
   const [stockVisible, handleStockVisible] = useState<boolean>(false);
 
 
+  const durationDelayTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
+    await editDurationDelayTime(searchInfo);
+    handleDurationDelayTimeVisible(false);
+    if (scheduleTestFormRef.current) {
+      scheduleTestFormRef.current.submit();
+    }
+  };
+
   const proTableProps = {
     pagination: {pageSizeOptions: ["5", "10", "15", "20", "40"], pageSize: 20},
     scroll: {y: 700, scrollToFirstRowOnChange: true},
@@ -55,6 +68,8 @@ const CreateTestItem: React.FC<{}> = () => {
       }
     }
   };
+
+
 
   const scheduleTestItemColumns: ProColumns<TestScheduleItem>[] = [
     {
@@ -102,6 +117,11 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '生产时长',
       dataIndex: "durationTime",
       hideInSearch: true
+    },
+    {
+      title: '延误时长',
+      dataIndex: ['durationDelayTime'],
+      hideInSearch: true,
     },
     {
       title: '开始时间',
@@ -234,6 +254,11 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
           <Col>
             <Button disabled={buttonAbleMultiple()} onClick={async () => {
+              await handleDurationDelayTimeVisible(true);
+            }}>修改延误时长</Button>
+          </Col>
+          <Col>
+            <Button disabled={buttonAbleMultiple()} onClick={async () => {
               handleEquipmentVisible(true);
             }}>更换设备</Button>
           </Col>
@@ -308,6 +333,16 @@ const CreateTestItem: React.FC<{}> = () => {
         onUpdate={durationTimeOnOk}
         params={{ids: selectRowKeys}}
       />
+
+      <EditDurationDelayTimeForm
+        modalVisible={durationDelayTimeVisible}
+        onCancel={() => {
+          handleDurationDelayTimeVisible(false);
+        }}
+        onUpdate={durationDelayTimeOnOk}
+        params={{ ids: selectRowKeys }}
+      />
+
       <EditEquipment
         modalVisible={equipmentVisible}
         onUpdate={equipmentOnOk}
