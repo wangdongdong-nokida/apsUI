@@ -86,6 +86,11 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '订单类型',
       dataIndex: 'type',
+      valueEnum: {
+        客户订单: '客户订单',
+        生产: '生产',
+        研制: '研制',
+      },
     },
     {
       title: '测试班组',
