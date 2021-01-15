@@ -310,7 +310,7 @@ const CreateTestItem: React.FC<{}> = () => {
                 </Dropdown>
               )
             ]}
-            params={{params: {"<>bindSalesOrder": ddh, "salesOrder": true}}}
+            params={{params: {"<>bindSalesOrder": ddh, "salesOrder": false}}}
             request={(params) => {
               return queryPickingOrders(params);
             }}
