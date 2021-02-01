@@ -54,7 +54,7 @@ const PickingSchedule: React.FC<{}> = () => {
   const [waferGearWarehouseKey, handleWaferGearWarehouseKey] = useState<Key[]>();
 
   const proTableProps = {
-    pagination: { pageSizeOptions: ['5', '10', '15', '20', '40'], pageSize: 20 },
+    pagination: { pageSizeOptions: ['5', '10', '15', '20', '200'], pageSize: 200 },
     scroll: { y: 700, x: 1800, scrollToFirstRowOnChange: true },
     rowKey: 'id',
     search: { span: 8 },
@@ -232,7 +232,6 @@ const PickingSchedule: React.FC<{}> = () => {
             formRef={scheduleTestFormRef}
             {...proTableProps}
             request={(params) => queryTestItem(params)}
-            pagination={{pageSize:200}}
             toolBarRender={
               (action, { selectedRows, selectedRowKeys }) => [
                 selectedRows && selectedRows.length > 0 && (

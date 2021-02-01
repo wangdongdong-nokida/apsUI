@@ -75,7 +75,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const proTableProps = {
-    pagination: { pageSizeOptions: ['5', '10', '15', '20', '40'], pageSize: 20 },
+    pagination: { pageSizeOptions: ['5', '10', '15', '20', '200'], pageSize: 200 },
     scroll: { y: 700, x: 3000, scrollToFirstRowOnChange: true },
     rowKey: 'id',
     search: { span: 8 },
@@ -307,7 +307,6 @@ const CreateTestItem: React.FC<{}> = () => {
             headerTitle="测试排产"
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
-            pagination={{pageSize:200}}
             {...proTableProps}
             request={(params) => {
               const data =  queryTestItem(params)
