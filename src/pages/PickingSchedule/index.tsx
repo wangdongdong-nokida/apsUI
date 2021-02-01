@@ -23,7 +23,7 @@ import {
   findAllWaferWarehouse, findWaferGearWarehouse,
   moveTask,
   queryTestItem,
-  testItemDelete,
+  testItemDelete,exportTestItemData
 } from './service';
 import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
 
