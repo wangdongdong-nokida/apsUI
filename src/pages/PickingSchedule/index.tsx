@@ -155,7 +155,7 @@ const PickingSchedule: React.FC<{}> = () => {
     },
     {
       title: '明细备注',
-      dataIndex: ['itemBrief'],
+      dataIndex: ['brief'],
       hideInSearch: true,
     },
   ];

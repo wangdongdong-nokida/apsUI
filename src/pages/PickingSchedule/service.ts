@@ -5,7 +5,7 @@ import { TableListParams } from './data';
 
 
 export async function editBrief(searchInfo?: { [key: string]: string }) {
-  return request('/server/scribingItem/editBrief', {
+  return request('/server/pickingItem/editBrief', {
     method: 'POST',
     data: {
       ...searchInfo,
