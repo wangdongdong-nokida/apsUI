@@ -307,6 +307,7 @@ const CreateTestItem: React.FC<{}> = () => {
             headerTitle="测试排产"
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
+            pagination={{pageSize:200}}
             {...proTableProps}
             request={(params) => {
               const data =  queryTestItem(params)

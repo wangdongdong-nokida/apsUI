@@ -232,6 +232,7 @@ const PickingSchedule: React.FC<{}> = () => {
             formRef={scheduleTestFormRef}
             {...proTableProps}
             request={(params) => queryTestItem(params)}
+            pagination={{pageSize:200}}
             toolBarRender={
               (action, { selectedRows, selectedRowKeys }) => [
                 selectedRows && selectedRows.length > 0 && (

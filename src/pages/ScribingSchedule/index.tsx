@@ -199,6 +199,7 @@ const CreateTestItem: React.FC<{}> = () => {
             headerTitle="划片排产"
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
+            pagination={{pageSize:200}}
             {...proTableProps}
             request={(params) => queryTestItem(params)}
             toolBarRender={
