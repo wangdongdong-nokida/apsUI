@@ -64,7 +64,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const formSpan = 6;
   const inputStyle = { width: '100%' };
   const proTableProps = {
-    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 10 },
+
     scroll: { y: 300, x: 1400, scrollToFirstRowOnChange: true },
     rowKey: 'id',
     search: { span: 8 },
@@ -442,6 +442,7 @@ const CreateTestItem: React.FC<{}> = () => {
             headerTitle="芯片信息"
             actionRef={productActionRef}
             formRef={productFormRef}
+            pagination= {  false }
             {...proTableProps}
             request={(params) => {
 // handlerSelectedWaferNr(params?.nr);
@@ -475,6 +476,7 @@ const CreateTestItem: React.FC<{}> = () => {
             headerTitle="库存信息"
             actionRef={stockActionRef}
             formRef={stockFormRef}
+            pagination= {  false }
             {...proTableProps}
             // @ts-ignore
             beforeSearchSubmit={(searchInfo) => {
