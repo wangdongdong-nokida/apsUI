@@ -386,7 +386,6 @@ const PickingSchedule: React.FC<{}> = () => {
         <Row gutter={[10, 8]}>
           <Col span={12}>
             <ProTable
-              search={false}
               options={false}
               rowKey="id"
               pagination={{ pageSizeOptions: ['5', '10', '15', '20', '40'], pageSize: 10 }}
@@ -406,6 +405,7 @@ const PickingSchedule: React.FC<{}> = () => {
                 {
                   title: '版号',
                   dataIndex: ['waferNr'],
+                  hideInSearch:true
                 },
                 {
                   title: '片号',
@@ -415,6 +415,7 @@ const PickingSchedule: React.FC<{}> = () => {
                   title: 'ID',
                   dataIndex: 'id',
                   hideInTable: true,
+                  hideInSearch:true
                 },
               ]}
             />
