@@ -11,6 +11,7 @@ import moment from "moment";
 import {FormInstance} from "antd/lib/form/Form";
 import {Key} from "antd/es/table/interface";
 import {Wafer} from './data';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 import {
   createTestItem,
   getEquipmentEndDate,
@@ -25,6 +26,9 @@ const CreateTestItem: React.FC<{}> = () => {
   const stockActionRef = useRef<ActionType>();
   const [equipmentList, handleEquipment] = useState<EquipmentItem[]>();
   const [stockList, handleStockList] = useState<Key[]>();
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
 
   const formSpan = 6;
   const inputStyle = {width: "100%"};
@@ -60,6 +64,18 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ["center", 'waferNr'],
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(entity);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
 
     {
@@ -259,6 +275,8 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
         </Row>
       </Card>
+
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
 
     </PageHeaderWrapper>
   )

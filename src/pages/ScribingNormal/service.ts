@@ -1,4 +1,5 @@
 import request from 'umi-request';
+import { RequestData } from '@ant-design/pro-table/lib/useFetchData';
 
 
 export async function createTestItem(params: any) {
@@ -46,3 +47,8 @@ export async function removeRule(searchInfo: { key: number[] }) {
   });
 }
 
+export async function querySecondOrderInfoByName(bhName?: '') {
+  return request<RequestData>('/server/testItem/queryBhInfoByName?bhName='.concat(bhName), {
+    method: "get",
+  });
+}
