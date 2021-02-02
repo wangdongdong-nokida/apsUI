@@ -70,23 +70,27 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '型号',
       dataIndex: 'xh',
-      fixed: true
+      fixed: true,
+      width:130
     },
     {
       title: '订单数量',
       dataIndex: 'dgsl',
       hideInSearch: true,
-      fixed: true
+      fixed: true,
+      width:130
     },
     {
       title: '合同号',
       dataIndex: ['lHt', "lHtname"],
-      fixed: true
+      fixed: true,
+      width:130
     },
     {
       title: '客户',
       dataIndex: ['lHt', "kh"],
-      fixed: true
+      fixed: true,
+      width:130
     },
     {
       title: '合同备注',

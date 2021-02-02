@@ -150,7 +150,7 @@ const PickingSchedule: React.FC<{}> = () => {
     {
       title: '销售订单',
       dataIndex: ['bindSalesOrder'],
-      width: 300,
+      width: 200,
     },
     {
       title: '订单数量',

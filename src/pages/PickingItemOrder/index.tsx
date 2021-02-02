@@ -65,27 +65,32 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '合同类别',
       dataIndex: ['salesOrder', 'lHt', 'ddlx'],
       fixed: true,
+      width:130
     },
     {
       title: '型号',
       dataIndex: ['salesOrder', 'xh'],
       fixed: true,
+      width:130
     },
     {
       title: '订单数量',
       dataIndex: ['salesOrder', 'dgsl'],
       hideInSearch: true,
       fixed: true,
+      width:130
     },
     {
       title: '合同号',
       dataIndex: ['salesOrder', 'lHt', 'lHtname'],
       fixed: true,
+      width:130
     },
     {
       title: '客户',
       dataIndex: ['salesOrder', 'lHt', 'kh'],
       fixed: true,
+      width:130
     },
     {
       title: '检验完成时间',

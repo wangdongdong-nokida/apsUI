@@ -224,7 +224,7 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={stockActionRef}
             formRef={stockFormRef}
             {...proTableProps}
-            scroll={{ y: 500, x: 1800, scrollToFirstRowOnChange: true }}
+            scroll={{ y: 500,  scrollToFirstRowOnChange: true }}
             request={(params) => {
               return queryWaferWarehouse(params);
             }}

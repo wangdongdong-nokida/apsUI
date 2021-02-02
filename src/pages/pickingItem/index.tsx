@@ -249,7 +249,7 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={pickingOrderActionRef}
             formRef={pickingOrderFormRef}
             {...proTableProps}
-            scroll={{ y: 500, x: 2000, scrollToFirstRowOnChange: true }}
+            scroll={{ y: 500, scrollToFirstRowOnChange: true }}
             // search={false}
             beforeSearchSubmit={(searchInfo) => {
               return {
