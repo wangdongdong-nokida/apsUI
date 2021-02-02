@@ -61,7 +61,30 @@ export async function testItemDelete(equipmentId:[any],params?: ReactText[]) {
   });
 }
 
+export async function  exportTestItemData (headerNameArray :[any],headerKeyArray : [any], testItemParamsList : [any])  {
+  console.info("testItemList",testItemParamsList)
+  const data = await request('/server/scribingItem/exportScribingItemData',{
+    method: "POST",
+    responseType:'blob',
+    data: {
+      headerNameArray,
+      headerKeyArray,
+      testItemParamsList,
+    }
+  });
+  const aLink = document.createElement('a');
+  document.body.appendChild(aLink);
+  aLink.style.display='none';
+  let objectUrl = null;
+  let binaryData = [];
+  binaryData.push(data);
+  objectUrl = window.URL.createObjectURL(new Blob(binaryData));
 
+  aLink.href = objectUrl;
+  aLink.download = "划片排产.xls";
+  aLink.click();
+  document.body.removeChild(aLink);
+}
 
 
 

@@ -149,7 +149,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '创建人',
-      dataIndex: ['employee', 'name'],
+      dataIndex: ['cjr', 'name'],
     },
     {
       title: '测试调度备注',

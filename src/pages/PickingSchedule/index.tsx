@@ -23,7 +23,7 @@ import {
   findAllWaferWarehouse, findWaferGearWarehouse,
   moveTask,
   queryTestItem,
-  testItemDelete,
+  testItemDelete,exportTestItemData
 } from './service';
 import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
 
@@ -52,7 +52,7 @@ const PickingSchedule: React.FC<{}> = () => {
   const [moveRowKeys, handleMoveRowKeys] = useState<Key[]>([]);
   const [waferKey, handleWaferKey] = useState<Key>();
   const [waferGearWarehouseKey, handleWaferGearWarehouseKey] = useState<Key[]>();
-
+  const [pickingParamsList,handlePickingItemParamsList] = useState<any>();
   const proTableProps = {
     pagination: { pageSizeOptions: ['5', '10', '15', '20', '200'], pageSize: 200 },
     scroll: { y: 700, x: 1800, scrollToFirstRowOnChange: true },
@@ -67,6 +67,10 @@ const PickingSchedule: React.FC<{}> = () => {
     },
   };
 
+  const exportHeaderName = ['版号','片号','型号','电路序号','工艺路径','工序','工位','客户','合同','生产时长','延误时长','排产开始时间',
+    '排产结束时间','销售订单','订单数量','明细备注'];
+  const exportKeyName = ['waferNr','sliceNr','modelNr','circuitNr','workFlowName','workStepName','equipmentName','bindCustomer','bindContract','durationTime','durationDelayTime','startDate',
+    'endDate','bindSalesOrder','salesOrderQuantities','itemBrief'];
   const operationColumn: ProColumns<{}>[] = [
     {
       title: '设备',
@@ -231,7 +235,11 @@ const PickingSchedule: React.FC<{}> = () => {
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
             {...proTableProps}
-            request={(params) => queryTestItem(params)}
+            request={(params) => {
+              const data = queryTestItem(params);
+              handlePickingItemParamsList(params);
+              return data;
+            }}
             toolBarRender={
               (action, { selectedRows, selectedRowKeys }) => [
                 selectedRows && selectedRows.length > 0 && (
@@ -343,17 +351,9 @@ const PickingSchedule: React.FC<{}> = () => {
           </Col>
           <Col>
             <Button
-              // onClick={
-              //   async () => {
-              //     await request('http://172.16.0.12/CamstarPortal/startContainer.do', {
-              //       method: "POST",
-              //       mode: "no-cors",
-              //       data: {
-              //         data: {list: [{id: 1, type: 1}]}
-              //       }
-              //     });
-              //   }
-              // }
+              onClick={() => {
+                exportTestItemData(exportHeaderName,exportKeyName,pickingParamsList);
+              }}
             >导出</Button>
           </Col>
         </Row>
@@ -386,7 +386,6 @@ const PickingSchedule: React.FC<{}> = () => {
         <Row gutter={[10, 8]}>
           <Col span={12}>
             <ProTable
-              search={false}
               options={false}
               rowKey="id"
               pagination={{ pageSizeOptions: ['5', '10', '15', '20', '40'], pageSize: 10 }}
@@ -406,6 +405,7 @@ const PickingSchedule: React.FC<{}> = () => {
                 {
                   title: '版号',
                   dataIndex: ['waferNr'],
+                  hideInSearch:true
                 },
                 {
                   title: '片号',
@@ -415,6 +415,7 @@ const PickingSchedule: React.FC<{}> = () => {
                   title: 'ID',
                   dataIndex: 'id',
                   hideInTable: true,
+                  hideInSearch:true
                 },
               ]}
             />

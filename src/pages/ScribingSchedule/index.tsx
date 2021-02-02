@@ -18,7 +18,7 @@ import {ChangeTestStock} from "@/pages/ScribingSchedule/components/ChangeTestSto
 import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
 import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
 import {TestScheduleItem} from './data';
-import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete} from './service';
+import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete,exportTestItemData} from './service';
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -46,6 +46,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const [stockVisible, handleStockVisible] = useState<boolean>(false);
 
+  const [scribingParamsList,handleScribingParamsList] = useState<any>();
 
   const durationDelayTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
     await editDurationDelayTime(searchInfo);
@@ -70,7 +71,8 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
 
-
+  const exportHeaderName = ['版号','片号','划片方式','已完工序','负责人','明细备注','生产时长','延误时长','开始时间','结束时间'];
+  const exportKeyName = ['waferNr','sliceNr','ScribingType','operationStatus','responsiblePerson','brief','durationTime','durationDelayTime','startDate','endDate'];
   const scheduleTestItemColumns: ProColumns<TestScheduleItem>[] = [
     {
       title: '设备',
@@ -200,7 +202,11 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
             {...proTableProps}
-            request={(params) => queryTestItem(params)}
+            request={(params) => {
+              const data = queryTestItem(params)
+              handleScribingParamsList(params);
+              return data;
+            }}
             toolBarRender={
               (action, {selectedRows, selectedRowKeys}) => [
                 selectedRows && selectedRows.length > 0 && (
@@ -310,7 +316,9 @@ const CreateTestItem: React.FC<{}> = () => {
             }}>修改库存关联</Button>
           </Col>
           <Col>
-            <Button>导出</Button>
+            <Button onClick={() => {
+              exportTestItemData(exportHeaderName,exportKeyName,scribingParamsList);
+            }}>导出</Button>
           </Col>
         </Row>
       </Card>
