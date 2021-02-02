@@ -56,6 +56,11 @@ export const ScheduleTestItem: React.FC<ScheduleTestItemProps> = (props) => {
       hideInSearch: true,
     },
     {
+      title: '设备名称',
+      dataIndex: 'equipmentName',
+      hideInSearch: true,
+    },
+    {
       title: '版号',
       dataIndex: ['scheduleTestItem', 'waferNr'],
     },
