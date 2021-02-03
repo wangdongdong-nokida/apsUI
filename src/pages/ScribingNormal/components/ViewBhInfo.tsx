@@ -17,7 +17,7 @@ interface ViewBhInfoProps {
 export const ViewBhInfo: React.FC<ViewBhInfoProps> = (props) => {
 
   const { modalVisible, onCancel,bhRow } = props;
-  const dd = "http://172.16.0.20:65372/testItem/queryBhImgByName?bhName=";
+  const dd = "http://10.14.100.61:65372/testItem/queryBhImgByName?bhName=";
   const [backSystemAddress, handlebackSystemAddress] = useState<any>();
 
   const [bhInfo, handlebbhInfo] = useState<any>({'data':[{'L_BHNAME':'','DYCC':'','YPCC':'','HPJJ':'','RQ':'','PH':'','HPFS':'','PFZR':'','DYS':''}]});

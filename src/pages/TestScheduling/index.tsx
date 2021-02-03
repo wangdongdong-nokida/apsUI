@@ -491,6 +491,12 @@ const CreateTestItem: React.FC<{}> = () => {
         onCancel={() => {
           handleStockVisible(false);
         }}
+        beforeSearchSubmit={(params: any) => {
+          return {
+            params: params,
+            orderBy: 'indexOrder',
+          }
+        }}
         onOk={() => {
           scheduleTestFormRef?.current?.submit();
           handleStockVisible(false);
