@@ -28,7 +28,9 @@ export const EditEquipment: React.FC<EditEquipmentProps> = (props) => {
         ID: selectRow,
         equipmentSelected: fields.equipmentID,
         duration: fields.durationTime,
-        quantity: fields.quantity
+        quantity: fields.quantity,
+        itemBrief: fields.itemBrief,
+
       };
     });
     await schedulePickingItem(submitParams);
