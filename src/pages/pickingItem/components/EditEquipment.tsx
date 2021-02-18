@@ -2,8 +2,8 @@ import {Form, InputNumber, Modal, Select} from "antd";
 import React, {ReactText} from "react";
 import FormItem from "antd/lib/form/FormItem";
 import {ActionType} from "@ant-design/pro-table/lib/Table";
-import {schedulePickingItem} from "../service";
 import TextArea from 'antd/lib/input/TextArea';
+import {schedulePickingItem} from "../service";
 
 
 interface EditEquipmentProps {

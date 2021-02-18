@@ -1,6 +1,5 @@
 import request from 'umi-request';
 import {TestParameter} from './data';
-import { TableListParams } from '@/pages/TestScheduling/data';
 
 
 export async function querySecondOrder(params?: {}) {
@@ -22,6 +21,8 @@ export async function createTestItem(params: any) {
 }
 
 export async function queryWaferWarehouse(searchInfo?: {}) {
+  delete searchInfo?.pageSize;
+  delete searchInfo?.current;
   return request('/server/waferWarehouse/findAllByPage', {
     method: "post",
     data: {
@@ -31,6 +32,8 @@ export async function queryWaferWarehouse(searchInfo?: {}) {
 }
 
 export async function queryWaferProducts(searchInfo?: any) {
+  delete searchInfo?.pageSize;
+  delete searchInfo?.current;
   return request('/server/waferProduct/findProductsByWafer', {
     data: {
       ...searchInfo,
