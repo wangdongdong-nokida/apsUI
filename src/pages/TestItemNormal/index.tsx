@@ -444,9 +444,9 @@ const CreateTestItem: React.FC<{}> = () => {
             formRef={productFormRef}
             pagination= {  false }
             {...proTableProps}
-            request={(params) => {
+            request={() => {
 // handlerSelectedWaferNr(params?.nr);
-              return queryWaferProducts(params);
+              return queryWaferProducts();
             }}
             columns={productColumns}
             onSubmit={() => {
@@ -479,13 +479,13 @@ const CreateTestItem: React.FC<{}> = () => {
             pagination= {  false }
             {...proTableProps}
             // @ts-ignore
-            beforeSearchSubmit={(searchInfo) => {
+            beforeSearchSubmit={() => {
               return {
-                params: { ...searchInfo, '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') },
+                params: {  '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') },
               };
             }}
-            request={(params) => {
-              return queryWaferWarehouse(params);
+            request={() => {
+              return queryWaferWarehouse();
             }}
             columns={waferColumn}
             rowSelection={{
