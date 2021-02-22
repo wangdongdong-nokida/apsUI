@@ -188,7 +188,7 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '型号',
-      dataIndex: ['waferModelWarehouse', 'modelNr'],
+      dataIndex: ['xh'],
       hideInSearch: true,
     },
     {

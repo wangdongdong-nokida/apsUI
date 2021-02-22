@@ -242,6 +242,7 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '占用状态',
       dataIndex: 'bindingSecondOrders',
+      hideInSearch: true,
     },
     {
       title: '流片进度',
@@ -479,12 +480,20 @@ const CreateTestItem: React.FC<{}> = () => {
             pagination= {  false }
             {...proTableProps}
             // @ts-ignore
-            beforeSearchSubmit={() => {
-              return {
-                params: {  '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') },
-              };
-            }}
+            // beforeSearchSubmit={(params) => {
+            //   return {
+            //     params: {  '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') },
+            //   };
+            // }}
             request={(params) => {
+
+             if (params&&params.params){
+               params.params['==waferNr']=productFormRef?.current?.getFieldValue('==wafer-nr');
+             }else if(params){
+               params.params={ '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') };
+             }else {
+               params={params:{ '==waferNr': productFormRef?.current?.getFieldValue('==wafer-nr') }};
+             }
               return queryWaferWarehouse(params);
             }}
             columns={waferColumn}
