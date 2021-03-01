@@ -162,6 +162,11 @@ const PickingSchedule: React.FC<{}> = () => {
       dataIndex: ['itemBrief'],
       hideInSearch: true,
     },
+    {
+      title: '要求检验完成时间',
+      dataIndex: ['salesOrderTestDate'],
+      hideInSearch: true,
+    },
   ];
 
   const equipmentHandler = async () => {
