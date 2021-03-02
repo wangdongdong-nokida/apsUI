@@ -125,6 +125,21 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: ['productType', 'name'],
       hideInSearch: true,
     },
+    {
+      title: '创建时间',
+      dataIndex: 'applyDate',
+      hideInSearch: true,
+    },
+    {
+      title: '创建人',
+      dataIndex: ['cjr', 'name'],
+    },
+    {
+      title: '测试要求完成时间',
+      dataIndex: ['testFinishedDateRequired'],
+      valueType: 'date',
+      hideInSearch: true,
+    },
   ];
 
 
