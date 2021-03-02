@@ -26,6 +26,7 @@ import {
   testItemDelete,exportTestItemData
 } from './service';
 import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 
 const PickingSchedule: React.FC<{}> = () => {
@@ -53,6 +54,10 @@ const PickingSchedule: React.FC<{}> = () => {
   const [waferKey, handleWaferKey] = useState<Key>();
   const [waferGearWarehouseKey, handleWaferGearWarehouseKey] = useState<Key[]>();
   const [pickingParamsList,handlePickingItemParamsList] = useState<any>();
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
+
   const proTableProps = {
     pagination: { pageSizeOptions: ['5', '10', '15', '20', '200'], pageSize: 200 },
     scroll: { y: 700, x: 1800, scrollToFirstRowOnChange: true },
@@ -92,6 +97,18 @@ const PickingSchedule: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ['waferNr'],
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(dom);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '片号',
@@ -513,6 +530,8 @@ const PickingSchedule: React.FC<{}> = () => {
           ids: selectRowKeys,
           belongEquipmentID: scheduleTestFormRef?.current?.getFieldValue('scheduleTaskLine-equipment-ID'),
         }}/>
+
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
   );
 

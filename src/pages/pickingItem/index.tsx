@@ -16,6 +16,7 @@ import {
   queryOperations,
   queryPickingOrders,
 } from './service';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 const CreateTestItem: React.FC<{}> = () => {
 
@@ -29,6 +30,9 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const [operationKeys, handleOperationKeys] = useState<ReactText[]>([]);
   const [equipments, handleEquipments] = useState<any>([]);
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
 
   const handleRemove = async (ids: any) => {
     await deletePickingOrders(ids);
@@ -140,6 +144,18 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ['waferNr'],
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(dom);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
       // hideInSearch: true
     },
     {
@@ -454,6 +470,7 @@ const CreateTestItem: React.FC<{}> = () => {
         handlerEquipmentVisible(false);
       }} params={{ ids: operationKeys, equipments, operationActionRef }}/>
 
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
   );
 

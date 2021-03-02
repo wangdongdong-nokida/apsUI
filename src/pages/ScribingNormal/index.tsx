@@ -68,7 +68,7 @@ const CreateTestItem: React.FC<{}> = () => {
         return (
           <a
             onClick={() => {
-              handleBhClickRow(entity);
+              handleBhClickRow(dom);
               handleViewBhInfoVisible(!ViewBhInfoVisible)
             }}
           >

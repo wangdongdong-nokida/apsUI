@@ -153,8 +153,8 @@ export const ViewBhInfo: React.FC<ViewBhInfoProps> = (props) => {
               return data;
             }}
             request={() => {
-              handlebackSystemAddress(dd.concat(bhRow.center.waferNr));
-              const data =  querySecondOrderInfoByName(bhRow.center.waferNr);
+              handlebackSystemAddress(dd.concat(bhRow));
+              const data =  querySecondOrderInfoByName(bhRow);
               console.info("data",data);
               return data;
             }}

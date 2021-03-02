@@ -19,6 +19,7 @@ import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/Ed
 import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
 import {TestScheduleItem} from './data';
 import {editBrief, editDurationTime, editEquipment, moveTask, queryTestItem, testItemDelete,exportTestItemData} from './service';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -47,6 +48,9 @@ const CreateTestItem: React.FC<{}> = () => {
   const [stockVisible, handleStockVisible] = useState<boolean>(false);
 
   const [scribingParamsList,handleScribingParamsList] = useState<any>();
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
 
   const durationDelayTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
     await editDurationDelayTime(searchInfo);
@@ -94,6 +98,18 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ["scheduleScribingItem", 'waferNr'],
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(dom);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '片号',
@@ -377,6 +393,7 @@ const CreateTestItem: React.FC<{}> = () => {
           taskIDs: selectRowKeys ? selectRowKeys[0] : "",
         }}/>
 
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
   )
 

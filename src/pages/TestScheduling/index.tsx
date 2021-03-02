@@ -30,6 +30,7 @@ import { EditSupplyTime } from '@/pages/TestScheduling/components/EditSupplyTime
 import { ViewSecondOrderInfo } from '@/pages/TestScheduling/components/ViewSecondOrderInfo';
 import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
 import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -65,6 +66,9 @@ const CreateTestItem: React.FC<{}> = () => {
   const [viewSecondOrderInfoVisible, handleViewSecondOrderInfoVisible] = useState<boolean>(false);
 
   const [secondOrderClickRow, handleSecondOrderClickRow] = useState<any>();
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
 
   const durationDelayTimeOnOk = async (searchInfo: { [key: string]: ReactText[] }) => {
     await editDurationDelayTime(searchInfo);
@@ -112,6 +116,18 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ['scheduleTestItem', 'waferNr'],
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(dom);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '片号',
@@ -508,6 +524,7 @@ const CreateTestItem: React.FC<{}> = () => {
         }}/>
       <ViewSecondOrderInfo modalVisible={viewSecondOrderInfoVisible} onCancel={()=>{handleViewSecondOrderInfoVisible(false)}} secondOrderRow={secondOrderClickRow}/>
 
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
 
 

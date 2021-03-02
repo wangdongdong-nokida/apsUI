@@ -22,6 +22,7 @@ import {
   queryWaferProducts,
   queryWaferWarehouse,
 } from './service';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 const CreateTestItem: React.FC<{}> = () => {
   const [form] = Form.useForm();
@@ -54,6 +55,9 @@ const CreateTestItem: React.FC<{}> = () => {
   const [ViewYjrwInfoVisible, handleViewYjrwInfoVisible] = useState<boolean>(false);
 
   const [secondOrderClickRow, handlesecondOrderClickRow] = useState<any>();
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
   const productFormReset = () => {
     // eslint-disable-next-line no-unused-expressions
     productFormRef?.current?.resetFields();
@@ -111,6 +115,18 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: 'waferNr',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(dom);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '型号',
@@ -696,6 +712,8 @@ const CreateTestItem: React.FC<{}> = () => {
       <ScheduleTestItem modalVisible={scheduleTestItemVisible} onCancel={()=>{handleScheduleTestItemVisible(false)}} secondOrderID={secondOrderList}/>
 
       <ViewYjrwInfo modalVisible={ViewYjrwInfoVisible} onCancel={()=>{handleViewYjrwInfoVisible(false)}} secondOrderRow={secondOrderClickRow}/>
+
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
   );
 
