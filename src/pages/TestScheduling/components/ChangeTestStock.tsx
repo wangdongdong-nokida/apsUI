@@ -41,11 +41,31 @@ export const ChangeTestStock: React.FC<EditFormProps> = (props) => {
     {
       title: '版号',
       dataIndex: 'waferNr',
-      hideInSearch:true
+    },
+    {
+      title: '父版号',
+      dataIndex: 'fatherWaferNr',
     },
     {
       title: '片号',
       dataIndex: 'sliceNr',
+    },
+    {
+      title: '圆片状态',
+      dataIndex: 'status',
+    },
+    {
+      title: '生产批号',
+      dataIndex: 'batchNr',
+    },
+    {
+      title: '占用状态',
+      dataIndex: 'bindingSecondOrders',
+    },
+    {
+      title: '流片进度',
+      dataIndex: ['lLpjd', 'jdb'],
+      hideInSearch: true,
     },
   ];
 
