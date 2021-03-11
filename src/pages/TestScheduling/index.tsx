@@ -193,6 +193,11 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true,
     },
     {
+      title: '测试调度备注',
+      dataIndex: ['scheduleTestItem', 'bgbz'],
+      hideInSearch: true,
+    },
+    {
       title: '流片进度',
       dataIndex: ['scheduleTestItem', 'testScribingCenter', 'waferWarehouse', 'lLpjd', 'jdb'],
       hideInSearch: true,
