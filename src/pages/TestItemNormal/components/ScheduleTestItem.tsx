@@ -75,6 +75,7 @@ export const ScheduleTestItem: React.FC<ScheduleTestItemProps> = (props) => {
     {
       title: '电路序号',
       dataIndex: ['scheduleTestItem', 'circuitNr'],
+      hideInSearch: true,
     },
     {
       title: '测试类型',
@@ -88,6 +89,7 @@ export const ScheduleTestItem: React.FC<ScheduleTestItemProps> = (props) => {
     {
       title: '测试参数',
       dataIndex: ['scheduleTestItem', 'testParameter'],
+      hideInSearch: true,
     },
     {
       title: '数量',
@@ -97,7 +99,6 @@ export const ScheduleTestItem: React.FC<ScheduleTestItemProps> = (props) => {
     {
       title: '已完工序',
       dataIndex: ['scheduleTestItem', 'operationStatus'],
-      hideInSearch: true,
     },
     {
       title: '二级任务号',
@@ -193,8 +194,14 @@ export const ScheduleTestItem: React.FC<ScheduleTestItemProps> = (props) => {
             actionRef={scheduleTestActionRef}
             formRef={scheduleTestFormRef}
             {...proTableProps}
-            search={false}
-            request={(page) => queryTestItemBySecondOrder({...page,params:{"scheduleTestItem-secondOrder-ID":secondOrderID}})}
+            beforeSearchSubmit={(searchInfo) => {
+              return {
+                params: { ...searchInfo,"scheduleTestItem-secondOrder-ID":secondOrderID },
+              };
+            }}
+            request={(page) => {
+              return queryTestItemBySecondOrder({...page})
+            }}
             columns={scheduleTestItemColumns}
             onLoad={async () => {
               await equipmentHandler();
