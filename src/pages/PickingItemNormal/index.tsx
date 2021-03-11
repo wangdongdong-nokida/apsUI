@@ -12,6 +12,7 @@ import {
   createPickingItem, deletePickingOrders, queryPickingOrders, queryWaferProductWarehouse,
   queryWaferWarehouse,
 } from './service';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 const CreateTestItem: React.FC<{}> = () => {
 
@@ -23,6 +24,9 @@ const CreateTestItem: React.FC<{}> = () => {
   const [stockList, handleStockList] = useState<Key[]>();
   const modelNr = {};
   const [productList, handleProductList] = useState<Key[]>();
+
+  const [ViewBhInfoVisible, handleViewBhInfoVisible] = useState<boolean>(false);
+  const [bhClickRow, handleBhClickRow] = useState<any>();
 
   const handleRemove = async (ids: any) => {
     await deletePickingOrders(ids);
@@ -59,6 +63,18 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: 'waferNr',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              handleBhClickRow(dom);
+              handleViewBhInfoVisible(!ViewBhInfoVisible)
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '片号',
@@ -350,7 +366,7 @@ const CreateTestItem: React.FC<{}> = () => {
           />
         </Col>
       </Row>
-
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
   );
 
