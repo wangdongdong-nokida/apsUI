@@ -153,6 +153,11 @@ const CreateTestItem: React.FC<{}> = () => {
       valueType: "dateTime",
       hideInSearch: true
     },
+    {
+      title: '要求检验完成时间',
+      dataIndex: ['salesOrderTestDate'],
+      hideInSearch: true,
+    }
   ];
 
   const equipmentHandler = async () => {
