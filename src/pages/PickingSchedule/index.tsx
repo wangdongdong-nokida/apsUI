@@ -97,6 +97,7 @@ const PickingSchedule: React.FC<{}> = () => {
     {
       title: '版号',
       dataIndex: ['waferNr'],
+      width:130,
       render: (dom, entity) => {
         return (
           <a
