@@ -31,6 +31,7 @@ import { ViewSecondOrderInfo } from '@/pages/TestScheduling/components/ViewSecon
 import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
 import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
 import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
+import moment from 'moment';
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -61,7 +62,7 @@ const CreateTestItem: React.FC<{}> = () => {
 
   const [moveRowKeys, handleMoveRowKeys] = useState<Key[]>([]);
 
-  const [testItemParamsList,handleTestItemParamsList] = useState<any>();
+  const [testItemParamsList, handleTestItemParamsList] = useState<any>();
 
   const [viewSecondOrderInfoVisible, handleViewSecondOrderInfoVisible] = useState<boolean>(false);
 
@@ -91,10 +92,10 @@ const CreateTestItem: React.FC<{}> = () => {
       };
     },
   };
-  const exportHeaderName = ['版号','片号','型号','电路序号','测试类型','测试参数','数量','已完工序','二级任务号','明细备注','测试备注','流片进度','流片更新时间',
-    '入库时间','到货延误','生产时长','排产开始时间','排产结束时间','计划交期'];
-  const exportKeyName = ['waferNr','sliceNr','productNr','circuitNr','testType','testParameter','quantity','operationStatus','name','itemBrief','testBrief','jdb','rpsj',
-    'dpsj','arrivalDelay','durationTime','startDate','endDate','planSupplyDate'];
+  const exportHeaderName = ['版号', '片号', '型号', '电路序号', '测试类型', '测试参数', '数量', '已完工序', '二级任务号', '明细备注', '测试备注', '流片进度', '流片更新时间',
+    '入库时间', '到货延误', '生产时长', '排产开始时间', '排产结束时间', '计划交期'];
+  const exportKeyName = ['waferNr', 'sliceNr', 'productNr', 'circuitNr', 'testType', 'testParameter', 'quantity', 'operationStatus', 'name', 'itemBrief', 'testBrief', 'jdb', 'rpsj',
+    'dpsj', 'arrivalDelay', 'durationTime', 'startDate', 'endDate', 'planSupplyDate'];
   const scheduleTestItemColumns: ProColumns<TestScheduleItem>[] = [
     {
       title: '设备',
@@ -121,7 +122,7 @@ const CreateTestItem: React.FC<{}> = () => {
           <a
             onClick={() => {
               handleBhClickRow(dom);
-              handleViewBhInfoVisible(!ViewBhInfoVisible)
+              handleViewBhInfoVisible(!ViewBhInfoVisible);
             }}
           >
             {dom}
@@ -172,9 +173,9 @@ const CreateTestItem: React.FC<{}> = () => {
         return (
           <a
             onClick={() => {
-              console.info("entity",entity)
+              console.info('entity', entity);
               handleSecondOrderClickRow(entity);
-              handleViewSecondOrderInfoVisible(!viewSecondOrderInfoVisible)
+              handleViewSecondOrderInfoVisible(!viewSecondOrderInfoVisible);
             }}
           >
             {dom}
@@ -214,9 +215,21 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true,
     },
     {
-      title: '到货延误',
+      title: '到货延误（小时）',
       dataIndex: ['scheduleTestItem', 'arrivalDelay'],
       hideInSearch: true,
+      render: (text, item) => {
+        let startDate = moment(new Date());
+        let dpsj = moment(new Date());
+        if (item.startDate) {
+          startDate = moment(item.startDate);
+        }
+        if (item?.scheduleTestItem?.testScribingCenter?.waferWarehouse?.dpsj) {
+          dpsj = moment(item?.scheduleTestItem?.testScribingCenter?.waferWarehouse?.dpsj);
+        }
+        const duration=startDate.diff(dpsj,'hours');
+        return (duration)
+      }
     },
     {
       title: '生产时长',
@@ -258,7 +271,7 @@ const CreateTestItem: React.FC<{}> = () => {
       title: '要求检验完成时间',
       dataIndex: ['salesOrderTestDate'],
       hideInSearch: true,
-    }
+    },
   ];
 
   const equipmentHandler = async () => {
@@ -335,7 +348,7 @@ const CreateTestItem: React.FC<{}> = () => {
             formRef={scheduleTestFormRef}
             {...proTableProps}
             request={(params) => {
-              const data =  queryTestItem(params)
+              const data = queryTestItem(params);
               handleTestItemParamsList(params);
               return data;
             }}
@@ -455,7 +468,7 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
           <Col>
             <Button onClick={() => {
-              exportTestItemData(exportHeaderName,exportKeyName,testItemParamsList);
+              exportTestItemData(exportHeaderName, exportKeyName, testItemParamsList);
             }}>导出</Button>
           </Col>
         </Row>
@@ -521,7 +534,7 @@ const CreateTestItem: React.FC<{}> = () => {
           return {
             params: params,
             orderBy: 'indexOrder',
-          }
+          };
         }}
         onOk={() => {
           scheduleTestFormRef?.current?.submit();
@@ -532,9 +545,13 @@ const CreateTestItem: React.FC<{}> = () => {
           taskIDs: selectRowKeys ? selectRowKeys[0] : '',
           waferNr: selectRowWafer,
         }}/>
-      <ViewSecondOrderInfo modalVisible={viewSecondOrderInfoVisible} onCancel={()=>{handleViewSecondOrderInfoVisible(false)}} secondOrderRow={secondOrderClickRow}/>
+      <ViewSecondOrderInfo modalVisible={viewSecondOrderInfoVisible} onCancel={() => {
+        handleViewSecondOrderInfoVisible(false);
+      }} secondOrderRow={secondOrderClickRow}/>
 
-      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={() => {
+        handleViewBhInfoVisible(false);
+      }} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
 
 
