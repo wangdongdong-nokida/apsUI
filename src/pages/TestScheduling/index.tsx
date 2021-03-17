@@ -15,6 +15,12 @@ import { EditDurationTimeForm } from '@/pages/TestScheduling/components/EditDura
 import { EditEquipment } from '@/pages/TestScheduling/components/EditEquipment';
 import { DownOutlined, PlusOutlined } from '@ant-design/icons/lib';
 import { ChangeTestStock } from '@/pages/TestScheduling/components/ChangeTestStock';
+import { EditSupplyTime } from '@/pages/TestScheduling/components/EditSupplyTime';
+import { ViewSecondOrderInfo } from '@/pages/TestScheduling/components/ViewSecondOrderInfo';
+import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
+import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
+import moment from 'moment';
 import { TestScheduleItem } from './data';
 import {
   editBrief,
@@ -26,12 +32,6 @@ import {
   testItemDelete,
   exportTestItemData,
 } from './service';
-import { EditSupplyTime } from '@/pages/TestScheduling/components/EditSupplyTime';
-import { ViewSecondOrderInfo } from '@/pages/TestScheduling/components/ViewSecondOrderInfo';
-import { editDurationDelayTime } from '@/pages/PickingSchedule/service';
-import { EditDurationDelayTimeForm } from '@/pages/PickingSchedule/components/EditDurationDelayTimeForm';
-import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
-import moment from 'moment';
 
 
 const CreateTestItem: React.FC<{}> = () => {
@@ -227,9 +227,12 @@ const CreateTestItem: React.FC<{}> = () => {
         if (item?.scheduleTestItem?.testScribingCenter?.waferWarehouse?.dpsj) {
           dpsj = moment(item?.scheduleTestItem?.testScribingCenter?.waferWarehouse?.dpsj);
         }
-        const duration=startDate.diff(dpsj,'hours');
-        return (duration)
-      }
+        const duration = dpsj.diff(startDate, 'hours');
+        if (duration > 0) {
+          return (duration);
+        }
+        return '';
+      },
     },
     {
       title: '生产时长',
