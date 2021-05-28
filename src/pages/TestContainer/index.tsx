@@ -10,15 +10,15 @@ import { EquipmentItem } from '@/pages/equipmentCalendar/data';
 import moment from 'moment';
 import { FormInstance } from 'antd/lib/form/Form';
 import { Key } from 'antd/es/table/interface';
-import { SecondOrder, TestParameter } from './data';
-import { createTestItem, queryEquipments, querySecondOrder, queryTextLabel } from './service';
 import { getEquipmentEndDate } from '@/pages/TestItemNormal/service';
 import TextArea from 'antd/lib/input/TextArea';
+import { ScheduleTestItem } from '@/pages/TestItemNormal/components/ScheduleTestItem';
+import { SecondOrder, TestParameter } from './data';
+import { createTestItem, queryEquipments, querySecondOrder, queryTextLabel } from './service';
 
 const CreateTestItem: React.FC<{}> = () => {
   const [form] = Form.useForm();
 
-  const productFormRef = useRef<FormInstance>();
   const secondOrderFormRef = useRef<FormInstance>();
 
   const secondActionRef = useRef<ActionType>();
@@ -29,6 +29,8 @@ const CreateTestItem: React.FC<{}> = () => {
   const [testLabelList, handleTestLabel] = useState<TestParameter[]>();
   const [screenLabelList, handleScreenLabel] = useState<TestParameter[]>();
   const [assessmentLabelList, handleAssessmentLabel] = useState<TestParameter[]>();
+
+  const [scheduleTestItemVisible, handleScheduleTestItemVisible] = useState<boolean>(false);
 
   const [secondOrderList, handleSecondOrderList] = useState<Key>();
 
@@ -201,6 +203,7 @@ const CreateTestItem: React.FC<{}> = () => {
     }
   };
 
+
   return (
     <PageHeaderWrapper>
       <Row>
@@ -212,6 +215,12 @@ const CreateTestItem: React.FC<{}> = () => {
             {...proTableProps}
             request={(params) => querySecondOrder(params)}
             columns={secondOrderColumns}
+            toolBarRender={(action, { selectedRowKeys}) => [
+              selectedRowKeys && selectedRowKeys.length > 0 && <Button onClick={() => {
+                handleScheduleTestItemVisible(!scheduleTestItemVisible)
+              }}>显示已建明细</Button>,
+            ]}
+
             rowSelection={{
               type: 'radio',
               onChange: onSecondOrderSelect,
@@ -402,6 +411,7 @@ const CreateTestItem: React.FC<{}> = () => {
           </Col>
         </Row>
       </Card>
+      <ScheduleTestItem modalVisible={scheduleTestItemVisible} onCancel={()=>{handleScheduleTestItemVisible(false)}} secondOrderID={secondOrderList}/>
 
     </PageHeaderWrapper>
   );

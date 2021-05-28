@@ -26,6 +26,16 @@ export async function queryWaferWarehouse(searchInfo?: SecondOrder) {
   });
 }
 
+
+export async function queryWaferWarehouseSalesOrder(searchInfo?: SecondOrder) {
+  return request('/server/waferWarehouse/queryWaferWarehouseSalesOrder', {
+    method: "post",
+    data: {
+      ...searchInfo,
+    }
+  });
+}
+
 export async function queryWaferProductWarehouse(searchInfo?: SecondOrder) {
   return request('/server/waferWarehouse/findProductByParams', {
     method: "post",

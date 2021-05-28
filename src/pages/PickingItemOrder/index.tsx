@@ -48,7 +48,7 @@ const CreateTestItem: React.FC<{}> = () => {
   const order: ProColumns<{}>[] = [
     {
       title: 'id',
-      dataIndex: ['salesOrder', 'id'],
+      dataIndex: 'id',
       hideInSearch: true,
       hideInTable: true,
     },
@@ -63,106 +63,102 @@ const CreateTestItem: React.FC<{}> = () => {
     },
     {
       title: '合同类别',
-      dataIndex: ['salesOrder', 'lHt', 'ddlx'],
+      dataIndex: [ 'lHt', 'ddlx'],
       fixed: true,
       width:130
     },
     {
       title: '型号',
-      dataIndex: ['salesOrder', 'xh'],
+      dataIndex: [ 'xh'],
       fixed: true,
       width:130
     },
     {
       title: '订单数量',
-      dataIndex: ['salesOrder', 'dgsl'],
+      dataIndex: [ 'dgsl'],
       hideInSearch: true,
       fixed: true,
       width:130
     },
     {
       title: '合同号',
-      dataIndex: ['salesOrder', 'lHt', 'lHtname'],
+      dataIndex: [ 'lHt', 'lHtname'],
       fixed: true,
       width:130
     },
     {
       title: '客户',
-      dataIndex: ['salesOrder', 'lHt', 'kh'],
+      dataIndex: [ 'lHt', 'kh'],
       fixed: true,
       width:130
     },
     {
       title: '检验完成时间',
-      dataIndex: ['salesOrder', 'jywcsj'],
+      dataIndex: [ 'jywcsj'],
       hideInSearch: true,
     },
     {
       title: '预发货日期',
-      dataIndex: ['salesOrder', 'yfhrq'],
+      dataIndex: [ 'yfhrq'],
       hideInSearch: true,
     },
     {
       title: '提供方式',
-      dataIndex: ['salesOrder', 'lTgfs', 'lTgfsname'],
+      dataIndex: [ 'lTgfs', 'lTgfsname'],
       hideInSearch: true,
     },
     {
       title: '质量等级',
-      dataIndex: ['salesOrder', 'zldj'],
+      dataIndex: [ 'zldj'],
       hideInSearch: true,
     },
     {
       title: '合同备注',
-      dataIndex: ['salesOrder', 'lHt', 'bz'],
+      dataIndex: [ 'lHt', 'bz'],
     },
     {
       title: '备注',
-      dataIndex: ['salesOrder', 'ckbz'],
+      dataIndex: [ 'ckbz'],
       hideInSearch: true,
     },
     {
       title: '订单号',
-      dataIndex: ['salesOrder', 'lDdname'],
+      dataIndex: [ 'lDdname'],
     },
-    // {
-    //   title: '版号',
-    //   dataIndex: 'bh',
-    // },
     {
       title: '订单状态',
-      dataIndex: ['salesOrder', 'ddzt'],
+      dataIndex: [ 'ddzt'],
       hideInSearch: true,
     },
 
     {
       title: '是否军检',
-      dataIndex: ['salesOrder', 'sfjj'],
+      dataIndex: [ 'sfjj'],
       hideInSearch: true,
     },
     {
       title: '是否监制',
-      dataIndex: ['salesOrder', 'sfjz'],
+      dataIndex: [ 'sfjz'],
       hideInSearch: true,
     },
     {
       title: '是否重点',
-      dataIndex: ['salesOrder', 'sfzdgc'],
+      dataIndex: [ 'sfzdgc'],
       hideInSearch: true,
     },
     {
       title: '父版号',
-      dataIndex: ['salesOrder', 'fatherWaferNr'],
+      dataIndex: [ 'fatherWaferNr'],
       hideInSearch: true,
     },
     {
       title: '类型',
-      dataIndex: ['salesOrder', 'type'],
+      dataIndex: [ 'type'],
       hideInSearch: true,
     },
     {
       title: '批次号',
-      dataIndex: ['salesOrder', 'batchNr'],
+      dataIndex: [ 'batchNr'],
       hideInSearch: true,
     },
   ];
@@ -266,9 +262,11 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={secondOrderActionRef}
             formRef={secondOrderFormRef}
             {...proTableProps}
-            rowKey={(record, index) => {
-              return record?.salesOrder?.id;
-            }}
+            // rowKey={(record, index) => {
+            //   return record?.salesOrder?.id;
+            // }}
+
+            rowKey={"id"}
             toolBarRender={(action, { selectedRowKeys }) => [
               selectedRowKeys && selectedRowKeys.length > 0 && <Button
                 icon={<PlusOutlined/>}
@@ -303,7 +301,7 @@ const CreateTestItem: React.FC<{}> = () => {
               type: 'radio',
               onChange: (selectedRowKeys, selectRowItem) => {
                 handleSalesOrder(selectedRowKeys);
-                handlerddh(selectRowItem ? selectRowItem[0]?.salesOrder?.lDdname : '');
+                handlerddh(selectRowItem ? selectRowItem[0]?.lDdname : '');
               },
             }}
           />

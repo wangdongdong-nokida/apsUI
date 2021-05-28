@@ -260,6 +260,7 @@ const TableList: React.FC<{}> = () => {
                 message.success("日历更新成功");
               }catch (e) {
                 hide();
+                message.info(e,50);
                 message.error("日历更新失败，请重试！");
               }
             }}>更新日历</Button>,

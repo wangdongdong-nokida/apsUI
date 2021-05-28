@@ -194,7 +194,7 @@ const CreateTestItem: React.FC<{}> = () => {
       hideInSearch: true,
     },
     {
-      title: '测试调度备注',
+      title: '报工备注',
       dataIndex: ['scheduleTestItem', 'bgbz'],
       hideInSearch: true,
     },
@@ -556,7 +556,6 @@ const CreateTestItem: React.FC<{}> = () => {
         handleViewBhInfoVisible(false);
       }} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
-
 
   );
 

@@ -216,10 +216,10 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '测试班组',
       dataIndex: ['csbz'],
-      valueEnum: {
-        测试A: '测试A',
-        测试B: '测试B',
-      },
+      // valueEnum: {
+      //   测试A: '测试A',
+      //   测试B: '测试B',
+      // },
     },
     {
       title: '测试调度备注',

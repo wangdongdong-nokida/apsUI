@@ -7,17 +7,18 @@ import { ActionType, ProColumns } from '@ant-design/pro-table/lib/Table';
 import { DownOutlined, PlusOutlined } from '@ant-design/icons/lib';
 import { FormInstance } from 'antd/lib/form/Form';
 import { Key } from 'antd/es/table/interface';
+import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 import { Wafer } from './data';
 import {
   createPickingItem, deletePickingOrders, queryPickingOrders, queryWaferProductWarehouse,
-  queryWaferWarehouse,
+  queryWaferWarehouse, queryWaferWarehouseSalesOrder,
 } from './service';
-import { ViewBhInfo } from '@/pages/ScribingNormal/components/ViewBhInfo';
 
 const CreateTestItem: React.FC<{}> = () => {
-
   const stockFormRef = useRef<FormInstance>();
+  const salesOrderFormRef = useRef<FormInstance>();
   const stockActionRef = useRef<ActionType>();
+  const salesOrderActionRef = useRef<ActionType>();
   const productActionRef = useRef<ActionType>();
   const productFormRef = useRef<FormInstance>();
 
@@ -68,7 +69,7 @@ const CreateTestItem: React.FC<{}> = () => {
           <a
             onClick={() => {
               handleBhClickRow(dom);
-              handleViewBhInfoVisible(!ViewBhInfoVisible)
+              handleViewBhInfoVisible(!ViewBhInfoVisible);
             }}
           >
             {dom}
@@ -85,6 +86,9 @@ const CreateTestItem: React.FC<{}> = () => {
       dataIndex: 'status',
       hideInSearch: true,
     },
+  ];
+
+  const salesOrderDetail = [
     {
       title: '合同号',
       dataIndex: 'bindingContracts',
@@ -113,10 +117,12 @@ const CreateTestItem: React.FC<{}> = () => {
     {
       title: '备注',
       dataIndex: 'bindingContractBrief',
+      hideInSearch: true,
     },
     {
       title: '检验完成时间',
       dataIndex: 'bindingjywcsj',
+      hideInSearch: true,
     },
   ];
 
@@ -240,7 +246,7 @@ const CreateTestItem: React.FC<{}> = () => {
             actionRef={stockActionRef}
             formRef={stockFormRef}
             {...proTableProps}
-            scroll={{ y: 500,  scrollToFirstRowOnChange: true }}
+            scroll={{ y: 500, scrollToFirstRowOnChange: true }}
             request={(params) => {
               return queryWaferWarehouse(params);
             }}
@@ -252,12 +258,34 @@ const CreateTestItem: React.FC<{}> = () => {
                 if (productFormRef && productFormRef.current) {
                   productFormRef.current.submit();
                 }
+                if (salesOrderActionRef && salesOrderActionRef.current) {
+                  salesOrderActionRef.current.reload();
+                }
               },
             }}
           />
         </Col>
+
       </Row>
 
+      <Row>
+        <Col span={24}>
+          <ProTable
+            headerTitle="订单信息"
+            search={false}
+            actionRef={salesOrderActionRef}
+            formRef={salesOrderFormRef}
+            {...proTableProps}
+            scroll={{ y: 500, scrollToFirstRowOnChange: true }}
+            // params={{ params: { 'waferWarehouse-ID': stockList ? stockList[0] : '' } }}
+            request={() => {
+              return queryWaferWarehouseSalesOrder({ 'waferWarehouse-ID': stockList ? stockList[0] : '' });
+            }}
+            columns={salesOrderDetail}
+          />
+        </Col>
+
+      </Row>
       <Row>
         <Col span={24}>
           <ProTable
@@ -366,7 +394,9 @@ const CreateTestItem: React.FC<{}> = () => {
           />
         </Col>
       </Row>
-      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={()=>{handleViewBhInfoVisible(false)}} bhRow={bhClickRow}/>
+      <ViewBhInfo modalVisible={ViewBhInfoVisible} onCancel={() => {
+        handleViewBhInfoVisible(false);
+      }} bhRow={bhClickRow}/>
     </PageHeaderWrapper>
   );
 
