@@ -34,7 +34,7 @@ const CreateTestItem: React.FC<{}> = () => {
   };
 
   const proTableProps = {
-    pagination: { pageSizeOptions: ['5', '10', '20'], pageSize: 5 },
+    pagination: { pageSizeOptions: ['10', '20','50'], pageSize: 20 },
     rowKey: 'id',
     search: { span: 8 },
     bordered: true,
